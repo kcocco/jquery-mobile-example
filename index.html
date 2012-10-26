@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+        </title>
+ 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <link rel="stylesheet" href="my.css" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>        
+        <script src="my.js"></script>
+    </head>
+    <body>
+
+		<!-- Search-Advanced-->
+        <div data-role="page" id="search-advanced">
+            <div id="App Header" data-theme="a" data-role="header">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#search-state" >State</a></li>
+						<li><a href="#search-advanced" class="ui-btn-active ui-state-persist">Advanced</a></li>
+					</ul>
+				</div><!-- /navbar -->
+            </div>
+            <div data-role="content">
+				<div data-role="collapsible-set" data-inset="false">
+					<div data-role="collapsible" data-inset="false">	
+					<h3>Edit State Filters</h3>
+						<div  data-role="fieldcontain">
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+								 	<input type="button" value="Select All" data-mini="true"/>
+								</div>
+								<div class="ui-block-b">
+									<input type="button" value="Un-select All" data-mini="true" />
+								</div>
+								</div>
+						 	<fieldset data-role="controlgroup">
+    							<input type="checkbox" name="checkbox-AL" id="checkbox-AL" class="custom" />
+								<label for="checkbox-AL">Alabama</label>
+								<input type="checkbox" name="checkbox-AK" id="checkbox-AK" class="custom" />
+								<label for="checkbox-AK">Alaska</label>
+								<input type="checkbox" name="checkbox-AZ" id="checkbox-AZ" class="custom" />
+								<label for="checkbox-AZ">Arizona</label>
+					    	</fieldset>
+					    </div>
+					</div>
+					<div data-role="collapsible" data-inset="false">
+					<h3>Pregnancy Success Rates</h3>
+						<div data-role="fieldcontain">
+							<select name="select-choice-1" id="select-choice-1" data-mini="true">
+								<option value="rate1">Fresh Embryos From Nondonor Eggs</option>
+								<option value="rate2">Frozen Embryos From Nondonor Eggs</option>
+								<option value="rate3">Donor Eggs-Fresh Embryos</option>
+								<option value="rate4">Donor Eggs-Frozen EmbryosAge of Women 41-42</option>
+							</select>
+							<div style="line-height:30%"><br></br></div>
+							<select name="select-choice-1" id="select-choice-1" data-mini="true">
+								<option value="rate1">Age of Women <35</option>
+								<option value="rate2">Age of Women 35-37</option>
+								<option value="rate3">Age of Women 38-40</option>
+								<option value="rate4">Age of Women 41-42</option>
+								<option value="rate5">Age of Women 43-44</option>
+							</select>
+							<div style="line-height:30%"><br></br></div>
+							<select name="select-choice-1" id="select-choice-1" data-mini="true">
+								<option value="FshNDLvBirths">% of cycles resulting in live births</option>
+								<option value="FshNDSnglLB_Trans">% of transfers resulting in singleton live births</option>
+								<option value="standard">Number of cycles</option>
+								<option value="rush">% of embryos transferred resulting in implantation</option>
+								<option value="express">% of cycles resulting in pregnancies</option>
+								<option value="overnight">% of retrievals resulting in live births</option>
+								<option value="overnight">% of transfers resulting in live births</option>
+								<option value="overnight">% of cancellations</option>
+								<option value="overnight">Average number of embryos transferred</option>
+								<option value="overnight">% of Percentage of pregnancies with twins</option>
+								<option value="overnight">% of pregnancies with triplets or more</option>
+								<option value="overnight">% of live births having multiple infants</option>
+							</select>
+							<div style="line-height:30%"><br></br></div>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+								 	<select name="switch-gt-lt" id="switch-gt-lt" data-mini="true">
+								 		<option value="greater_than">greater than</option>
+										<option value="less_than">less than</option>
+										<option value="greater_than">equal</option>
+										<option value="less_than">less than or equal</option>
+										<option value="greater_than">greater than or equal</option>
+									</select>
+								</div>
+								<div class="ui-block-b">
+									<input type="number" name="name" id="basic" value="0" data-mini="true" />
+								</div>
+							</div><!-- /grid-a -->
+						</div>
+					</div>
+					<div data-role="collapsible" data-inset="false">	
+					<h3>ART Cycle Profile</h3>
+					</div>
+					<div data-role="collapsible" data-inset="false">	
+					<h3>Clinic Services and Profile</h3>
+					</div>
+					<div data-role="collapsible" data-inset="false">	
+					<h3>View & Edit Search Filters</h3>
+					</div>
+				</div>
+			</div>
+		    <div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed" data-iconpos="right">
+               	<div data-role="navbar">
+					<ul>
+                        <li>
+                            <a href="#search-state" data-icon="search" class="ui-btn-active ui-state-persist">
+                                Search
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#search-map" data-icon="grid">
+                                Compare
+                            </a>
+                        </li>
+						<li>
+                            <a href="#dictionary-page" data-icon="info">
+                                Dictionary
+                            </a>
+                        </li>
+						<li>
+							<a href="#about-dialog" data-icon="star" data-rel="dialog" data-transition="flip" data-inline="true">
+                            	About
+                        	</a>
+						</li>
+                    </ul>
+				</div>
+           	</div>
+     	</div>
+       
+		<!-- Home search-state -->
+       <div data-role="page" id="search-state">
+           <div id="App Header" data-theme="a" data-role="header">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#search-state" class="ui-btn-active ui-state-persist">State</a></li>
+					<li><a href="#search-advanced">Advanced</a></li>
+				</ul>
+			</div><!-- /navbar -->
+           </div>
+           <div data-role="content">
+			<article data-role="content">
+				<ul data-role="listview"  data-filter="true">
+					<li>
+						<a href="#dog">
+						<h1>Arizona</h1>
+						<span class="ui-li-count">12</span>
+						</a>
+					</li>
+					<li>
+						<a href="#dog">
+						<h1>Alabama</h1>
+						<span class="ui-li-count">3</span>
+						</a>
+					</li>
+					<li>
+						<a href="#gummies">
+						<h1>Gummy Bears</h1>
+						<p>Three different poster boards...mirror for reflection,
+						black for background white for highlights</p>
+						</a>
+					</li>
+				</ul>
+			</article>
+		</div>
+		<div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed" data-iconpos="right">
+                <div data-role="navbar">
+				<ul>
+                       <li>
+                           <a href="#search-state" data-icon="search" class="ui-btn-active ui-state-persist">
+                               Search
+                           </a>
+                       </li>
+                       <li>
+                           <a href="#search-map" data-icon="grid">
+                               Compare
+                           </a>
+                       </li>
+					<li>
+                           <a href="#dictionary-page" data-icon="info">
+                               Dictionary
+                           </a>
+                       </li>
+					<li>
+						<a href="#about-dialog" data-icon="star" data-rel="dialog" data-transition="flip" data-inline="true">
+                           	About
+                       	</a>
+					</li>
+                   </ul>
+			</div>
+           </div>
+       </div>
+
+       <!-- Search-Map-->
+       <div data-role="page" id="search-map">
+           <div id="App Header" data-theme="a" data-role="header">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#search-map" class="ui-btn-active ui-state-persist">Map</a></li>
+					<li><a href="#search-map">Table</a></li>
+					<li><a href="#search-map">Graph</a></li>
+				</ul>
+			</div><!-- /navbar -->
+           </div>
+           <div data-role="content">
+			<img src="https://maps.googleapis.com/maps/api/staticmap?center=Madison, WI&amp;zoom=14&amp;size=350x300&amp;markers=Madison, WI&amp;sensor=false" width="350" height="300" />
+               <h2>
+                   Select a clinic from the map or click the search button to narrow your search
+               </h2>
+		</div>
+			<div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed" data-iconpos="right">
+                   <div data-role="navbar">
+					<ul>
+                        <li>
+                            <a href="#search-state" data-icon="search">
+                                Search
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#compare-page" data-icon="grid" class="ui-btn-active ui-state-persist">
+                                Compare
+                            </a>
+                        </li>
+						<li>
+                            <a href="#dictionary-page" data-icon="info">
+                                Dictionary
+                            </a>
+                        </li>
+						<li>
+							<a href="#about-dialog" data-icon="star" data-rel="dialog" data-transition="flip" data-inline="true">
+                            	About
+                        	</a>
+						</li>
+                    </ul>
+				</div>
+               </div>
+           </div>
+       </div>
+
+		<!-- About Dialog Page-->
+       <div data-role="page" id="about-dialog" data-dom-cache="true"><!-- dialog-->
+
+			<div data-role="header" data-theme="a">
+				<h1>ABOUT</h1>
+			</div><!-- /header -->
+			<div data-role="content" data-theme="b">
+				<p>The IVF Success Rate App is an easy way to search and compare fertility clinics across the United States.</p>
+				<p>Advanced searching and filtering capabilities allow you to find the clinic that fit your IVF needs.  Compare clinics with state and national averages.</p>
+				<p>The data is from the Center for Disease Control and Prevention's Assisted Reproductive Technology (ART) report 2010.  The 2010 study is the latest report as of 11/1/2012 with the next annual report release expected late 2012, early 2013.'</p>
+				<a href="docs-transitions.html" data-role="button" data-theme="b" data-rel="back">Return back to app</a>   
+			</div>
+	</div>
+
+	<!-- Search-Advanced OLD -->
+       <div data-role="page" id="search-advanced-old">
+           <div id="App Header" data-theme="a" data-role="header">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#search-state" >State</a></li>
+					<li><a href="#search-advanced" class="ui-btn-active ui-state-persist">Advanced</a></li>
+				</ul>
+			</div><!-- /navbar -->
+           </div>
+           <div data-role="content">
+			<div data-role="collapsible-set" data-inset="false">
+				<div data-role="collapsible" data-inset="false">
+				<h3>Pregnancy Success Rates</h3>
+					<div data-role="collapsible" data-inset="false" data-theme="b"  >
+					<h3>Fresh Embryos From Nondonor Eggs</h3>
+							<div data-role="fieldcontain">
+								<select name="select-choice-1" id="select-choice-1" data-mini="true">
+									<option value="rate1">Age of Women <35</option>
+									<option value="rate2">Age of Women 35-37</option>
+									<option value="rate3">Age of Women 38-40</option>
+									<option value="rate4">Age of Women 41-42</option>
+									<option value="rate5">Age of Women 43-44</option>
+								</select>
+								<div style="line-height:50%"><br></br></div>
+								<select name="select-choice-1" id="select-choice-1" data-mini="true">
+									<option value="FshNDLvBirths">% of cycles resulting in live births</option>
+									<option value="FshNDSnglLB_Trans">% of transfers resulting in singleton live births</option>
+									<option value="standard">Number of cycles</option>
+									<option value="rush">% of embryos transferred resulting in implantation</option>
+									<option value="express">% of cycles resulting in pregnancies</option>
+									<option value="overnight">% of retrievals resulting in live births</option>
+									<option value="overnight">% of transfers resulting in live births</option>
+									<option value="overnight">% of cancellations</option>
+									<option value="overnight">Average number of embryos transferred</option>
+									<option value="overnight">% of Percentage of pregnancies with twins</option>
+									<option value="overnight">% of pregnancies with triplets or more</option>
+									<option value="overnight">% of live births having multiple infants</option>
+								</select>
+								<div style="line-height:50%"><br></br></div>
+								<div class="ui-grid-a">
+									<div class="ui-block-a">
+									 	<select name="switch-gt-lt" id="switch-gt-lt" data-mini="true">
+									 		<option value="greater_than">greater than</option>
+											<option value="less_than">less than</option>
+											<option value="greater_than">equal</option>
+											<option value="less_than">less than or equal</option>
+											<option value="greater_than">greater than or equal</option>
+										</select>
+									</div>
+									<div class="ui-block-b">
+										<input type="number" name="name" id="basic" value="0" data-mini="true" />
+									</div>
+								</div><!-- /grid-a -->
+							</div>
+					</div>
+					<div data-role="collapsible" data-inset="false">	
+					<h3>Frozen Embryos From Nondonor Eggs</h3>
+					</div>
+					<div data-role="collapsible" data-inset="false"> 
+					<h3>Donor Eggs - Fresh Embryos</h3>
+					</div>
+					<div data-role="collapsible" data-inset="false"> 
+					<h3>Donor Eggs - Frozen Embryos</h3>
+					</div>
+				</div>
+				<div data-role="collapsible" data-inset="false"> 	
+				<h3>Art Cycle Profile</h3>
+				</div>
+				<div data-role="collapsible" data-inset="false"> 
+				<h3>Current Clinic Service and Profile</h3>
+				
+				<div  data-role="fieldcontain">
+							 	<fieldset data-role="controlgroup">
+									<legend>Choose as many snacks as you'd like:</legend>
+			    							<input type="checkbox" name="checkbox-AL" id="checkbox-AL" class="custom" />
+											<label for="checkbox-AL">Alabama</label>
+											<input type="checkbox" name="checkbox-AK" id="checkbox-AK" class="custom" />
+											<label for="checkbox-AK">Alaska</label>
+											<input type="checkbox" name="checkbox-AZ" id="checkbox-AZ" class="custom" />
+											<label for="checkbox-AZ">Arizona</label>
+			    		</fieldset>
+			    </div>
+				</div>
+			</div>
+		    <div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed" data-iconpos="right">
+                   <div data-role="navbar">
+					<ul>
+                        <li>
+                            <a href="#search-state" data-icon="search" class="ui-btn-active ui-state-persist">
+                                Search
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#search-map" data-icon="grid">
+                                Compare
+                            </a>
+                        </li>
+						<li>
+                            <a href="#dictionary-page" data-icon="info">
+                                Dictionary
+                            </a>
+                        </li>
+						<li>
+							<a href="#about-dialog" data-icon="star" data-rel="dialog" data-transition="flip" data-inline="true">
+                            	About
+                        	</a>
+						</li>
+                    </ul>
+				</div>
+               </div>
+           </div>
+       </div>
+
+
+       <script>
+           //App custom javascript
+       </script>
+    </body>
+</html>
