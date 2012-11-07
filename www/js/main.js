@@ -7,11 +7,17 @@
 
 var db;
 var dbCreated = false;
+sessionStorage.NewWhereQuery="uptodate";
+sessionStorage.CurrentWhereQuery="";
+sessionStorage.OrderByQuery="";
+sessionStorage.SelectQuery="";
+
 
 //var scroll = new iScroll('wrapper', { vScrollbar: false, hScrollbar:false, hScroll: false });
 
 document.addEventListener("deviceready", onDeviceReady, false);
-onDeviceReady();
+onDeviceReady();  // comment to run on phonegap mobile, uncoment to run on web... to be verified
+
 
 function onDeviceReady() {
 	try {
@@ -56,12 +62,25 @@ function onDeviceReady() {
   //alert("pagechange fired");
 //});
 
-// Initalize Select Hides
+
+// Initalize the Advanced search page
+//*************************
+$( '#search-advanced' ).live( 'pagecreate',function(event){
+	//alert( 'pagecreate firing' );
+	//page to show current filters saved in DB
+		refreshFilters();
+	// Initalize Select Hides on advanced search page to create a dynamics
+		// $('span.span-fresh-nondonor-select').hide();
+		$('span.span-frozen-nondonor-select').hide();
+		$('span.span-donor-frozen-select').hide();
+		$('span.span-donor-fresh-select').hide();
+});
+
+// Refresh search-display page
 //************************
-// $('span.span-fresh-nondonor-select').hide();
-$('span.span-frozen-nondonor-select').hide();
-$('span.span-donor-frozen-select').hide();
-$('span.span-donor-fresh-select').hide();
+$('#search-display').live('pageshow', function(event, ui) {
+    alert('NewWhereQuery: ' + sessionStorage.NewWhereQuery);
+});
 
 
 // Parse select fields to description and sql names
@@ -212,7 +231,11 @@ function getClinics_success(tx, results) {
 	    var len = results.rows.length;
 		for (var i=0; i<len; i++) {
 	    	var IVFresults = results.rows.item(i);
-			$('#stateList').append('<li><a href="employeedetails.html?id=' + IVFresults.ClinStateCode + '">' +
+			// NewWhereQuery = SQL or "uptodate" mean not need to refresh
+			// var tempSQL = "ClinStateCode = '"+IVFresults.ClinStateCode+"'";
+			var tempSQL = "the test";
+			
+			$('#stateList').append('<li><a href="#search-display" onClick="sessionStorage.NewWhereQuery='+tempSQL+'">'+
 				'<h1>' + IVFresults.ClinStateCode + '</h1>' +
 				'<span class="ui-li-count">' + IVFresults.StateCount + ' Clinics</span></a></li>');
 	    	}
