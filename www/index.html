@@ -40,96 +40,94 @@
 									<input type="button" value="Save" data-mini="true" data-icon="check" data-theme="b"/>
 								</div>
 							</div>
-						 	<fieldset data-role="controlgroup">
-    							<input type="checkbox" name="checkbox-AL" id="checkbox-AL" class="custom" />
+						 	
+    							<input type="checkbox" name="checkbox-AL" id="checkbox-AL" class="custom" data-mini="true" />
 								<label for="checkbox-AL">Alabama</label>
-								<input type="checkbox" name="checkbox-AK" id="checkbox-AK" class="custom" />
+								<input type="checkbox" name="checkbox-AK" id="checkbox-AK" class="custom" data-mini="true" />
 								<label for="checkbox-AK">Alaska</label>
-								<input type="checkbox" name="checkbox-AZ" id="checkbox-AZ" class="custom" />
+								<input type="checkbox" name="checkbox-AZ" id="checkbox-AZ" class="custom" data-mini="true" />
 								<label for="checkbox-AZ">Arizona</label>
-					    	</fieldset>
+					    
 					    </div>
 					</div>
 					<div id="accordionSet" data-role="collapsible" data-inset="false">
 					<h3>Pregnancy Success Rates</h3>
-						<form id=form_pregancy_success>
-							<div data-role="fieldcontain">
-								<select name="select-pregnacy-success-category" id="select-pregnacy-success-category" data-mini="true">
-									<option value="fresh-nondonor">Fresh Embryos From Nondonor Eggs</option>
-									<option value="frozen-nondonor">Frozen Embryos From Nondonor Eggs</option>
-									<option value="donor-fresh">Donor Eggs-Fresh Embryos</option>
-									<option value="donor-frozen">Donor Eggs-Frozen Embryos</option>
+						<form id=form_pregancy_success>							
+							<select name="select-pregnacy-success-category" id="select-pregnacy-success-category" data-mini="true">
+								<option value="fresh-nondonor">Fresh Embryos From Nondonor Eggs</option>
+								<option value="frozen-nondonor">Frozen Embryos From Nondonor Eggs</option>
+								<option value="donor-fresh">Donor Eggs-Fresh Embryos</option>
+								<option value="donor-frozen">Donor Eggs-Frozen Embryos</option>
+							</select>
+							<span class="span-age-of-women-select">
+								<div style="line-height:30%"><br></br></div>
+								<select name="age-of-women" id="age-of-women" data-mini="true">
+									<option value="Age of Women <35~rate1">Age of Women <35</option>
+									<option value="Age of Women 35-37~rate2">Age of Women 35-37</option>
+									<option value="Age of Women 38-40~rate3">Age of Women 38-40</option>
+									<option value="Age of Women 41-42~rate4">Age of Women 41-42</option>
+									<option value="Age of Women 43-44~rate5">Age of Women 43-44</option>
 								</select>
-								<span class="span-age-of-women-select">
-									<div style="line-height:40%"><br></br></div>
-									<select name="age-of-women" id="age-of-women" data-mini="true">
-										<option value="Age of Women <35~rate1">Age of Women <35</option>
-										<option value="Age of Women 35-37~rate2">Age of Women 35-37</option>
-										<option value="Age of Women 38-40~rate3">Age of Women 38-40</option>
-										<option value="Age of Women 41-42~rate4">Age of Women 41-42</option>
-										<option value="Age of Women 43-44~rate5">Age of Women 43-44</option>
+							</span>
+							<span class="span-fresh-nondonor-select">
+								<div style="line-height:30%"><br></br></div>
+								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
+									<option value="% of cycles resulting in live births~FshNDLvBirths">% of cycles resulting in live births</option>
+									<option value="% of transfers resulting in singleton live births~FshNDSnglLB_Trans">% of transfers resulting in singleton live births</option>
+									<option value="standard">Number of cycles</option>
+									<option value="rush">% of embryos transferred resulting in implantation</option>
+									<option value="express">% of cycles resulting in pregnancies</option>
+									<option value="overnight">% of retrievals resulting in live births</option>
+									<option value="overnight">% of transfers resulting in live births</option>
+									<option value="overnight">% of cancellations</option>
+									<option value="overnight">Average number of embryos transferred</option>
+									<option value="overnight">% of Percentage of pregnancies with twins</option>
+									<option value="overnight">% of pregnancies with triplets or more</option>
+									<option value="overnight">% of live births having multiple infants</option>
+								</select>
+							</span>
+							<span class="span-frozen-nondonor-select">
+								<div style="line-height:30%"><br></br></div>
+								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
+									<option value="Number of transfers~fixme">Number of transfers</option>
+									<option value="% of transfers resulting in live birth(s)~fixme">% of transfers resulting in live birth(s)</option>
+									<option value="Average number of embryos transferred~fixme">Average number of embryos transferred</option>
+								</select>
+							</span>
+							<span class="span-donor-fresh-select">
+								<div style="line-height:30%"><br></br></div>
+								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
+									<option value="Number of transfers~fixme">Number of transfers</option>
+									<option value="% of transfers resulting in live birth(s)~fixme">% of transfers resulting in live birth(s)</option>
+									<option value="Average number of embryos transferred~fixme">Average number of embryos transferred</option>
+								</select>
+							</span>
+							<span class="span-donor-frozen-select">
+								<div style="line-height:30%"><br></br></div>
+								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
+									<option value="Number of transfers~fixme">Number of transfers</option>
+									<option value="% of transfers resulting in live birth(s)~fixme">% of transfers resulting in live birth(s)</option>
+									<option value="Average number of embryos transferred~fixme">Average number of embryos transferred</option>
+								</select>
+							</span>
+							<div style="line-height:30%"><br></br></div>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+								 	<select name="switch-gt-lt" id="switch-gt-lt" data-mini="true">
+								 		<option value="greater than~>">greater than</option>
+										<option value="less than~<">less than</option>
+										<option value="equal~=">equal</option>
+										<option value="less than or equal~<=">less than or equal</option>
+										<option value="greater than or equal~>=">greater than or equal</option>
 									</select>
-								</span>
-								<span class="span-fresh-nondonor-select">
-									<div style="line-height:40%"><br></br></div>
-									<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
-										<option value="% of cycles resulting in live births~FshNDLvBirths">% of cycles resulting in live births</option>
-										<option value="% of transfers resulting in singleton live births~FshNDSnglLB_Trans">% of transfers resulting in singleton live births</option>
-										<option value="standard">Number of cycles</option>
-										<option value="rush">% of embryos transferred resulting in implantation</option>
-										<option value="express">% of cycles resulting in pregnancies</option>
-										<option value="overnight">% of retrievals resulting in live births</option>
-										<option value="overnight">% of transfers resulting in live births</option>
-										<option value="overnight">% of cancellations</option>
-										<option value="overnight">Average number of embryos transferred</option>
-										<option value="overnight">% of Percentage of pregnancies with twins</option>
-										<option value="overnight">% of pregnancies with triplets or more</option>
-										<option value="overnight">% of live births having multiple infants</option>
-									</select>
-								</span>
-								<span class="span-frozen-nondonor-select">
-									<div style="line-height:40%"><br></br></div>
-									<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
-										<option value="Number of transfers~fixme">Number of transfers</option>
-										<option value="% of transfers resulting in live birth(s)~fixme">% of transfers resulting in live birth(s)</option>
-										<option value="Average number of embryos transferred~fixme">Average number of embryos transferred</option>
-									</select>
-								</span>
-								<span class="span-donor-fresh-select">
-									<div style="line-height:40%"><br></br></div>
-									<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
-										<option value="Number of transfers~fixme">Number of transfers</option>
-										<option value="% of transfers resulting in live birth(s)~fixme">% of transfers resulting in live birth(s)</option>
-										<option value="Average number of embryos transferred~fixme">Average number of embryos transferred</option>
-									</select>
-								</span>
-								<span class="span-donor-frozen-select">
-									<div style="line-height:40%"><br></br></div>
-									<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
-										<option value="Number of transfers~fixme">Number of transfers</option>
-										<option value="% of transfers resulting in live birth(s)~fixme">% of transfers resulting in live birth(s)</option>
-										<option value="Average number of embryos transferred~fixme">Average number of embryos transferred</option>
-									</select>
-								</span>
-								<div style="line-height:40%"><br></br></div>
-								<div class="ui-grid-a">
-									<div class="ui-block-a">
-									 	<select name="switch-gt-lt" id="switch-gt-lt" data-mini="true">
-									 		<option value="greater than~>">greater than</option>
-											<option value="less than~<">less than</option>
-											<option value="equal~=">equal</option>
-											<option value="less than or equal~<=">less than or equal</option>
-											<option value="greater than or equal~>=">greater than or equal</option>
-										</select>
-									</div>
-									<div class="ui-block-b">
-										<input type="number" name="name" id="basic" value="0" data-mini="true" />
-									</div>
-								</div><!-- /grid-a -->
-								<div id="submitDiv" data-role="fieldcontain">  
-							  		<input type="submit" value="Save Filter" data-inline="true"data-mini="true" data-icon="check" data-theme="b"/>
-							    </div>
-							</div>
+								</div>
+								<div class="ui-block-b">
+									<input type="number" name="name" id="basic" value="0" data-mini="true" />
+								</div>
+							</div><!-- /grid-a -->
+							<div id="submitDiv" data-role="fieldcontain">  
+						  		<input type="submit" value="Save Filter" data-inline="true"data-mini="true" data-icon="check" data-theme="b"/>
+						    </div>
 						</form>	
 					</div>
 					<div data-role="collapsible" data-inset="false">	
