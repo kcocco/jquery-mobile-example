@@ -54,10 +54,10 @@
 					<h3>Pregnancy Success Rates</h3>
 						<form id=form_pregancy_success>							
 							<select name="select-pregnacy-success-category" id="select-pregnacy-success-category" data-mini="true">
-								<option value="fresh-nondonor">Fresh Embryos From Nondonor Eggs</option>
-								<option value="frozen-nondonor">Frozen Embryos From Nondonor Eggs</option>
-								<option value="donor-fresh">Donor Eggs-Fresh Embryos</option>
-								<option value="donor-frozen">Donor Eggs-Frozen Embryos</option>
+								<option value="Fresh-E-Nondonor">Fresh Embryos From Nondonor Eggs</option>
+								<option value="Frozen-E-Nondonor">Frozen Embryos From Nondonor Eggs</option>
+								<option value="Donor-Fresh-E">Donor Eggs-Fresh Embryos</option>
+								<option value="Donor-Frozen-E">Donor Eggs-Frozen Embryos</option>
 							</select>
 							<span class="span-age-of-women-select">
 								<div style="line-height:30%"><br></br></div>
@@ -229,6 +229,10 @@
                	<h2>
                    Select a clinic from the map or click the search button to narrow your search
                	</h2>
+				<div data-role="content">
+					<ul id="searchDisplayList" data-role="listview" data-filter="true" data-inset="true">
+					</ul>
+				</div>
 			</div>
 			<div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed" data-iconpos="right">
             	<div data-role="navbar">

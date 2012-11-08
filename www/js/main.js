@@ -1,15 +1,15 @@
 // JavaScript Document - main.js
 // alert("main.js fired");
 
-//  Database setup and loading
-//**************************
-// Loading SQLite Database with Clinic info
-
 var db;
 var dbCreated = false;
+// 
 sessionStorage.NewWhereQuery="uptodate";
+//
 sessionStorage.CurrentWhereQuery="";
+//
 sessionStorage.OrderByQuery="";
+// 
 sessionStorage.SelectQuery="";
 
 
@@ -62,7 +62,6 @@ function onDeviceReady() {
   //alert("pagechange fired");
 //});
 
-
 // Initalize the Advanced search page
 //*************************
 $( '#search-advanced' ).live( 'pagecreate',function(event){
@@ -79,9 +78,9 @@ $( '#search-advanced' ).live( 'pagecreate',function(event){
 // Refresh search-display page
 //************************
 $('#search-display').live('pageshow', function(event, ui) {
-    alert('NewWhereQuery: ' + sessionStorage.NewWhereQuery);
+    alert('CurrentWhereQuery: ' + sessionStorage.CurrentWhereQuery);
+	db.transaction(getSearchQuery, transaction_error);
 });
-
 
 // Parse select fields to description and sql names
 //************************
@@ -96,7 +95,6 @@ function parseDescriptions(submitted) {
 	return splitstr;
 }
 
-
 // Bind events
 //************************
 // Submitting Filters
@@ -106,7 +104,7 @@ $('#form_pregancy_success').submit(function() {
 	//Clear $('#xxxxx').click(function() { $('ul').empty();
 	
 		switch(parsedSubmit[0][0]) {
-	        case "fresh-nondonor":
+	        case "Fresh-E-Nondonor":
 				$('#accordionSet').trigger('collapse');
 				//alert(parsedSubmit[0][0]+"<br>"+parsedSubmit[1][0]+"<br> "+parsedSubmit[2][0]+"<br> "+parsedSubmit[6][0]+"<br> "+parsedSubmit[7][0]);
 				var tempSQL=parsedSubmit[2][1]+parsedSubmit[1][1]+" "+parsedSubmit[6][1];
@@ -122,20 +120,19 @@ $('#form_pregancy_success').submit(function() {
 					}, transaction_error, refreshFilters
 				);
 				break;
-	        case "frozen-nondonor":
+	        case "Frozen-E-Nondonor":
 				$('#accordionSet').trigger('collapse');
 				break;
-			case "donor-fresh":
-
+			case "Donor-Fresh-E":
 				break;
-		    case "donor-frozen":
-			
+		    case "Donor-Frozen-E":
 			}
 return false;
 });
 
 function workedTest() {
-	alert("workedTest");}
+	alert("workedTest");
+}
 
 //  Hide and show Age-of-Women selector
 //************************
@@ -143,7 +140,7 @@ $("#select-pregnacy-success-category").change(function() {
 	var myselect = $("#select-pregnacy-success-category");
 	
 	switch(myselect.val()) {
-        case "fresh-nondonor":
+        case "Fresh-E-Nondonor":
             $('span.span-age-of-women-select').show();
 			$('span.span-fresh-nondonor-select').show();
 			$('span.span-frozen-nondonor-select').hide();
@@ -151,7 +148,7 @@ $("#select-pregnacy-success-category").change(function() {
 			$('span.span-donor-fresh-select').hide();
 			
             break;
-        case "frozen-nondonor":
+        case "Frozen-E-Nondonor":
         	$('span.span-age-of-women-select').show();
 			$('span.span-fresh-nondonor-select').hide();
 			$('span.span-frozen-nondonor-select').show();
@@ -159,7 +156,7 @@ $("#select-pregnacy-success-category").change(function() {
 			$('span.span-donor-fresh-select').hide();
 			
 			break;
-		case "donor-fresh":
+		case "Donor-Fresh-E":
 	        $('span.span-age-of-women-select').hide();
 	        $('span.span-fresh-nondonor-select').hide();
 			$('span.span-frozen-nondonor-select').hide();
@@ -167,7 +164,7 @@ $("#select-pregnacy-success-category").change(function() {
 			$('span.span-donor-fresh-select').show();
 			
 			break;
-	    case "donor-frozen":
+	    case "Donor-Frozen-E":
 	        $('span.span-age-of-women-select').hide();
 			$('span.span-fresh-nondonor-select').hide();
 			$('span.span-frozen-nondonor-select').hide();
@@ -197,21 +194,29 @@ function queryFilters(tx) {
 	tx.executeSql('SELECT * FROM FILTERS',[],displayFilters);
 }
 
+//  Display filters & Build Filters Where SQL
 function displayFilters(tx, results) {
+	sessionStorage.CurrentWhereQuery="";
+	var andVar="";
 	var len = results.rows.length;
 	//alert("results.row.length:"+len);
 	jQuery("#filterList > li").remove();
 	for (var i=0; i<len; i++) {
 	var filterResults = results.rows.item(i);
 	$('#filterList').append('<li data-icon="delete"><a href="index.html"><p><strong>'+ filterResults.CategoryDescr +' </strong> '+ filterResults.AgeDescr +'</p><p>'+ filterResults.StatDescr +' <strong>'+filterResults.OperatorDescr +'</strong> '+ filterResults.EnteredNum +'</p></a></li>');
-	
-	//$('#filterList').append('<li data-icon="delete"><a href="index.html"><p><strong>'+ parsedSubmit[0][0]+'</strong> '+ parsedSubmit[1][0]+'</p><p>'+ parsedSubmit[2][0]+' <strong>'+parsedSubmit[6][1]+'</strong> '+parsedSubmit[7][0]+'</p><p>'+tempSQL+'</p></a></li>');	
+	if (i==0) {
+		andVar=" Where "}
+	else {
+		andVar=" and "
+	}
+	sessionStorage.CurrentWhereQuery= sessionStorage.CurrentWhereQuery + andVar + filterResults.SQLStr + filterResults.EnteredNum;
 	}
 	$('#filterList').listview('refresh');
 }
 
 function addFilters(tx,parsedSubmit,tempSQL) {
 	tx.executeSql('CREATE TABLE IF NOT EXISTS FILTERS (CategoryDescr, AgeDescr, StatDescr, OperatorDescr, EnteredNum, SQLStr)');
+	// Deletes query if already exists and replaces
 	tx.executeSql('DELETE FROM FILTERS WHERE SQLStr="'+tempSQL+'"');
 	tx.executeSql('INSERT INTO FILTERS (CategoryDescr, AgeDescr, StatDescr, OperatorDescr, EnteredNum, SQLStr) VALUES ("'+parsedSubmit[0][0]+'","'+parsedSubmit[1][0]+'","'+parsedSubmit[2][0]+'","'+parsedSubmit[6][0]+'",'+parsedSubmit[7][0]+',"'+tempSQL+'")');
 }
@@ -243,14 +248,35 @@ function getClinics_success(tx, results) {
 	//});
 }
 
+// getSearchQuery using selected Filters
+function getSearchQuery(tx){
+var sql = "SELECT * from IVF" + sessionStorage.CurrentWhereQuery;
+alert(sql);
+tx.executeSql(sql, [], getSearch_success);
+}
+
+//  Display Query results of filter query to compare page
+function getSearch_success(tx, results) {
+	var len = results.rows.length;
+	alert("len:"+len);
+	for (var i=0; i<len; i++) {
+    	var IVFresults = results.rows.item(i);
+		
+		$('#searchDisplayList').append('<li><a href="#search-display">'+
+			'<h1>' + IVFresults.ClinStateCode + '</h1>' +
+			'<span class="ui-li-count">' + IVFresults.StateCount + ' Clinics</span></a></li>');
+    	}
+	$('#searchDisplayList').listview('refresh');
+}
+
 function populateDB(tx) {
 	// alert("populateDB called");
 	// $('#busy').show();
 	//  Create Filter Data  ** note ROWID autoinc automaticly
-	//	tx.executeSql('DROP TABLE IF EXISTS FILTERS');
+	    tx.executeSql('DROP TABLE IF EXISTS FILTERS');
 	    tx.executeSql('CREATE TABLE IF NOT EXISTS FILTERS (CategoryDescr, AgeDescr, StatDescr, OperatorDescr, EnteredNum, SQLStr)');	    
 	//  Load Clinic data	
-	//	tx.executeSql('DROP TABLE IF EXISTS IVF');
+	    tx.executeSql('DROP TABLE IF EXISTS IVF');
 	    tx.executeSql('CREATE TABLE IF NOT EXISTS IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll,FshNDLvBirthsRate1)');	    
 		tx.executeSql('INSERT INTO IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll,FshNDLvBirthsRate1) VALUES (1,"ALABAMA","BIRMINGHAM","Alabama Fertility Specialists","28.6")');
 		tx.executeSql('INSERT INTO IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll,FshNDLvBirthsRate1) VALUES (2,"ALABAMA","BIRMINGHAM","ART Fertility Program of Alabama","32.7")');
