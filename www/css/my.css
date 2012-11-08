@@ -1,8 +1,11 @@
 /** Custom CSS begin **/
-.ui-slider-switch .ui-slider-switch { width: 19em }
+
+/** Make Switch for sac desc sql wider **/
+.switch-orderby .ui-slider-switch { width: 50em }
+.ui-field-contain div.ui-slider-switch { width: 50em }
 
 
-/** Custom CSS begin **/
+/** CSS from ?? **/
 
 .text-align-center {
   text-align: center;

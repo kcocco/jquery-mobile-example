@@ -6,9 +6,9 @@
         <title>
         </title>
  		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <link rel="stylesheet" href="css/my.css" />
 		<link rel="stylesheet" href="lib/jquery-mobile-fluid960/jquery-mobile-fluid960.min.css" />"
 		<link rel="stylesheet" href="lib/jquery-mobile/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="css/my.css" />
 		<script src="lib/jquery/jquery-1.8.2.min.js"></script> 
 		<script src="lib/jquery-mobile/jquery.mobile-1.2.0.min.js"></script>
 		<script src="lib/jquery.mobile.routerlite/jquery.mobile.routerlite.js"></script>
@@ -226,9 +226,18 @@
 				</div><!-- /navbar -->
           	</div>
            	<div data-role="content">
-               	<h2>
-                   Select a clinic from the map or click the search button to narrow your search
-               	</h2>
+               	<center>
+					<h3>
+                  		Select clinic to see detail
+               		</h3>
+				</center>
+				<div data-role="collapsible" data-inset="false">
+					<h3>Sorting Options</h3>
+						<select name="order-switch" id="order-switch" data-role="slider" data-mini="true">
+							<option value="DESC">DESC</option>
+							<option value="ASC">ASC</option>
+						</select>
+				</div>
 				<div data-role="content">
 					<ul id="searchDisplayList" data-role="listview" data-filter="true" data-inset="true">
 					</ul>
