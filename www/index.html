@@ -226,17 +226,15 @@
 				</div><!-- /navbar -->
           	</div>
            	<div data-role="content">
-               	<center>
-					<h3>
-                  		Select clinic to see detail
-               		</h3>
-				</center>
 				<div data-role="collapsible" data-inset="false">
 					<h3>Sorting Options</h3>
-						<select name="order-switch" id="order-switch" data-role="slider" data-mini="true">
-							<option value="DESC">DESC</option>
-							<option value="ASC">ASC</option>
-						</select>
+						<div data-role="fieldcontain">
+							<label for="order-switch">Select the sorting order:</label>
+							<select name="order-switch" id="order-switch" data-role="slider" data-mini="true">
+								<option value="DESC">Descending</option>
+								<option value="ASC">Ascending</option>
+							</select>
+						</div>
 				</div>
 				<div data-role="content">
 					<ul id="searchDisplayList" data-role="listview" data-filter="true" data-inset="true">

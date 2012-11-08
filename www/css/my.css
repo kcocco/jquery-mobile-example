@@ -2,7 +2,7 @@
 
 /** Make Switch for sac desc sql wider **/
 .switch-orderby .ui-slider-switch { width: 50em }
-.ui-field-contain div.ui-slider-switch { width: 50em }
+.ui-field-contain div.ui-slider-switch { width: 9em }
 
 
 /** CSS from ?? **/
