@@ -19,7 +19,7 @@
 
 		<!-- Search-Advanced-->
         <div data-role="page" id="search-advanced">
-            <div id="App Header" data-theme="a" data-role="header">
+            <div id="AppHeader" data-theme="a" data-role="header">
 				<a href="#search-state" data-icon="arrow-l" class="ui-btn-left" data-theme="b">State Select</a>
 				<h1>43 Clinics Selected</h1>
 				<a href="#search-display" data-icon="arrow-r" class="ui-btn-right" data-iconpos="right" data-theme="b">See Results</a>
@@ -173,7 +173,7 @@
        
 		<!-- Home search-state -->
        	<div data-role="page" id="search-state">
-           	<div id="App Header" data-theme="a" data-role="header">
+           	<div id="AppHeader" data-theme="a" data-role="header">
 				<div data-role="navbar">
 					<ul>
 						<li><a href="#search-state" class="ui-btn-active ui-state-persist">State</a></li>
@@ -216,15 +216,16 @@
 
        <!-- Search-Display-->
       	<div data-role="page" id="search-display">
-          	<div id="App Header" data-theme="a" data-role="header">
+     		<div data-role="header" id="AppHeader" data-theme="a" data-role="header" data-position="fixed">
 				<div data-role="navbar">
 					<ul>
 						<li><a href="#search-display" class="ui-btn-active ui-state-persist">Table</a></li>
 						<li><a href="#search-display">Map</a></li>
 						<li><a href="#search-display">Graph</a></li>
 					</ul>
-				</div><!-- /navbar -->
-          	</div>
+				</div>
+			</div><!-- /navbar -->
+     
            	<div data-role="content">
 				<div data-role="collapsible" data-inset="false">
 					<h3>Sorting Options</h3>
@@ -241,7 +242,7 @@
 					</ul>
 				</div>
 			</div>
-			<div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed" data-iconpos="right">
+			<div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed">
             	<div data-role="navbar">
 					<ul>
                         <li>
