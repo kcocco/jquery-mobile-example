@@ -94,6 +94,7 @@ $("#State-Save").click(function () {
 			tempStates=tempStates+'"'+options[i].name.split("-")[1]+'",';
 			}
 	}
+	//alert(tempStates.replace(/"/g,''));
 	if (tempStateCount==0) {
 		alert('You must select atleast one state');
 	}
@@ -103,15 +104,16 @@ $("#State-Save").click(function () {
 			sessionStorage.NewFilterDescr3="All States";
 		}
 		else {
-			sessionStorage.NewFilterSQLWhere='ClinStateCode IN ('+tempStates.replace(/,+$/, '')+')';
-			sessionStorage.NewFilterDescr3="statename .. fix me";
+			tempStates=tempStates.replace(/,+$/, '');
+			sessionStorage.NewFilterSQLWhere='ClinStateCode IN ('+tempStates+')';
+			sessionStorage.NewFilterDescr3=tempStates.replace(/"/g,'');
 		}
 		sessionStorage.NewFilterSQLKey='ClinStateCode IN';
-		sessionStorage.NewFilterDescr1="State Selection";
-		sessionStorage.NewFilterDescr2="";
+		sessionStorage.NewFilterDescr1="State(s) ";
+		sessionStorage.NewFilterDescr2=tempStateCount+' of 49 selected';
 		sessionStorage.NewFilterDescr4="";
 		sessionStorage.NewFilterNum="";
-		alert("SQL:"+sessionStorage.NewFilterSQLWhere);
+		//alert("SQL:"+sessionStorage.NewFilterSQLWhere);
 		db.transaction(addFilters,transaction_error, refreshFilters);
 	}
 });
@@ -224,7 +226,7 @@ $('#search-display').live('pageshow', function() {
 //*************************
 
 function refreshFilters(tx) {
-	alert('firing refreshfilters');
+	//alert('firing refreshfilters');
 	db.transaction(queryFilters,transaction_error);
 }
 
