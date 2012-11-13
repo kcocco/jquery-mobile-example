@@ -12,6 +12,7 @@
 		<script src="lib/jquery/jquery-1.8.2.min.js"></script> 
 		<script src="lib/jquery-mobile/jquery.mobile-1.2.0.min.js"></script>
 		<script src="lib/jquery.mobile.routerlite/jquery.mobile.routerlite.js"></script>
+		<script src="js/main.js"></script>
 		<script src="js/my.js"></script>
 		
     </head>
@@ -26,28 +27,120 @@
             </div>
             <div data-role="content">
 				<div data-role="collapsible-set" data-inset="false">
-					<div data-role="collapsible" data-inset="false">	
+					<div id="state-accordionSet" data-role="collapsible" data-inset="false">	
 					<h3>Select State(s)</h3>
 						<div  data-role="fieldcontain">
 							<div class="ui-grid-b">
 								<div class="ui-block-a">
-								 	<input type="button" value="Select All" data-mini="true"/>
+								 	<input type="submit" id="State-Select-All" value="Select All" data-mini="true"/>
 								</div>
 								<div class="ui-block-b">
-									<input type="button" value="Un-select All" data-mini="true" />
+									<input type="submit" id="State-Unselect-All" value="Unselect All" data-mini="true" />
 								</div>
 								<div class="ui-block-c">
-									<input type="button" value="Save" data-mini="true" data-icon="check" data-theme="b"/>
+									<input type="submit" id="State-Save" value="Save" data-mini="true" data-icon="check" data-theme="b"/>
 								</div>
 							</div>
-						 	
-    							<input type="checkbox" name="checkbox-AL" id="checkbox-AL" class="custom" data-mini="true" />
-								<label for="checkbox-AL">Alabama</label>
-								<input type="checkbox" name="checkbox-AK" id="checkbox-AK" class="custom" data-mini="true" />
-								<label for="checkbox-AK">Alaska</label>
-								<input type="checkbox" name="checkbox-AZ" id="checkbox-AZ" class="custom" data-mini="true" />
-								<label for="checkbox-AZ">Arizona</label>
-					    
+						 	<fieldset id="state-options">
+    							<input type="checkbox" name="checkbox-ALABAMA" id="checkbox-ALABAMA" class="custom" data-mini="true" />
+								    <label for="checkbox-ALABAMA">ALABAMA (6 Clinics)</label>
+								<input type="checkbox" name="checkbox-ALASKA" id="checkbox-ALASKA" class="custom" data-mini="true" />
+								    <label for="checkbox-ALASKA">ALASKA (1 Clinics)</label>
+								<input type="checkbox" name="checkbox-ARIZONA" id="checkbox-ARIZONA" class="custom" data-mini="true" />
+								    <label for="checkbox-ARIZONA">ARIZONA (10 Clinics)</label>
+								<input type="checkbox" name="checkbox-ARKANSAS" id="checkbox-ARKANSAS" class="custom" data-mini="true" />
+								    <label for="checkbox-ARKANSAS">ARKANSAS (1 Clinics)</label>
+								<input type="checkbox" name="checkbox-CALIFORNIA" id="checkbox-CALIFORNIA" class="custom" data-mini="true" />
+								    <label for="checkbox-CALIFORNIA">CALIFORNIA (62 Clinics)</label>
+								<input type="checkbox" name="checkbox-COLORADO" id="checkbox-COLORADO" class="custom" data-mini="true" />
+								    <label for="checkbox-COLORADO">COLORADO (8 Clinics)</label>
+								<input type="checkbox" name="checkbox-CONNECTICUT" id="checkbox-CONNECTICUT" class="custom" data-mini="true" />
+								    <label for="checkbox-CONNECTICUT">CONNECTICUT (9 Clinics)</label>
+								<input type="checkbox" name="checkbox-DELAWARE" id="checkbox-DELAWARE" class="custom" data-mini="true" />
+								    <label for="checkbox-DELAWARE">DELAWARE (2 Clinics)</label>
+								<input type="checkbox" name="checkbox-DISTRICT OF COLUMBIA" id="checkbox-DISTRICT OF COLUMBIA" class="custom" data-mini="true" />
+								    <label for="checkbox-DISTRICT OF COLUMBIA">DISTRICT OF COLUMBIA (4 Clinics)</label>
+								<input type="checkbox" name="checkbox-FLORIDA" id="checkbox-FLORIDA" class="custom" data-mini="true" />
+								    <label for="checkbox-FLORIDA">FLORIDA (28 Clinics)</label>
+								<input type="checkbox" name="checkbox-GEORGIA" id="checkbox-GEORGIA" class="custom" data-mini="true" />
+								    <label for="checkbox-GEORGIA">GEORGIA (9 Clinics)</label>
+								<input type="checkbox" name="checkbox-HAWAII" id="checkbox-HAWAII" class="custom" data-mini="true" />
+								    <label for="checkbox-HAWAII">HAWAII (5 Clinics)</label>
+								<input type="checkbox" name="checkbox-IDAHO" id="checkbox-IDAHO" class="custom" data-mini="true" />
+								    <label for="checkbox-IDAHO">IDAHO (1 Clinics)</label>
+								<input type="checkbox" name="checkbox-ILLINOIS" id="checkbox-ILLINOIS" class="custom" data-mini="true" />
+								    <label for="checkbox-ILLINOIS">ILLINOIS (28 Clinics)</label>
+								<input type="checkbox" name="checkbox-INDIANA" id="checkbox-INDIANA" class="custom" data-mini="true" />
+								    <label for="checkbox-INDIANA">INDIANA (10 Clinics)</label>
+								<input type="checkbox" name="checkbox-IOWA" id="checkbox-IOWA" class="custom" data-mini="true" />
+								    <label for="checkbox-IOWA">IOWA (2 Clinics)</label>
+								<input type="checkbox" name="checkbox-KANSAS" id="checkbox-KANSAS" class="custom" data-mini="true" />
+								    <label for="checkbox-KANSAS">KANSAS (5 Clinics)</label>
+								<input type="checkbox" name="checkbox-KENTUCKY" id="checkbox-KENTUCKY" class="custom" data-mini="true" />
+								    <label for="checkbox-KENTUCKY">KENTUCKY (4 Clinics)</label>
+								<input type="checkbox" name="checkbox-LOUISIANA" id="checkbox-LOUISIANA" class="custom" data-mini="true" />
+								    <label for="checkbox-LOUISIANA">LOUISIANA (4 Clinics)</label>
+								<input type="checkbox" name="checkbox-MARYLAND" id="checkbox-MARYLAND" class="custom" data-mini="true" />
+								    <label for="checkbox-MARYLAND">MARYLAND (6 Clinics)</label>
+								<input type="checkbox" name="checkbox-MASSACHUSETTS" id="checkbox-MASSACHUSETTS" class="custom" data-mini="true" />
+								    <label for="checkbox-MASSACHUSETTS">MASSACHUSETTS (8 Clinics)</label>
+								<input type="checkbox" name="checkbox-MICHIGAN" id="checkbox-MICHIGAN" class="custom" data-mini="true" />
+								    <label for="checkbox-MICHIGAN">MICHIGAN (12 Clinics)</label>
+								<input type="checkbox" name="checkbox-MINNESOTA" id="checkbox-MINNESOTA" class="custom" data-mini="true" />
+								    <label for="checkbox-MINNESOTA">MINNESOTA (5 Clinics)</label>
+								<input type="checkbox" name="checkbox-MISSISSIPPI" id="checkbox-MISSISSIPPI" class="custom" data-mini="true" />
+								    <label for="checkbox-MISSISSIPPI">MISSISSIPPI (2 Clinics)</label>
+								<input type="checkbox" name="checkbox-MISSOURI" id="checkbox-MISSOURI" class="custom" data-mini="true" />
+								    <label for="checkbox-MISSOURI">MISSOURI (7 Clinics)</label>
+								<input type="checkbox" name="checkbox-NEBRASKA" id="checkbox-NEBRASKA" class="custom" data-mini="true" />
+								    <label for="checkbox-NEBRASKA">NEBRASKA (2 Clinics)</label>
+								<input type="checkbox" name="checkbox-NEVADA" id="checkbox-NEVADA" class="custom" data-mini="true" />
+								    <label for="checkbox-NEVADA">NEVADA (4 Clinics)</label>
+								<input type="checkbox" name="checkbox-NEW HAMPSHIRE" id="checkbox-NEW HAMPSHIRE" class="custom" data-mini="true" />
+								    <label for="checkbox-NEW HAMPSHIRE">NEW HAMPSHIRE (1 Clinics)</label>
+								<input type="checkbox" name="checkbox-NEW JERSEY" id="checkbox-NEW JERSEY" class="custom" data-mini="true" />
+								    <label for="checkbox-NEW JERSEY">NEW JERSEY (22 Clinics)</label>
+								<input type="checkbox" name="checkbox-NEW MEXICO" id="checkbox-NEW MEXICO" class="custom" data-mini="true" />
+								    <label for="checkbox-NEW MEXICO">NEW MEXICO (1 Clinics)</label>
+								<input type="checkbox" name="checkbox-NEW YORK" id="checkbox-NEW YORK" class="custom" data-mini="true" />
+								    <label for="checkbox-NEW YORK">NEW YORK (37 Clinics)</label>
+								<input type="checkbox" name="checkbox-NORTH CAROLINA" id="checkbox-NORTH CAROLINA" class="custom" data-mini="true" />
+								    <label for="checkbox-NORTH CAROLINA">NORTH CAROLINA (10 Clinics)</label>
+								<input type="checkbox" name="checkbox-NORTH DAKOTA" id="checkbox-NORTH DAKOTA" class="custom" data-mini="true" />
+								    <label for="checkbox-NORTH DAKOTA">NORTH DAKOTA (1 Clinics)</label>
+								<input type="checkbox" name="checkbox-OHIO" id="checkbox-OHIO" class="custom" data-mini="true" />
+								    <label for="checkbox-OHIO">OHIO (10 Clinics)</label>
+								<input type="checkbox" name="checkbox-OKLAHOMA" id="checkbox-OKLAHOMA" class="custom" data-mini="true" />
+								    <label for="checkbox-OKLAHOMA">OKLAHOMA (3 Clinics)</label>
+								<input type="checkbox" name="checkbox-OREGON" id="checkbox-OREGON" class="custom" data-mini="true" />
+								    <label for="checkbox-OREGON">OREGON (4 Clinics)</label>
+								<input type="checkbox" name="checkbox-PENNSYLVANIA" id="checkbox-PENNSYLVANIA" class="custom" data-mini="true" />
+								    <label for="checkbox-PENNSYLVANIA">PENNSYLVANIA (19 Clinics)</label>
+								<input type="checkbox" name="checkbox-PUERTO RICO" id="checkbox-PUERTO RICO" class="custom" data-mini="true" />
+								    <label for="checkbox-PUERTO RICO">PUERTO RICO (3 Clinics)</label>
+								<input type="checkbox" name="checkbox-RHODE ISLAND" id="checkbox-RHODE ISLAND" class="custom" data-mini="true" />
+								    <label for="checkbox-RHODE ISLAND">RHODE ISLAND (1 Clinics)</label>
+								<input type="checkbox" name="checkbox-SOUTH CAROLINA" id="checkbox-SOUTH CAROLINA" class="custom" data-mini="true" />
+								    <label for="checkbox-SOUTH CAROLINA">SOUTH CAROLINA (4 Clinics)</label>
+								<input type="checkbox" name="checkbox-SOUTH DAKOTA" id="checkbox-SOUTH DAKOTA" class="custom" data-mini="true" />
+								    <label for="checkbox-SOUTH DAKOTA">SOUTH DAKOTA (1 Clinics)</label>
+								<input type="checkbox" name="checkbox-TENNESSEE" id="checkbox-TENNESSEE" class="custom" data-mini="true" />
+								    <label for="checkbox-TENNESSEE">TENNESSEE (8 Clinics)</label>
+								<input type="checkbox" name="checkbox-TEXAS" id="checkbox-TEXAS" class="custom" data-mini="true" />
+								    <label for="checkbox-TEXAS">TEXAS (34 Clinics)</label>
+								<input type="checkbox" name="checkbox-UTAH" id="checkbox-UTAH" class="custom" data-mini="true" />
+								    <label for="checkbox-UTAH">UTAH (3 Clinics)</label>
+								<input type="checkbox" name="checkbox-VERMONT" id="checkbox-VERMONT" class="custom" data-mini="true" />
+								    <label for="checkbox-VERMONT">VERMONT (1 Clinics)</label>
+								<input type="checkbox" name="checkbox-VIRGINIA" id="checkbox-VIRGINIA" class="custom" data-mini="true" />
+								    <label for="checkbox-VIRGINIA">VIRGINIA (13 Clinics)</label>
+								<input type="checkbox" name="checkbox-WASHINGTON" id="checkbox-WASHINGTON" class="custom" data-mini="true" />
+								    <label for="checkbox-WASHINGTON">WASHINGTON (11 Clinics)</label>
+								<input type="checkbox" name="checkbox-WEST VIRGINIA" id="checkbox-WEST VIRGINIA" class="custom" data-mini="true" />
+								    <label for="checkbox-WEST VIRGINIA">WEST VIRGINIA (3 Clinics)</label>
+								<input type="checkbox" name="checkbox-WISCONSIN" id="checkbox-WISCONSIN" class="custom" data-mini="true" />
+								    <label for="checkbox-WISCONSIN">WISCONSIN (8 Clinics)</label>
+					    	</fieldset>
 					    </div>
 					</div>
 					<div id="accordionSet" data-role="collapsible" data-inset="false">
@@ -182,7 +275,9 @@
 				</div><!-- /navbar -->
            	</div>
            	<div data-role="content">
-				<ul id="stateList" data-role="listview" data-filter="true" data-inset="true">
+				<p id="stateList">
+				</p>
+				<ul id="-stateList" data-role="listview" data-filter="true" data-inset="true">
 					<!-- database.js loads list -->
 				</ul>
 			</div>
@@ -220,7 +315,6 @@
 				<div data-role="navbar">
 					<ul>
 						<li><a href="#search-display" class="ui-btn-active ui-state-persist">Table</a></li>
-						<li><a href="#search-display">Map</a></li>
 						<li><a href="#search-display">Graph</a></li>
 					</ul>
 				</div>

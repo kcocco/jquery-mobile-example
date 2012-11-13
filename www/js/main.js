@@ -1,17 +1,27 @@
 // JavaScript Document - main.js
-// alert("main.js fired");
+
+//************************
+// Initalize Variables
+//*************************
 
 var db;
 var dbCreated = false;
-// 
-sessionStorage.NewWhereQuery="uptodate";
-//
+// NewFilter x hold new filters to be written to DB
+sessionStorage.NewFilterDescr1="";
+sessionStorage.NewFilterDescr2="";
+sessionStorage.NewFilterDescr3="";
+sessionStorage.NewFilterDescr4="";
+sessionStorage.NewFilterNum="";
+// full where clause to be ANDed to together
+sessionStorage.NewFilterSQLWhere="";
+// SQL Key is used to over write filters ...sql minus the value
+sessionStorage.NewFilterSQLKey="";
+
+// Holds the parsed together query in refresh filters
 sessionStorage.CurrentWhereQuery="";
-//
 sessionStorage.OrderByQuery="DESC";
 // 
 sessionStorage.SelectQuery="";
-
 
 //var scroll = new iScroll('wrapper', { vScrollbar: false, hScrollbar:false, hScroll: false });
 
@@ -49,21 +59,17 @@ function onDeviceReady() {
 		db.transaction(populateDB, transaction_error, populateDB_success);
 }
 
-// ***********************
-//  JQuery Mobile router calls
-// see page with id="____" then run this code once on init	
-//$.mobile.routerlite.pageinit("#search-state", function(page){
-//	alert("pageinit fired");
-//db.transaction(getClinics, transaction_error);
-//});
 
-// every time we visit the page with id="_____" then run this code
-//$.mobile.routerlite.pagechange("#search-state", function(page){
-  //alert("pagechange fired");
-//});
+
+
+
+
+// ***********************
+// Bind & Live events
+//************************
 
 // Initalize the Advanced search page
-//*************************
+// FIX - Move to initalize does this need event pagecreate?? Firing twice on startup?
 $( '#search-advanced' ).live( 'pagecreate',function(event){
 	//alert( 'pagecreate firing' );
 	//page to show current filters saved in DB
@@ -75,60 +81,72 @@ $( '#search-advanced' ).live( 'pagecreate',function(event){
 		$('span.span-donor-fresh-select').hide();
 });
 
-// Refresh search-display page
-//************************
-$('#search-display').live('pageshow', function(event, ui) {
-    // Configure the Switch for order acs/desc
-	$('#order-switch').unbind('slidestop');
-	$('#order-switch').val(sessionStorage.OrderByQuery).slider("refresh");
-	// set orderby switch
-	$('#order-switch').bind('slidestop', function() { 
-		//alert('switch changed!'+jQuery(this).val());
-		sessionStorage.OrderByQuery=jQuery(this).val();
-		db.transaction(getSearchQuery, transaction_error);
-	});
-	// Run filter query
-	db.transaction(getSearchQuery, transaction_error);
+// Save State Check Box Select
+$("#State-Save").click(function () {
+	$('#state-accordionSet').trigger('collapse');
+	options = $("#state-options input:checkbox");
+	//alert(options[0].name+':'+options[0].checked);
+	var tempStates="";
+	var tempStateCount=0;
+	for (var i=0; i < options.length; i++){
+		if (options[i].checked) {
+			tempStateCount++;
+			tempStates=tempStates+'"'+options[i].name.split("-")[1]+'",';
+			}
+	}
+	if (tempStateCount==0) {
+		alert('You must select atleast one state');
+	}
+	else {
+		if (tempStateCount==49) {  // Select all states
+			sessionStorage.NewFilterSQLWhere='';
+			sessionStorage.NewFilterDescr3="All States";
+		}
+		else {
+			sessionStorage.NewFilterSQLWhere='ClinStateCode IN ('+tempStates.replace(/,+$/, '')+')';
+			sessionStorage.NewFilterDescr3="statename .. fix me";
+		}
+		sessionStorage.NewFilterSQLKey='ClinStateCode IN';
+		sessionStorage.NewFilterDescr1="State Selection";
+		sessionStorage.NewFilterDescr2="";
+		sessionStorage.NewFilterDescr4="";
+		sessionStorage.NewFilterNum="";
+		alert("SQL:"+sessionStorage.NewFilterSQLWhere);
+		db.transaction(addFilters,transaction_error, refreshFilters);
+	}
 });
 
+// Select All Check Boxes State Select
+$("#State-Select-All").click(function () {
+	options = $("#state-options input:checkbox");
+	options.prop("checked",true).checkboxradio("refresh");
+	//alert(options[0].name+':'+options[0].checked);
+});
 
-// Parse select fields to description and sql names
-//************************
-function parseDescriptions(submitted) {
-	var splitstr=new Array();
-	for (var x=0;x<submitted.length;x++) {
-		splitstr[x]=submitted[x].value.split("~");
-		//alert (splitstr[x][0]+" ***** "+splitstr[x][1]);
-	}
-	// Turn null value into zero
-	if (splitstr[7][0]=="") {splitstr[7][0]=0;}
-	return splitstr;
-}
+// UNSelect All Check Boxes State Select
+$("#State-Unselect-All").click(function () {
+	options = $("#state-options input:checkbox");
+	options.prop("checked",false).checkboxradio("refresh");
+});
 
-// Bind events
-//************************
 // Submitting Filters
 $('#form_pregancy_success').submit(function() {
 	var parsedSubmit= parseDescriptions($(this).serializeArray());
 	//console.log(parsedSubmit);
-	//Clear $('#xxxxx').click(function() { $('ul').empty();
-	
 		switch(parsedSubmit[0][0]) {
 	        case "Fresh-E-Nondonor":
 				$('#accordionSet').trigger('collapse');
+				sessionStorage.NewFilterDescr1=parsedSubmit[0][0];
+				sessionStorage.NewFilterDescr2=parsedSubmit[1][0];
+				sessionStorage.NewFilterDescr3=parsedSubmit[2][0];
+				sessionStorage.NewFilterDescr4=parsedSubmit[6][0];
+				sessionStorage.NewFilterNum=parsedSubmit[7][0];
+				sessionStorage.NewFilterSQLWhere=parsedSubmit[2][1]+parsedSubmit[1][1]+" "+parsedSubmit[6][1]+parsedSubmit[7][0];
+				sessionStorage.NewFilterSQLKey=parsedSubmit[2][1]+parsedSubmit[1][1]+" "+parsedSubmit[6][1];
 				//alert(parsedSubmit[0][0]+"<br>"+parsedSubmit[1][0]+"<br> "+parsedSubmit[2][0]+"<br> "+parsedSubmit[6][0]+"<br> "+parsedSubmit[7][0]);
-				var tempSQL=parsedSubmit[2][1]+parsedSubmit[1][1]+" "+parsedSubmit[6][1];
-	            
-				//$('#filterList').append('<li data-icon="delete"><a href="index.html"><p><strong>'+ parsedSubmit[0][0]+'</strong> '+ parsedSubmit[1][0]+'</p><p>'+ parsedSubmit[2][0]+' <strong>'+parsedSubmit[6][1]+'</strong> '+parsedSubmit[7][0]+'</p><p>'+tempSQL+'</p></a></li>');
-
-				//$('#filterList').listview('refresh');
-				
-				// FILTERS (CategoryDescr, AgeDescr, StatDescr, OperatorDescr, EnteredNum, SQLStr)
-				db.transaction(
-					function(transaction){
-					 	addFilters(transaction, parsedSubmit, tempSQL);
-					}, transaction_error, refreshFilters
-				);
+				// var tempSQL=parsedSubmit[2][1]+parsedSubmit[1][1]+" "+parsedSubmit[6][1];
+	            //$('#filterList').listview('refresh');
+				db.transaction(addFilters,transaction_error, refreshFilters);
 				break;
 	        case "Frozen-E-Nondonor":
 				$('#accordionSet').trigger('collapse');
@@ -137,15 +155,10 @@ $('#form_pregancy_success').submit(function() {
 				break;
 		    case "Donor-Frozen-E":
 			}
-return false;
+	return false;
 });
 
-function workedTest() {
-	alert("workedTest");
-}
-
-//  Hide and show Age-of-Women selector
-//************************
+//  Event change select pregnacy - Hide and show Age-of-Women selector
 $("#select-pregnacy-success-category").change(function() {
 	var myselect = $("#select-pregnacy-success-category");
 	
@@ -181,26 +194,42 @@ $("#select-pregnacy-success-category").change(function() {
 			$('span.span-donor-frozen-select').show();
 			$('span.span-donor-fresh-select').hide();
 			
-		}
+	}
 });
 
+// Refresh search-display page
+//****FIX ME FIRES TWICE!!??? ******
+$('#search-display').live('pageshow', function() {
+//$.mobile.routerlite.pagechange("#search-display", function(page){
+//$('#search-display').live('pagecreate', function(event, ui) {
+    // Configure the Switch for order acs/desc
+	$('#order-switch').unbind('slidestop');
+	$('#order-switch').val(sessionStorage.OrderByQuery).slider("refresh");
+	// set orderby switch
+	$('#order-switch').bind('slidestop', function() { 
+		//alert('switch changed!'+jQuery(this).val());
+		sessionStorage.OrderByQuery=jQuery(this).val();
+		db.transaction(getSearchQuery, transaction_error);
+	});
+	// Run filter query
+	alert('search-display live page show fired');
+	db.transaction(getSearchQuery, transaction_error);
+});
+
+
+
+
+//*************************
 // Databae Logic
 //*************************
-function transaction_error(tx, error) {
-    alert("Database Error: " + error);
-}
-
-function populateDB_success() {
-	dbCreated = true;
-    db.transaction(getClinics, transaction_error);
-}
-
 
 function refreshFilters(tx) {
+	alert('firing refreshfilters');
 	db.transaction(queryFilters,transaction_error);
 }
 
 function queryFilters(tx) {
+	//alert('firing queryfilters');
 	tx.executeSql('SELECT * FROM FILTERS',[],displayFilters);
 }
 
@@ -213,22 +242,28 @@ function displayFilters(tx, results) {
 	jQuery("#filterList > li").remove();
 	for (var i=0; i<len; i++) {
 	var filterResults = results.rows.item(i);
-	$('#filterList').append('<li data-icon="delete"><a href="index.html"><p><strong>'+ filterResults.CategoryDescr +' </strong> '+ filterResults.AgeDescr +'</p><p>'+ filterResults.StatDescr +' <strong>'+filterResults.OperatorDescr +'</strong> '+ filterResults.EnteredNum +'</p></a></li>');
-	if (i==0) {
+	$('#filterList').append('<li data-icon="delete"><a href="index.html"><p><strong>'+ filterResults.Descr1 +' </strong> '+ filterResults.Descr2 +'</p><p>'+ filterResults.Descr3 +' <strong>'+unescape(filterResults.Descr4) +'</strong> '+ filterResults.Num +'</p></a></li>');
+	if (sessionStorage.NewFilterSQLWhere=="") {
+		andVar="";
+	}
+	else if (i==0) {
 		andVar=" WHERE "}
 	else {
 		andVar=" AND "
 	}
-	sessionStorage.CurrentWhereQuery= sessionStorage.CurrentWhereQuery + andVar + filterResults.SQLStr + filterResults.EnteredNum;
+	sessionStorage.CurrentWhereQuery= sessionStorage.CurrentWhereQuery + andVar + unescape(filterResults.SQLWhere);
 	}
 	$('#filterList').listview('refresh');
 }
 
-function addFilters(tx,parsedSubmit,tempSQL) {
-	tx.executeSql('CREATE TABLE IF NOT EXISTS FILTERS (CategoryDescr, AgeDescr, StatDescr, OperatorDescr, EnteredNum, SQLStr)');
-	// Deletes query if already exists and replaces
-	tx.executeSql('DELETE FROM FILTERS WHERE SQLStr="'+tempSQL+'"');
-	tx.executeSql('INSERT INTO FILTERS (CategoryDescr, AgeDescr, StatDescr, OperatorDescr, EnteredNum, SQLStr) VALUES ("'+parsedSubmit[0][0]+'","'+parsedSubmit[1][0]+'","'+parsedSubmit[2][0]+'","'+parsedSubmit[6][0]+'",'+parsedSubmit[7][0]+',"'+tempSQL+'")');
+function addFilters(tx) {
+	// encode sql statements
+	sessionStorage.NewFilterSQLWhere=escape(sessionStorage.NewFilterSQLWhere);
+	sessionStorage.NewFilterSQLKey=escape(sessionStorage.NewFilterSQLKey);
+	sessionStorage.NewFilterDescr4=escape(sessionStorage.NewFilterDescr4);
+	tx.executeSql('DELETE FROM FILTERS WHERE SQLKey="'+sessionStorage.NewFilterSQLKey+'"');
+	tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES ("'+sessionStorage.NewFilterDescr1+'","'+sessionStorage.NewFilterDescr2+'","'+sessionStorage.NewFilterDescr3+'","'+sessionStorage.NewFilterDescr4+'","'+sessionStorage.NewFilterNum+'","'+sessionStorage.NewFilterSQLWhere+'","'+sessionStorage.NewFilterSQLKey+'")');
+	alert('in addFilters');
 }
 
 function getClinics(tx) {
@@ -250,19 +285,21 @@ function getClinics_success(tx, results) {
 			// var tempSQL = "ClinStateCode = '"+IVFresults.ClinStateCode+"'";
 			var tempSQL = "the test";
 			
-			$('#stateList').append('<li><a href="#search-display" onClick="sessionStorage.NewWhereQuery='+tempSQL+'">'+
-				'<h1>' + IVFresults.ClinStateCode + '</h1>' +
-				'<span class="ui-li-count">' + IVFresults.StateCount + ' Clinics</span></a></li>');
+			$('#stateList').append( IVFresults.ClinStateCode + ','+ IVFresults.StateCount +'<br>');
+			
+			//$('#stateList').append('<li><a href="#search-display" onClick="sessionStorage.NewWhereQuery='+tempSQL+'">'+
+			//	'<h1>' + IVFresults.ClinStateCode + '</h1>' +
+			//	'<span class="ui-li-count">' + IVFresults.StateCount + ' Clinics</span></a></li>');
 	    	}
 		//$('#stateList').listview('refresh');
 	//});
 }
 
 // getSearchQuery using selected Filters
-function getSearchQuery(tx){
-var sql = "SELECT * from IVF" + sessionStorage.CurrentWhereQuery +' ORDER BY FshNDLvBirthsRate1 '+sessionStorage.OrderByQuery;
-//alert(sql);
-tx.executeSql(sql, [], getSearch_success);
+function getSearchQuery(tx) {
+	var sql = "SELECT * from IVF" + unescape(sessionStorage.CurrentWhereQuery) +' ORDER BY FshNDLvBirthsRate1 '+sessionStorage.OrderByQuery;
+	alert(sql);
+	tx.executeSql(sql, [], getSearch_success);
 }
 
 //  Display Query results of filter query to compare page
@@ -281,11 +318,21 @@ function getSearch_success(tx, results) {
 	$('#searchDisplayList').listview('refresh');
 }
 
+function transaction_error(tx, error) {
+    alert("Database Error: " + error);
+}
+
+function populateDB_success() {
+	dbCreated = true;
+    db.transaction(getClinics, transaction_error);
+}
+
 function populateDB(tx) {
 	//alert("populateDB called");
 	//  Create Filter Data  ** note ROWID autoinc automaticly
-		tx.executeSql('DROP TABLE IF EXISTS FILTERS');
-	    tx.executeSql('CREATE TABLE IF NOT EXISTS FILTERS (CategoryDescr, AgeDescr, StatDescr, OperatorDescr, EnteredNum, SQLStr)');	    
+	    tx.executeSql('DROP TABLE IF EXISTS FILTERS');
+	    tx.executeSql('CREATE TABLE IF NOT EXISTS FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey)');
+	    //tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES("State Selection","","All States","",0,"","ClinStateCode IN")');	    
 	//  Load Clinic data	
 	    tx.executeSql('DROP TABLE IF EXISTS IVF');
 	    tx.executeSql('CREATE TABLE IF NOT EXISTS IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll, FshNDLvBirthsRate1, FshNDLvBirthsRate2, FshNDLvBirthsRate3, FshNDLvBirthsRate4, FshNDLvBirthsRate5)');
@@ -732,4 +779,22 @@ function populateDB(tx) {
 		tx.executeSql('INSERT INTO IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll,FshNDLvBirthsRate1, FshNDLvBirthsRate2, FshNDLvBirthsRate3, FshNDLvBirthsRate4, FshNDLvBirthsRate5) VALUES (441,"WISCONSIN","MILWAUKEE","Reproductive Specialty Center",42.9,41.7,30,20,null)');
 		tx.executeSql('INSERT INTO IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll,FshNDLvBirthsRate1, FshNDLvBirthsRate2, FshNDLvBirthsRate3, FshNDLvBirthsRate4, FshNDLvBirthsRate5) VALUES (442,"WISCONSIN","WAUKESHA","This clinic has closed or reorganized since 2010.  Information on current clinic services and profile therefore is not provided here.  Contact the NASS Help Desk for current information about this clinic.",0,33.3,0,0,null)');
 		tx.executeSql('INSERT INTO IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll,FshNDLvBirthsRate1, FshNDLvBirthsRate2, FshNDLvBirthsRate3, FshNDLvBirthsRate4, FshNDLvBirthsRate5) VALUES (443,"WISCONSIN","WEST ALLIS","Aurora Health Care-Aurora Fertility Services  West Allis",48.1,43.5,50,0,null)');
-		}
+}
+
+
+
+//*************************
+// General Functions
+//*************************
+// Parse select fields to description and sql names
+//************************
+function parseDescriptions(submitted) {
+	var splitstr=new Array();
+	for (var x=0;x<submitted.length;x++) {
+		splitstr[x]=submitted[x].value.split("~");
+		//alert (splitstr[x][0]+" ***** "+splitstr[x][1]);
+	}
+	// Turn null value into zero
+	if (splitstr[7][0]=="") {splitstr[7][0]=0;}
+	return splitstr;
+}
