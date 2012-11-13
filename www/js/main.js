@@ -25,7 +25,7 @@ sessionStorage.SelectQuery="";
 //var scroll = new iScroll('wrapper', { vScrollbar: false, hScrollbar:false, hScroll: false });
 
 document.addEventListener("deviceready", onDeviceReady, false);
-onDeviceReady();  // comment to run on phonegap mobile, uncoment to run on web... to be verified
+//onDeviceReady();  // comment to run on phonegap mobile, uncoment to run on web... to be verified
 
 function onDeviceReady() {
 	try {
