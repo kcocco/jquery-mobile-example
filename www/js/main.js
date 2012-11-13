@@ -97,7 +97,7 @@ $("#State-Save").click(function () {
 	}
 	else {
 		if (tempStateCount==49) {  // Select all states
-			sessionStorage.NewFilterSQLWhere='';
+			sessionStorage.NewFilterSQLWhere='1=1';
 			sessionStorage.NewFilterDescr3="All States";
 		}
 		else {
@@ -265,10 +265,7 @@ function displayFilters(tx, results) {
 	for (var i=0; i<len; i++) {
 	var filterResults = results.rows.item(i);
 	$('#filterList').append('<li data-icon="delete"><a href="#search-advanced" class="filterDelete" onClick="sessionStorage.filterDeleteRow='+filterResults.rowid+'" ><p><strong>'+ filterResults.Descr1 +' </strong> '+ filterResults.Descr2 +'</p><p>'+ filterResults.Descr3 +' <strong>'+unescape(filterResults.Descr4) +'</strong> '+ filterResults.Num +'</p></a></li>');
-	if (sessionStorage.NewFilterSQLWhere=="") {
-		andVar="";
-	}
-	else if (i==0) {
+	if (i==0) {
 		andVar=" WHERE "}
 	else {
 		andVar=" AND "
@@ -291,7 +288,7 @@ function addFilters(tx) {
 // getSearchQuery using selected Filters
 function getSearchQuery(tx) {
 	var sql = "SELECT rowid,* from IVF" + unescape(sessionStorage.CurrentWhereQuery) +' ORDER BY FshNDLvBirthsRate1 '+sessionStorage.OrderByQuery;
-	//alert(sql);
+	alert(sql);
 	tx.executeSql(sql, [], displaySearchResults);
 }
 
