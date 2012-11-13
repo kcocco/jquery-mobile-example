@@ -21,8 +21,7 @@
 		<!-- Search-Advanced-->
         <div data-role="page" id="search-advanced">
             <div id="AppHeader" data-theme="a" data-role="header">
-				<a href="#search-state" data-icon="arrow-l" class="ui-btn-left" data-theme="b">State Select</a>
-				<h1>43 Clinics Selected</h1>
+				<h1>007 Clinics Selected</h1>
 				<a href="#search-display" data-icon="arrow-r" class="ui-btn-right" data-iconpos="right" data-theme="b">See Results</a>
             </div>
             <div data-role="content">
@@ -240,7 +239,7 @@
                	<div data-role="navbar">
 					<ul>
                         <li>
-                            <a href="#search-state" data-icon="search" class="ui-btn-active ui-state-persist">
+                            <a href="#search-advanced" data-icon="search" class="ui-btn-active ui-state-persist">
                                 Search
                             </a>
                         </li>
@@ -263,51 +262,6 @@
 				</div>
            	</div>
      	</div>
-       
-		<!-- Home search-state -->
-       	<div data-role="page" id="search-state">
-           	<div id="AppHeader" data-theme="a" data-role="header">
-				<div data-role="navbar">
-					<ul>
-						<li><a href="#search-state" class="ui-btn-active ui-state-persist">State</a></li>
-						<li><a href="#search-advanced">Advanced</a></li>
-					</ul>
-				</div><!-- /navbar -->
-           	</div>
-           	<div data-role="content">
-				<p id="stateList">
-				</p>
-				<ul id="-stateList" data-role="listview" data-filter="true" data-inset="true">
-					<!-- database.js loads list -->
-				</ul>
-			</div>
-			<div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed" data-iconpos="right">
-	           	<div data-role="navbar">
-					<ul>
-	                  	<li>
-	                    	<a href="#search-state" data-icon="search" class="ui-btn-active ui-state-persist">
-	                           Search
-	                        </a>
-	                   	</li>
-	                   	<li>
-	                       	<a href="#search-display" data-icon="grid">
-	                           Compare
-	                       	</a>
-	                   	</li>
-						<li>
-	                    	<a href="#dictionary-page" data-icon="info">
-	                          Dictionary
-	                       	</a>
-	                    </li>
-						<li>
-							<a href="#about-dialog" data-icon="star" data-rel="dialog" data-transition="flip" data-inline="true">
-	                           	About
-	                       	</a>
-						</li>
-	               	</ul>
-				</div>
-	       	</div>
-       	</div>
 
        <!-- Search-Display-->
       	<div data-role="page" id="search-display">
@@ -340,7 +294,51 @@
             	<div data-role="navbar">
 					<ul>
                         <li>
-                            <a href="#search-state" data-icon="search">
+                            <a href="#search-advanced" data-icon="search">
+                                Search
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#compare-page" data-icon="grid" class="ui-btn-active ui-state-persist">
+                                Compare
+                            </a>
+                        </li>
+						<li>
+                            <a href="#dictionary-page" data-icon="info">
+                                Dictionary
+                            </a>
+                        </li>
+						<li>
+							<a href="#about-dialog" data-icon="star" data-rel="dialog" data-transition="flip" data-inline="true">
+                            	About
+                        	</a>
+						</li>
+                    </ul>
+				</div>
+          	</div>
+		</div>
+
+		<!-- Clinic-Display-->
+      	<div data-role="page" id="clinic-display">
+     		<div data-role="header" id="AppHeader" data-theme="a" data-role="header" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#search-display" class="ui-btn-active ui-state-persist">Table</a></li>
+						<li><a href="#search-display">Graph</a></li>
+					</ul>
+				</div>
+			</div><!-- /navbar -->
+           	<div data-role="content">
+				<div data-role="content">
+					<ul id="clinicDisplayList" data-role="listview" data-filter="true" data-inset="true">
+					</ul>
+				</div>
+			</div>
+			<div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed">
+            	<div data-role="navbar">
+					<ul>
+                        <li>
+                            <a href="#search-advanced" data-icon="search">
                                 Search
                             </a>
                         </li>

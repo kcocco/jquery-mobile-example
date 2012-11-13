@@ -20,14 +20,12 @@ sessionStorage.NewFilterSQLKey="";
 // Holds the parsed together query in refresh filters
 sessionStorage.CurrentWhereQuery="";
 sessionStorage.OrderByQuery="DESC";
-// 
 sessionStorage.SelectQuery="";
 
 //var scroll = new iScroll('wrapper', { vScrollbar: false, hScrollbar:false, hScroll: false });
 
 document.addEventListener("deviceready", onDeviceReady, false);
 onDeviceReady();  // comment to run on phonegap mobile, uncoment to run on web... to be verified
-
 
 function onDeviceReady() {
 	try {
@@ -52,11 +50,10 @@ function onDeviceReady() {
 	    }
 	    return;
 	} 
-	if (dbCreated)
-    	db.transaction(getClinics, transaction_error);
-    else
-		//alert("dbCreated false call pop db");
-		db.transaction(populateDB, transaction_error, populateDB_success);
+	if (dbCreated==false) {
+    	//alert("dbCreated false call pop db");
+		db.transaction(populateDB, transaction_error);
+	}
 }
 
 
@@ -65,16 +62,16 @@ function onDeviceReady() {
 
 
 // ***********************
-// Bind & Live events
+// Live & Bind Events
 //************************
 
 // Initalize the Advanced search page
 // FIX - Move to initalize does this need event pagecreate?? Firing twice on startup?
 $( '#search-advanced' ).live( 'pagecreate',function(event){
-	//alert( 'pagecreate firing' );
-	//page to show current filters saved in DB
+		//alert( 'pagecreate firing' );
+		//page to show current filters saved in DB
 		refreshFilters();
-	// Initalize Select Hides on advanced search page to create a dynamics
+		// Initalize Select Hides on advanced search page to create a dynamics
 		// $('span.span-fresh-nondonor-select').hide();
 		$('span.span-frozen-nondonor-select').hide();
 		$('span.span-donor-frozen-select').hide();
@@ -199,11 +196,18 @@ $("#select-pregnacy-success-category").change(function() {
 	}
 });
 
+$('.filterDelete').live('click', function() {
+	if(event.handled !== true) {
+    	//alert("rowid to delete:"+sessionStorage.filterDeleteRow);
+    	db.transaction(deleteFilter,transaction_error, refreshFilters);
+    	event.handled = true;
+    }
+    return false;
+});
+
 // Refresh search-display page
 //****FIX ME FIRES TWICE!!??? ******
 $('#search-display').live('pageshow', function() {
-//$.mobile.routerlite.pagechange("#search-display", function(page){
-//$('#search-display').live('pagecreate', function(event, ui) {
     // Configure the Switch for order acs/desc
 	$('#order-switch').unbind('slidestop');
 	$('#order-switch').val(sessionStorage.OrderByQuery).slider("refresh");
@@ -214,9 +218,20 @@ $('#search-display').live('pageshow', function() {
 		db.transaction(getSearchQuery, transaction_error);
 	});
 	// Run filter query
-	alert('search-display live page show fired');
+	//alert('search-display live page show fired');
 	db.transaction(getSearchQuery, transaction_error);
 });
+
+$('#clinic-display').live('pageshow', function() {
+    if(event.handled !== true) {
+	    db.transaction(getClinicDetail, transaction_error);
+	    event.handled = true;
+    }
+    return false;
+});
+
+
+
 
 
 
@@ -232,7 +247,12 @@ function refreshFilters(tx) {
 
 function queryFilters(tx) {
 	//alert('firing queryfilters');
-	tx.executeSql('SELECT * FROM FILTERS',[],displayFilters);
+	tx.executeSql('SELECT rowid,* FROM FILTERS',[],displayFilters);
+}
+
+function deleteFilter(tx) {
+	//alert('firing deletefilters');
+	tx.executeSql('DELETE FROM FILTERS WHERE rowid="'+sessionStorage.filterDeleteRow+'"');
 }
 
 //  Display filters & Build Filters Where SQL
@@ -244,7 +264,7 @@ function displayFilters(tx, results) {
 	jQuery("#filterList > li").remove();
 	for (var i=0; i<len; i++) {
 	var filterResults = results.rows.item(i);
-	$('#filterList').append('<li data-icon="delete"><a href="index.html"><p><strong>'+ filterResults.Descr1 +' </strong> '+ filterResults.Descr2 +'</p><p>'+ filterResults.Descr3 +' <strong>'+unescape(filterResults.Descr4) +'</strong> '+ filterResults.Num +'</p></a></li>');
+	$('#filterList').append('<li data-icon="delete"><a href="#search-advanced" class="filterDelete" onClick="sessionStorage.filterDeleteRow='+filterResults.rowid+'" ><p><strong>'+ filterResults.Descr1 +' </strong> '+ filterResults.Descr2 +'</p><p>'+ filterResults.Descr3 +' <strong>'+unescape(filterResults.Descr4) +'</strong> '+ filterResults.Num +'</p></a></li>');
 	if (sessionStorage.NewFilterSQLWhere=="") {
 		andVar="";
 	}
@@ -265,54 +285,23 @@ function addFilters(tx) {
 	sessionStorage.NewFilterDescr4=escape(sessionStorage.NewFilterDescr4);
 	tx.executeSql('DELETE FROM FILTERS WHERE SQLKey="'+sessionStorage.NewFilterSQLKey+'"');
 	tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES ("'+sessionStorage.NewFilterDescr1+'","'+sessionStorage.NewFilterDescr2+'","'+sessionStorage.NewFilterDescr3+'","'+sessionStorage.NewFilterDescr4+'","'+sessionStorage.NewFilterNum+'","'+sessionStorage.NewFilterSQLWhere+'","'+sessionStorage.NewFilterSQLKey+'")');
-	alert('in addFilters');
-}
-
-function getClinics(tx) {
-	//alert("getClinics");
-	var sql = "SELECT ClinStateCode, COUNT( ClinStateCode ) As StateCount " + 
-			  "FROM IVF " +
-			  "GROUP BY ClinStateCode";
-	tx.executeSql(sql, [], getClinics_success);
-}
-
-function getClinics_success(tx, results) {
-	//alert("get emp success");	
-	//$( '#search-state' ).live( 'pagebeforecreate',function(event){
-	// manipulate this page before its widgets are auto-initialized
-	    var len = results.rows.length;
-		for (var i=0; i<len; i++) {
-	    	var IVFresults = results.rows.item(i);
-			// NewWhereQuery = SQL or "uptodate" mean not need to refresh
-			// var tempSQL = "ClinStateCode = '"+IVFresults.ClinStateCode+"'";
-			var tempSQL = "the test";
-			
-			$('#stateList').append( IVFresults.ClinStateCode + ','+ IVFresults.StateCount +'<br>');
-			
-			//$('#stateList').append('<li><a href="#search-display" onClick="sessionStorage.NewWhereQuery='+tempSQL+'">'+
-			//	'<h1>' + IVFresults.ClinStateCode + '</h1>' +
-			//	'<span class="ui-li-count">' + IVFresults.StateCount + ' Clinics</span></a></li>');
-	    	}
-		//$('#stateList').listview('refresh');
-	//});
+	//alert('in addFilters');
 }
 
 // getSearchQuery using selected Filters
 function getSearchQuery(tx) {
-	var sql = "SELECT * from IVF" + unescape(sessionStorage.CurrentWhereQuery) +' ORDER BY FshNDLvBirthsRate1 '+sessionStorage.OrderByQuery;
-	alert(sql);
-	tx.executeSql(sql, [], getSearch_success);
+	var sql = "SELECT rowid,* from IVF" + unescape(sessionStorage.CurrentWhereQuery) +' ORDER BY FshNDLvBirthsRate1 '+sessionStorage.OrderByQuery;
+	//alert(sql);
+	tx.executeSql(sql, [], displaySearchResults);
 }
 
 //  Display Query results of filter query to compare page
-function getSearch_success(tx, results) {
+function displaySearchResults(tx, results) {
 	jQuery("#searchDisplayList > li").remove();
 	var len = results.rows.length;
-	//alert("len:"+len);
 	for (var i=0; i<len; i++) {
     	var IVFresults = results.rows.item(i);
-		
-		$('#searchDisplayList').append('<li><a href="#search-display">'+
+		$('#searchDisplayList').append('<li><a href="#clinic-display" onClick="sessionStorage.rowid='+IVFresults.rowid+'">'+
 			'<h1><bold>'+(i+1)+'.</bold> ' + IVFresults.CurrClinNameAll + '</h1>' +
 			'<p>' + IVFresults.ClinCityCode + ', ' +IVFresults.ClinStateCode +'<p>'+
 			'<span class="ui-li-count">' + IVFresults.FshNDLvBirthsRate1 + '</span></a></li>');
@@ -320,17 +309,34 @@ function getSearch_success(tx, results) {
 	$('#searchDisplayList').listview('refresh');
 }
 
+function getClinicDetail(tx) {
+	//alert("getClinics");
+	var sql = "SELECT * FROM IVF WHERE rowid="+sessionStorage.rowid;
+	tx.executeSql(sql, [], displayClinicDetail);
+}
+
+//  Display Query results of filter query to compare page
+function displayClinicDetail(tx, results) {
+	jQuery("#clinicDisplayList > li").remove();
+	var IVFresults = results.rows.item(0);
+	$('#clinicDisplayList').append('<li><a href="" >'+
+			'<h1>' + IVFresults.CurrClinNameAll + '</h1>' +
+			'<p>' + IVFresults.ClinCityCode + ', ' +IVFresults.ClinStateCode +'<p>'+
+			'</a></li>');
+	$('#clinicDisplayList').append('<li><a href="" >'+
+			'<h1> Fresh Embryos From NonDonor Eggs - Age of Women <35</h1>' +
+			'<h1> % of cycles resulting in live births: <bold>' + IVFresults.FshNDLvBirthsRate1 + '%</bold></h1>'+
+			'</a></li>');
+	$('#clinicDisplayList').listview('refresh');
+}
+
 function transaction_error(tx, error) {
     alert("Database Error: " + error);
 }
 
-function populateDB_success() {
-	dbCreated = true;
-    db.transaction(getClinics, transaction_error);
-}
-
 function populateDB(tx) {
 	//alert("populateDB called");
+		dbCreated = true;
 	//  Create Filter Data  ** note ROWID autoinc automaticly
 	    tx.executeSql('DROP TABLE IF EXISTS FILTERS');
 	    tx.executeSql('CREATE TABLE IF NOT EXISTS FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey)');
