@@ -6,13 +6,20 @@
         <title>
         </title>
  		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-		<link rel="stylesheet" href="lib/jquery-mobile-fluid960/jquery-mobile-fluid960.min.css" />
-		<link rel="stylesheet" href="lib/jquery-mobile/jquery.mobile-1.2.0.min.css" />
-		<link rel="stylesheet" href="css/my.css" />
-		<script src="lib/jquery/jquery-1.8.2.min.js"></script>
-		<script src="lib/jquery-mobile/jquery.mobile-1.2.0.min.js"></script>	 
-		<script src="js/main.js"></script>
-		<script src="js/my.js"></script>
+		<link rel="stylesheet" type="text/css" href="lib/jquery-mobile-fluid960/jquery-mobile-fluid960.min.css" />
+		<link rel="stylesheet" type="text/css" href="lib/jquery-mobile/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/my.css" />
+		<link rel="stylesheet" type="text/css" href="lib/jqplot/jquery.jqplot.min.css" />
+		<script type="text/javascript" src="lib/jquery/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" src="lib/jquery-mobile/jquery.mobile-1.2.0.min.js"></script>	 
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/my.js"></script>
+		<script type="text/javascript" src="lib/jqplot/jquery.jqplot.min.js"></script>
+		<script type="text/javascript" src="lib/jqplot/jqplot.barRenderer.min.js"></script>
+		<script type="text/javascript" src="lib/jqplot/jqplot.categoryAxisRenderer.min.js"></script>
+		<script type="text/javascript" src="lib/jqplot/jqplot.pointLabels.min.js"></script>
+		
+
     </head>
     <body>
 
@@ -263,15 +270,10 @@
 
        	<!-- Search-Display-->
       	<div data-role="page" id="search-display">
-     		<div data-role="header" id="AppHeader" data-theme="a" data-role="header" data-position="fixed">
-				<div data-role="navbar">
-					<ul>
-						<li><a href="#search-display" class="ui-btn-active ui-state-persist">Table</a></li>
-						<li><a href="#search-display">Graph</a></li>
-					</ul>
-				</div>
-			</div><!-- /navbar -->
-     
+      		<div id="AppHeader" data-theme="a" data-role="header">
+				<h1>Search Results</h1>
+				<a href="#search-advanced" data-icon="arrow-l" class="ui-btn-left" data-iconpos="left" data-theme="b">Back to search</a>
+            </div>
            	<div data-role="content">
 				<div data-role="collapsible" data-inset="false">
 					<h3>Sorting Options</h3>
@@ -321,8 +323,8 @@
      		<div data-role="header" id="AppHeader" data-theme="a" data-role="header" data-position="fixed">
 				<div data-role="navbar">
 					<ul>
-						<li><a href="#search-display" class="ui-btn-active ui-state-persist">Table</a></li>
-						<li><a href="#search-display">Graph</a></li>
+						<li><a href="#clinic-display" class="ui-btn-active ui-state-persist">Table</a></li>
+						<li><a href="#clinic-display-graph">Graph</a></li>
 					</ul>
 				</div>
 			</div><!-- /navbar -->
@@ -331,6 +333,47 @@
 					<ul id="clinicDisplayList" data-role="listview" data-filter="true" data-inset="true">
 					</ul>
 				</div>
+			</div>
+			<div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed">
+            	<div data-role="navbar">
+					<ul>
+                        <li>
+                            <a href="#search-advanced" data-icon="search">
+                                Search
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#compare-page" data-icon="grid" class="ui-btn-active ui-state-persist">
+                                Compare
+                            </a>
+                        </li>
+						<li>
+                            <a href="#dictionary-page" data-icon="info">
+                                Dictionary
+                            </a>
+                        </li>
+						<li>
+							<a href="#about-dialog" data-icon="star" data-rel="dialog" data-transition="flip" data-inline="true">
+                            	About
+                        	</a>
+						</li>
+                    </ul>
+				</div>
+          	</div>
+		</div>
+
+		<!-- Clinic-Display-Graph-->
+      	<div data-role="page" id="clinic-display-graph">
+     		<div data-role="header" id="AppHeader" data-theme="a" data-role="header" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#clinic-display" >Table</a></li>
+						<li><a href="#clinic-display-graph" class="ui-btn-active ui-state-persist">Graph</a></li>
+					</ul>
+				</div>
+			</div><!-- /navbar -->
+           	<div data-role="content">
+				<div id="chart2b" style="margin-top:20px; margin-left:20px; width:300px; height:300px;"></div>
 			</div>
 			<div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed">
             	<div data-role="navbar">

@@ -230,6 +230,46 @@ $('#clinic-display').live('pageshow', function() {
     return false;
 });
 
+$('#clinic-display-graph').live('pageshow', function() {
+    if(event.handled !== true) {
+	     plot2b = $.jqplot('chart2b', [[[2,1], [4,2], [6,3], [3,4]], [[5,1], [1,2], [3,3], [4,4]], [[4,1], [7,2], [1,3], [2,4]]], {
+            seriesDefaults: {
+                renderer:$.jqplot.BarRenderer,
+                pointLabels: { show: true, location: 'e', edgeTolerance: -15 },
+                shadowAngle: 135,
+                rendererOptions: {
+                    barDirection: 'horizontal'
+                }
+            },
+            axes: {
+                yaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer
+                }
+            }
+        });
+     
+        $('#chart2b').bind('jqplotDataHighlight', 
+            function (ev, seriesIndex, pointIndex, data) {
+                $('#info2b').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data+ ', pageX: '+ev.pageX+', pageY: '+ev.pageY);
+            }
+        );    
+        $('#chart2b').bind('jqplotDataClick', 
+            function (ev, seriesIndex, pointIndex, data) {
+                $('#info2c').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data+ ', pageX: '+ev.pageX+', pageY: '+ev.pageY);
+            }
+        );
+             
+        $('#chart2b').bind('jqplotDataUnhighlight', 
+            function (ev) {
+                $('#info2b').html('Nothing');
+            }
+        );
+
+	    event.handled = true;
+    }
+    return false;
+});
+
 
 
 
@@ -288,7 +328,7 @@ function addFilters(tx) {
 // getSearchQuery using selected Filters
 function getSearchQuery(tx) {
 	var sql = "SELECT rowid,* from IVF" + unescape(sessionStorage.CurrentWhereQuery) +' ORDER BY FshNDLvBirthsRate1 '+sessionStorage.OrderByQuery;
-	alert(sql);
+	//alert(sql);
 	tx.executeSql(sql, [], displaySearchResults);
 }
 
