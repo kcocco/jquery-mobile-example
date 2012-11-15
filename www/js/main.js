@@ -339,7 +339,15 @@ function displayFilters(tx, results) {
 	sessionStorage.CurrentWhereQuery= sessionStorage.CurrentWhereQuery + andVar + unescape(filterResults.SQLWhere);
 	}
 	$('#filterList').listview('refresh');
+	//updateCount(tx);
+	//db.transaction(getSearchClinicCount,transaction_error);
+
 }
+
+function updateCount(tx) {
+	db.transaction(getSearchClinicCount,transaction_error);
+}
+
 
 function addFilters(tx) {
 	// encode sql statements
@@ -350,6 +358,16 @@ function addFilters(tx) {
 	tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES ("'+sessionStorage.NewFilterDescr1+'","'+sessionStorage.NewFilterDescr2+'","'+sessionStorage.NewFilterDescr3+'","'+sessionStorage.NewFilterDescr4+'","'+sessionStorage.NewFilterNum+'","'+sessionStorage.NewFilterSQLWhere+'","'+sessionStorage.NewFilterSQLKey+'")');
 	//alert('in addFilters');
 }
+
+//function getSearchClinicCount(tx) {
+//	var sql = "SELECT COUNT(*) from IVF "; // + unescape(sessionStorage.CurrentWhereQuery);
+	//alert(sql);
+//	tx.executeSql(sql, [], displayClinicCount);
+//}
+
+//function displayClinicCount(tx, results) {
+//	alert('clinic count:'+result.rows.item(0)["count(*)"]);
+//}
 
 // getSearchQuery using selected Filters
 function getSearchQuery(tx) {
