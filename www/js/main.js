@@ -232,20 +232,46 @@ $('#clinic-display').live('pageshow', function() {
 
 $('#clinic-display-graph').live('pageshow', function() {
     if(event.handled !== true) {
-	     plot2b = $.jqplot('chart2b', [[[2,1], [4,2], [6,3], [3,4]], [[5,1], [1,2], [3,3], [4,4]], [[4,1], [7,2], [1,3], [2,4]]], {
+	     plot2b = $.jqplot('chart2b', [
+	     		[[7,'Tubal factor'], [7,'Ovulatory dysfunction'], [15,'Diminished ovarian reserve'],[4,'Endometriosis'],[1,'Uterine factor'],[17,'Male factor'],[7,'Other factor'],[12,'Unknown'],[11,'Multi Factors:Female Only'],[18,'Multi Factors:Female & Male']],
+	     		[[16,'Tubal factor'], [11,'Ovulatory dysfunction'], [23,'Diminished ovarian reserve'],[4,'Endometriosis'],[0,'Uterine factor'],[12,'Male factor'],[1,'Other factor'],[9,'Unknown'],[7,'Multi Factors:Female Only'],[18,'Multi Factors:Female & Male']]
+	     	], {
+	     	title: {
+	     		text:'Patient Diagnosis',
+	     		textAlign:'left'
+	     	},
             seriesDefaults: {
                 renderer:$.jqplot.BarRenderer,
                 pointLabels: { show: true, location: 'e', edgeTolerance: -15 },
+                shadow: false,
                 shadowAngle: 135,
                 rendererOptions: {
                     barDirection: 'horizontal'
                 }
             },
+            series:[
+            	{label:'National Avg.',lineWidth:20},
+            	{label:'Selected Clinic',lineWidth:5}
+            ],
             axes: {
+            	xaxis: {
+            		pad:1.18,
+            		min:0,
+            		label:'percentage %'
+            	},
                 yaxis: {
                     renderer: $.jqplot.CategoryAxisRenderer
                 }
-            }
+            },
+            legend: {
+		        show: true,
+		        location: 'n',     // compass direction, nw, n, ne, e, se, s, sw, w.
+		        placement: 'outside',
+		        //marginTop:
+		        //marginRight:
+		        //marginBottom:
+		        //marginLeft:
+		    }
         });
      
         $('#chart2b').bind('jqplotDataHighlight', 
