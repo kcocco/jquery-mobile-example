@@ -232,6 +232,7 @@ $('#clinic-display').live('pageshow', function() {
 
 $('#clinic-display-graph').live('pageshow', function() {
     if(event.handled !== true) {
+    	//alert('display-graph firing');
 	     plot2b = $.jqplot('chart2b', [
 	     		[[7,'Tubal factor'], [7,'Ovulatory dysfunction'], [15,'Diminished ovarian reserve'],[4,'Endometriosis'],[1,'Uterine factor'],[17,'Male factor'],[7,'Other factor'],[12,'Unknown'],[11,'Multi Factors:Female Only'],[18,'Multi Factors:Female & Male']],
 	     		[[16,'Tubal factor'], [11,'Ovulatory dysfunction'], [23,'Diminished ovarian reserve'],[4,'Endometriosis'],[0,'Uterine factor'],[12,'Male factor'],[1,'Other factor'],[9,'Unknown'],[7,'Multi Factors:Female Only'],[18,'Multi Factors:Female & Male']]
@@ -250,8 +251,8 @@ $('#clinic-display-graph').live('pageshow', function() {
                 }
             },
             series:[
-            	{label:'National Avg.',lineWidth:20},
-            	{label:'Selected Clinic',lineWidth:5}
+            	{label:'National Avg.'},
+            	{label:'Selected Clinic'}
             ],
             axes: {
             	xaxis: {
@@ -272,7 +273,7 @@ $('#clinic-display-graph').live('pageshow', function() {
 		        //marginBottom:
 		        //marginLeft:
 		    }
-        });
+        }).replot({clear: true, resetAxes:true});
      
         $('#chart2b').bind('jqplotDataHighlight', 
             function (ev, seriesIndex, pointIndex, data) {
