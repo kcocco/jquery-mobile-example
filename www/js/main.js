@@ -119,7 +119,7 @@ $("#State-Save").click(function () {
 $("#State-Select-All").click(function () {
 	options = $("#state-options input:checkbox");
 	options.prop("checked",true).checkboxradio("refresh");
-	alert(options[0].name+':'+options[0].checked);
+	//alert(options[0].name+':'+options[0].checked);
 });
 
 // UNSelect All Check Boxes State Select
@@ -206,8 +206,8 @@ $('.filterDelete').live('click', function() {
 });
 
 // Refresh search-display page
+//****FIX ME FIRES TWICE!!??? ******
 $('#search-display').live('pageshow', function() {
-	//alert('search-display pageshow fire');
     // Configure the Switch for order acs/desc
 	$('#order-switch').unbind('slidestop');
 	$('#order-switch').val(sessionStorage.OrderByQuery).slider("refresh");
@@ -223,11 +223,15 @@ $('#search-display').live('pageshow', function() {
 });
 
 $('#clinic-display').live('pageshow', function() {
-	    //alert('clinic-display pageshow fire');
+    if(event.handled !== true) {
 	    db.transaction(getClinicDetail, transaction_error);
+	    event.handled = true;
+    }
+    return false;
 });
 
 $('#clinic-display-graph').live('pageshow', function() {
+    if(event.handled !== true) {
     	//alert('display-graph firing');
 	     plot2b = $.jqplot('chart2b', [
 	     		[[7,'Tubal factor'], [7,'Ovulatory dysfunction'], [15,'Diminished ovarian reserve'],[4,'Endometriosis'],[1,'Uterine factor'],[17,'Male factor'],[7,'Other factor'],[12,'Unknown'],[11,'Multi Factors:Female Only'],[18,'Multi Factors:Female & Male']],
@@ -287,6 +291,10 @@ $('#clinic-display-graph').live('pageshow', function() {
                 $('#info2b').html('Nothing');
             }
         );
+
+	    event.handled = true;
+    }
+    return false;
 });
 
 
