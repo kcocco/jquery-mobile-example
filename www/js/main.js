@@ -305,25 +305,19 @@ function displayFilters(tx, results) {
 	//alert("results.row.length:"+len);
 	jQuery("#filterList > li").remove();
 	for (var i=0; i<len; i++) {
-	var filterResults = results.rows.item(i);
-	$('#filterList').append('<li data-icon="delete"><a href="#search-advanced" class="filterDelete" onClick="sessionStorage.filterDeleteRow='+filterResults.rowid+'" ><p><strong>'+ filterResults.Descr1 +' </strong> '+ filterResults.Descr2 +'</p><p>'+ filterResults.Descr3 +' <strong>'+unescape(filterResults.Descr4) +'</strong> '+ filterResults.Num +'</p></a></li>');
-	if (i==0) {
-		andVar=" WHERE "}
-	else {
-		andVar=" AND "
-	}
-	sessionStorage.CurrentWhereQuery= sessionStorage.CurrentWhereQuery + andVar + unescape(filterResults.SQLWhere);
+		var filterResults = results.rows.item(i);
+		$('#filterList').append('<li data-icon="delete"><a href="#search-advanced" class="filterDelete" onClick="sessionStorage.filterDeleteRow='+filterResults.rowid+'" ><p><strong>'+ filterResults.Descr1 +' </strong> '+ filterResults.Descr2 +'</p><p>'+ filterResults.Descr3 +' <strong>'+unescape(filterResults.Descr4) +'</strong> '+ filterResults.Num +'</p></a></li>');
+		if (i==0) {
+			andVar=" WHERE "
+		}
+		else {
+			andVar=" AND "
+		}
+		sessionStorage.CurrentWhereQuery= sessionStorage.CurrentWhereQuery + andVar + unescape(filterResults.SQLWhere);
 	}
 	$('#filterList').listview('refresh');
-	//updateCount(tx);
 	//db.transaction(getSearchClinicCount,transaction_error);
-
 }
-
-function updateCount(tx) {
-	db.transaction(getSearchClinicCount,transaction_error);
-}
-
 
 function addFilters(tx) {
 	// encode sql statements
@@ -342,7 +336,8 @@ function addFilters(tx) {
 //}
 
 //function displayClinicCount(tx, results) {
-//	alert('clinic count:'+result.rows.item(0)["count(*)"]);
+	//alert('clinic count:'+results.rows.item(0)["COUNT(*)"]);
+//	$('#countText').text(results.rows.item(0)["COUNT(*)"]+' Clinics Selected');
 //}
 
 // getSearchQuery using selected Filters
