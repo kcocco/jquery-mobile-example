@@ -269,7 +269,8 @@ $('#clinic-display-graph').live('pageshow', function() {
 		        //marginBottom:
 		        //marginLeft:
 		    }
-        }).replot({clear: true, resetAxes:true});
+        });
+		//.replot({clear: true, resetAxes:true});
      
         $('#chart2b').bind('jqplotDataHighlight', 
             function (ev, seriesIndex, pointIndex, data) {
@@ -332,6 +333,7 @@ function displayFilters(tx, results) {
 	sessionStorage.CurrentWhereQuery= sessionStorage.CurrentWhereQuery + andVar + unescape(filterResults.SQLWhere);
 	}
 	$('#filterList').listview('refresh');
+	//db.transaction(getSearchClinicCount,transaction_error);
 }
 
 function addFilters(tx) {
@@ -341,7 +343,17 @@ function addFilters(tx) {
 	sessionStorage.NewFilterDescr4=escape(sessionStorage.NewFilterDescr4);
 	tx.executeSql('DELETE FROM FILTERS WHERE SQLKey="'+sessionStorage.NewFilterSQLKey+'"');
 	tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES ("'+sessionStorage.NewFilterDescr1+'","'+sessionStorage.NewFilterDescr2+'","'+sessionStorage.NewFilterDescr3+'","'+sessionStorage.NewFilterDescr4+'","'+sessionStorage.NewFilterNum+'","'+sessionStorage.NewFilterSQLWhere+'","'+sessionStorage.NewFilterSQLKey+'")');
-	//alert('in addFilters');
+	alert('in addFilters');
+}
+
+function getSearchClinicCount(tx) {
+var sql = "SELECT COUNT(*) from IVF" + unescape(sessionStorage.CurrentWhereQuery);
+	//alert(sql);
+	tx.executeSql(sql, [], displayClinicCount);
+}
+
+function displayClinicCount(tx, results) {
+	alert('clinic count:'+results.rows.item(0));
 }
 
 // getSearchQuery using selected Filters
