@@ -68,14 +68,14 @@ function onDeviceReady() {
 // Initalize the Advanced search page
 // FIX - Move to initalize does this need event pagecreate?? Firing twice on startup?
 $( '#search-advanced' ).live( 'pagecreate',function(event){
-		//alert( 'pagecreate firing' );
-		//page to show current filters saved in DB
-		refreshFilters();
-		// Initalize Select Hides on advanced search page to create a dynamics
-		// $('span.span-fresh-nondonor-select').hide();
-		$('span.span-frozen-nondonor-select').hide();
-		$('span.span-donor-frozen-select').hide();
-		$('span.span-donor-fresh-select').hide();
+	    	//alert( 'search-advanced pagecreate firing' );
+			//page to show current filters saved in DB
+			//refreshFilters();
+			// Initalize Select Hides on advanced search page to create a dynamics
+			// $('span.span-fresh-nondonor-select').hide();
+			$('span.span-frozen-nondonor-select').hide();
+			$('span.span-donor-frozen-select').hide();
+			$('span.span-donor-fresh-select').hide();
 });
 
 // Save State Check Box Select
@@ -119,7 +119,7 @@ $("#State-Save").click(function () {
 $("#State-Select-All").click(function () {
 	options = $("#state-options input:checkbox");
 	options.prop("checked",true).checkboxradio("refresh");
-	//alert(options[0].name+':'+options[0].checked);
+	////alert(options[0].name+':'+options[0].checked);
 });
 
 // UNSelect All Check Boxes State Select
@@ -131,6 +131,7 @@ $("#State-Unselect-All").click(function () {
 // Submitting Filters
 $('#form_pregancy_success').submit(function() {
 	var parsedSubmit= parseDescriptions($(this).serializeArray());
+	//alert('pregnacy-submit: '+parsedSubmit[0][0]);
 	//console.log(parsedSubmit);
 		switch(parsedSubmit[0][0]) {
 	        case "Fresh-E-Nondonor":
@@ -154,7 +155,7 @@ $('#form_pregancy_success').submit(function() {
 				break;
 		    case "Donor-Frozen-E":
 			}
-	//return false;
+	return false;
 });
 
 //  Event change select pregnacy - Hide and show Age-of-Women selector
@@ -283,8 +284,12 @@ $('#clinic-display-graph').live('pageshow', function() {
 //*************************
 
 function refreshFilters(tx) {
-	//alert('firing refreshfilters');
-	db.transaction(queryFilters,transaction_error);
+	//if(event.handled !== true) {
+    	//alert('firing refreshfilters');
+		db.transaction(queryFilters,transaction_error);
+    //	event.handled = true;
+    //}
+    //return false;
 }
 
 function queryFilters(tx) {
@@ -302,7 +307,7 @@ function displayFilters(tx, results) {
 	sessionStorage.CurrentWhereQuery="";
 	var andVar="";
 	var len = results.rows.length;
-	alert("displayfilters firing... results.row.length:"+len);
+	//alert("displayfilters firing... results.row.length:"+len);
 	jQuery("#filterList > li").remove();
 	for (var i=0; i<len; i++) {
 	var filterResults = results.rows.item(i);
@@ -315,35 +320,29 @@ function displayFilters(tx, results) {
 	sessionStorage.CurrentWhereQuery= sessionStorage.CurrentWhereQuery + andVar + unescape(filterResults.SQLWhere);
 	}
 	$('#filterList').listview('refresh');
-	//updateCount(tx);
-	//db.transaction(getSearchClinicCount,transaction_error);
-
-}
-
-function updateCount(tx) {
 	db.transaction(getSearchClinicCount,transaction_error);
 }
 
-
 function addFilters(tx) {
+	//alert('in addFilters');
 	// encode sql statements
 	sessionStorage.NewFilterSQLWhere=escape(sessionStorage.NewFilterSQLWhere);
 	sessionStorage.NewFilterSQLKey=escape(sessionStorage.NewFilterSQLKey);
 	sessionStorage.NewFilterDescr4=escape(sessionStorage.NewFilterDescr4);
 	tx.executeSql('DELETE FROM FILTERS WHERE SQLKey="'+sessionStorage.NewFilterSQLKey+'"');
 	tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES ("'+sessionStorage.NewFilterDescr1+'","'+sessionStorage.NewFilterDescr2+'","'+sessionStorage.NewFilterDescr3+'","'+sessionStorage.NewFilterDescr4+'","'+sessionStorage.NewFilterNum+'","'+sessionStorage.NewFilterSQLWhere+'","'+sessionStorage.NewFilterSQLKey+'")');
-	//alert('in addFilters');
 }
 
-//function getSearchClinicCount(tx) {
-//	var sql = "SELECT COUNT(*) from IVF "; // + unescape(sessionStorage.CurrentWhereQuery);
+function getSearchClinicCount(tx) {
+	var sql = "SELECT COUNT(*) from IVF "+ unescape(sessionStorage.CurrentWhereQuery);
 	//alert(sql);
-//	tx.executeSql(sql, [], displayClinicCount);
-//}
+   	tx.executeSql(sql, [], displayClinicCount);
+}
 
-//function displayClinicCount(tx, results) {
-//	alert('clinic count:'+result.rows.item(0)["count(*)"]);
-//}
+function displayClinicCount(tx, results) {
+	//alert('clinic count:'+results.rows.item(0)["COUNT(*)"]);
+	$('#countText').text(results.rows.item(0)["COUNT(*)"]+' Clinics Selected');
+}
 
 // getSearchQuery using selected Filters
 function getSearchQuery(tx) {
@@ -397,7 +396,7 @@ function populateDB(tx) {
 	//  Create Filter Data  ** note ROWID autoinc automaticly
 	    tx.executeSql('DROP TABLE IF EXISTS FILTERS');
 	    tx.executeSql('CREATE TABLE IF NOT EXISTS FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey)');
-	    //tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES("State Selection","","All States","",0,"","ClinStateCode IN")');	    
+	    tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES("State(s) ","0 of 49 selected","NO States- must select 1+","",0,"ClinStateCode%20IN%20%28%29","ClinStateCode%20IN")');	    
 	//  Load Clinic data	
 	    tx.executeSql('DROP TABLE IF EXISTS IVF');
 	    tx.executeSql('CREATE TABLE IF NOT EXISTS IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll, FshNDLvBirthsRate1, FshNDLvBirthsRate2, FshNDLvBirthsRate3, FshNDLvBirthsRate4, FshNDLvBirthsRate5)');
