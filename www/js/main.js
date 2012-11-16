@@ -302,7 +302,7 @@ function displayFilters(tx, results) {
 	sessionStorage.CurrentWhereQuery="";
 	var andVar="";
 	var len = results.rows.length;
-	//alert("results.row.length:"+len);
+	alert("displayfilters firing... results.row.length:"+len);
 	jQuery("#filterList > li").remove();
 	for (var i=0; i<len; i++) {
 	var filterResults = results.rows.item(i);
