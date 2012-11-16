@@ -3,7 +3,7 @@
 //************************
 // Initalize Variables
 //*************************
-
+console.trace();
 var db;
 var dbCreated = false;
 // NewFilter x hold new filters to be written to DB
@@ -232,7 +232,7 @@ $('#clinic-display').live('pageshow', function() {
 });
 
 $('#clinic-display-graph').live('pageshow', function() {
-	$.jqplot.config.enablePlugins = true;
+	// $.jqplot.config.enablePlugins = true;
     plot2b = $.jqplot('chart2b', [
      		[[7,'Tubal factor'], [7,'Ovulatory dysfunction'], [15,'Diminished ovarian reserve'],[4,'Endometriosis'],[1,'Uterine factor'],[17,'Male factor'],[7,'Other factor'],[12,'Unknown'],[11,'Multi Factors:Female Only'],[18,'Multi Factors:Female & Male']],
      		[[16,'Tubal factor'], [11,'Ovulatory dysfunction'], [23,'Diminished ovarian reserve'],[4,'Endometriosis'],[0,'Uterine factor'],[12,'Male factor'],[1,'Other factor'],[9,'Unknown'],[7,'Multi Factors:Female Only'],[18,'Multi Factors:Female & Male']]
