@@ -224,12 +224,133 @@
 					</div>
 					<div data-role="collapsible" data-inset="false">	
 					<h3>ART Cycle Profile</h3>
+						<form id=form_pregancy_success>							
+							<select name="select-pregnacy-success-category" id="select-pregnacy-success-category" data-mini="true">
+								<option value="With ICSI">Procedure - With ICSI</option>
+								<option value="Unstimulated">Procedure - Unstimulated</option>
+								<option value="Used gestational carrier">Procedure - Used gestational carrier</option>
+								<option value="Used PGD">Procedure - Used PGD</option>
+								<option value="With eSET">Procedure - With eSet</option>
+								<option value="Tubal factor">Diagnosis - Tubal factor</option>
+								<option value="">Diagnosis - Ovulatory dysfunction</option>
+								<option value="">Diagnosis - Diminished ovarian reserve</option>
+								<option value="">Diagnosis - Endometriosis</option>
+								<option value="">Diagnosis - Uterine Factor</option>
+								<option value="">Diagnosis - Male Factor</option>
+								<option value="">Diagnosis - Other factor</option>
+								<option value="">Diagnosis - Unknown factor</option>
+								<option value="">Diagnosis - Multi factor: female</option>
+								<option value="">Diagnosis - Multi: female & male</option>
+								<option value="">Type of Art - IVF</option>
+								<option value="">Type of Art - GIFT</option>
+								<option value="">Type of Art - ZIFT</option>
+								<option value="">Type of Art - Combination</option>
+
+							</select>
+							<div style="line-height:30%"><br></br></div>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+								 	<select name="switch-gt-lt" id="switch-gt-lt" data-mini="true">
+								 		<option value="greater than~>">greater than</option>
+										<option value="less than~<">less than</option>
+										<option value="equal~=">equal</option>
+										<option value="less than or equal~<=">less than or equal</option>
+										<option value="greater than or equal~>=">greater than or equal</option>
+									</select>
+								</div>
+								<div class="ui-block-b">
+									<input type="number" name="name" id="basic" value="0" data-mini="true" />
+								</div>
+							</div><!-- /grid-a -->
+							<div id="submitARTCycleProf" data-role="fieldcontain">  
+						  		<input type="submit" value="Save Filter" data-mini="true" data-icon="check" data-theme="b"/>
+						    </div>
+						</form>	
 					</div>
 					<div data-role="collapsible" data-inset="false">	
 					<h3>Clinic Services and Profile</h3>
-					</div>
-				</div>
-			
+						<form>
+							<div id="submitClinicServiceProf" data-role="fieldcontain">  
+						  		<input type="submit" value="Save Filter(s)" data-mini="true" data-icon="check" data-theme="b"/>
+						    </div>
+							<li  class="radio list" data-role="fieldcontain">
+					   			<fieldset data-role="controlgroup" data-type="horizontal">
+				     			<legend>Donor egg?</legend>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-c" data-mini="true"  value="All" checked="checked" />
+				         		<label for="radio-choice-c">All</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-d" data-mini="true"  value="Yes" />
+				         		<label for="radio-choice-d">Yes</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-e" data-mini="true"  value="No" />
+				         		<label for="radio-choice-e">No</label>
+				   				</fieldset>
+							</li>
+							<li  class="radio list" data-role="fieldcontain">
+					   			<fieldset data-role="controlgroup" data-type="horizontal">
+				     			<legend>Donor embryo?</legend>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-c" data-mini="true"  value="All" checked="checked" />
+				         		<label for="radio-choice-c">All</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-d" data-mini="true"  value="Yes" />
+				         		<label for="radio-choice-d">Yes</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-e" data-mini="true"  value="No" />
+				         		<label for="radio-choice-e">No</label>
+				   				</fieldset>
+							</li>
+							<li  class="radio list" data-role="fieldcontain">
+					   			<fieldset data-role="controlgroup" data-type="horizontal">
+				     			<legend>Single women?</legend>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-c" data-mini="true"  value="All" checked="checked" />
+				         		<label for="radio-choice-c">All</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-d" data-mini="true"  value="Yes" />
+				         		<label for="radio-choice-d">Yes</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-e" data-mini="true"  value="No" />
+				         		<label for="radio-choice-e">No</label>
+				   				</fieldset>
+							</li>
+							<li  class="radio list" data-role="fieldcontain">
+					   			<fieldset data-role="controlgroup" data-type="horizontal">
+				     			<legend>Gestational Carriers?</legend>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-c" data-mini="true"  value="All" checked="checked" />
+				         		<label for="radio-choice-c">All</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-d" data-mini="true"  value="Yes" />
+				         		<label for="radio-choice-d">Yes</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-e" data-mini="true"  value="No" />
+				         		<label for="radio-choice-e">No</label>
+				   				</fieldset>
+							</li>
+							<li  class="radio list" data-role="fieldcontain">
+					   			<fieldset data-role="controlgroup" data-type="horizontal">
+				     			<legend>Cryopreservation?</legend>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-c" data-mini="true"  value="All" checked="checked" />
+				         		<label for="radio-choice-c">All</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-d" data-mini="true"  value="Yes" />
+				         		<label for="radio-choice-d">Yes</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-e" data-mini="true"  value="No" />
+				         		<label for="radio-choice-e">No</label>
+				   				</fieldset>
+							</li>
+							<li  class="radio list" data-role="fieldcontain">
+					   			<fieldset data-role="controlgroup" data-type="horizontal">
+				     			<legend>SART Member?</legend>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-c" data-mini="true"  value="All" checked="checked" />
+				         		<label for="radio-choice-c">All</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-d" data-mini="true"  value="Yes" />
+				         		<label for="radio-choice-d">Yes</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-e" data-mini="true"  value="No" />
+				         		<label for="radio-choice-e">No</label>
+				   				</fieldset>
+							</li>
+							<li  class="radio list"  data-role="fieldcontain">
+					   			<fieldset data-role="controlgroup" data-type="horizontal">
+				     			<legend>Verified lab accreditation?</legend>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-c" data-mini="true"  value="All" checked="checked" />
+				         		<label for="radio-choice-c">All</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-d" data-mini="true"  value="Yes" />
+				         		<label for="radio-choice-d">Yes</label>
+				         		<input type="radio" name="radio-choice-b" id="radio-choice-e" data-mini="true"  value="No" />
+				         		<label for="radio-choice-e">No</label>
+				   				</fieldset>
+							</li>
+						</form>
 			<h4>Current Search Filters:</h4>
 			<ul id="filterList" data-role="listview" data-inset="true" data-icon="delete">
 				<!-- main.js loads on filter add button -->
