@@ -3,9 +3,9 @@
 //************************
 // Initalize Variables
 //*************************
-console.trace();
+//console.trace();
 var db;
-var dbCreated = false;
+//sessionStorage.dbCreated = false;
 // NewFilter x hold new filters to be written to DB
 sessionStorage.NewFilterDescr1="";
 sessionStorage.NewFilterDescr2="";
@@ -50,9 +50,12 @@ function onDeviceReady() {
 	    }
 	    return;
 	} 
-	if (dbCreated==false) {
+	if (sessionStorage.dbCreated!="true") {
     	//alert("dbCreated false call pop db");
-		db.transaction(populateDB, transaction_error);
+		db.transaction(populateDB, transaction_error,refreshFilters);
+	}
+	else {
+		db.transaction(refreshFilters, transaction_error);
 	}
 }
 
@@ -93,26 +96,27 @@ $("#State-Save").click(function () {
 	}
 	//alert(tempStates.replace(/"/g,''));
 	if (tempStateCount==0) {
-		alert('You must select atleast one state');
+		alert('You have not selected any states');
+		sessionStorage.NewFilterSQLWhere='ClinStateCode IN ()';
+		sessionStorage.NewFilterDescr2="No States selected"
+		sessionStorage.NewFilterDescr3="0 of 49 selected";
+	}
+	else if	(tempStateCount==49) {  // Select all states
+		sessionStorage.NewFilterSQLWhere='1=1';
+		sessionStorage.NewFilterDescr3="All States";
 	}
 	else {
-		if (tempStateCount==49) {  // Select all states
-			sessionStorage.NewFilterSQLWhere='1=1';
-			sessionStorage.NewFilterDescr3="All States";
-		}
-		else {
-			tempStates=tempStates.replace(/,+$/, '');
-			sessionStorage.NewFilterSQLWhere='ClinStateCode IN ('+tempStates+')';
-			sessionStorage.NewFilterDescr3=tempStates.replace(/"/g,'');
-		}
-		sessionStorage.NewFilterSQLKey='ClinStateCode IN';
-		sessionStorage.NewFilterDescr1="State(s) ";
-		sessionStorage.NewFilterDescr2=tempStateCount+' of 49 selected';
-		sessionStorage.NewFilterDescr4="";
-		sessionStorage.NewFilterNum="";
-		//alert("SQL:"+sessionStorage.NewFilterSQLWhere);
-		db.transaction(addFilters,transaction_error, refreshFilters);
+		tempStates=tempStates.replace(/,+$/, '');
+		sessionStorage.NewFilterSQLWhere='ClinStateCode IN ('+tempStates+')';
+		sessionStorage.NewFilterDescr3=tempStates.replace(/"/g,'');
 	}
+	sessionStorage.NewFilterSQLKey='ClinStateCode IN';
+	sessionStorage.NewFilterDescr1="State(s) ";
+	sessionStorage.NewFilterDescr2=tempStateCount+' of 49 selected';
+	sessionStorage.NewFilterDescr4="";
+	sessionStorage.NewFilterNum="";
+	//alert("SQL:"+sessionStorage.NewFilterSQLWhere);
+	db.transaction(addFilters,transaction_error, refreshFilters);
 });
 
 // Select All Check Boxes State Select
@@ -393,13 +397,13 @@ function transaction_error(tx, error) {
 
 function populateDB(tx) {
 	//alert("populateDB called");
-		dbCreated = true;
+		sessionStorage.dbCreated = true;
 	//  Create Filter Data  ** note ROWID autoinc automaticly
-	    tx.executeSql('DROP TABLE IF EXISTS FILTERS');
-	    tx.executeSql('CREATE TABLE IF NOT EXISTS FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey)');
-	    tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES("State(s) ","0 of 49 selected","NO States- must select 1+","",0,"ClinStateCode%20IN%20%28%29","ClinStateCode%20IN")');	    
+		tx.executeSql('DROP TABLE IF EXISTS FILTERS');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey)');
+		tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES("State(s) ","0 of 49 selected","NO States selected","","","ClinStateCode%20IN%20%28%29","ClinStateCode%20IN")');	     
 	//  Load Clinic data	
-	    tx.executeSql('DROP TABLE IF EXISTS IVF');
+		tx.executeSql('DROP TABLE IF EXISTS IVF');
 	    tx.executeSql('CREATE TABLE IF NOT EXISTS IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll, FshNDLvBirthsRate1, FshNDLvBirthsRate2, FshNDLvBirthsRate3, FshNDLvBirthsRate4, FshNDLvBirthsRate5)');
 		tx.executeSql('INSERT INTO IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll,FshNDLvBirthsRate1, FshNDLvBirthsRate2, FshNDLvBirthsRate3, FshNDLvBirthsRate4, FshNDLvBirthsRate5) VALUES (1,"ALABAMA","BIRMINGHAM","Alabama Fertility Specialists",28.6,25,16.7,0,0)');
 		tx.executeSql('INSERT INTO IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll,FshNDLvBirthsRate1, FshNDLvBirthsRate2, FshNDLvBirthsRate3, FshNDLvBirthsRate4, FshNDLvBirthsRate5) VALUES (2,"ALABAMA","BIRMINGHAM","ART Fertility Program of Alabama",32.7,39.3,12.5,0,0)');
