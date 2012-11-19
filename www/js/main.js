@@ -39,6 +39,9 @@ function onDeviceReady() {
 			// Note var db at head of code
 	        db = window.openDatabase(shortName, version, displayName, maxSize);
 			//alert(db); // You should have a database instance in db.
+
+			//UNCOMMENT 1 Lines below to refresh DB ... not successfully tested..
+			//sessionStorage.dbCreated="false";
 	    }
 	} catch(e) {
 	    // Error handling code goes here.
