@@ -27,6 +27,22 @@ sessionStorage.SelectQuery="";
 document.addEventListener("deviceready", onDeviceReady, false);
 onDeviceReady();  // comment to run on phonegap mobile, uncoment to run on web... to be verified
 
+
+//**************
+$(window).resize(resizeAction);
+
+function resizeAction() {
+	var viewportWidth = $(window).width();
+	var viewportHeight = $(window).height();
+	//alert("viewport size:"+viewportWidth+" x "+viewportHeight);
+	$('#chart2b').width(viewportWidth-8);
+	//$('#chart2b').height(viewportHeight-100);
+}
+resizeAction();
+
+
+//***************
+
 function onDeviceReady() {
 	try {
 	    if (!window.openDatabase) {
