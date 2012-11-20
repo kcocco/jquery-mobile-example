@@ -1,0 +1,30 @@
+<option value="% of cycles resulting in live births~FshNDLvBirthsRate">% of cycles resulting in live births</option>
+
+<option value="% of transfers resulting in singleton live births~FshNDSnglLB_Trans">% of transfers resulting in singleton live births</option>
+FshNDSnglLB_TransRate1, FshNDSnglLB_TransRate2, FshNDSnglLB_TransRate3, FshNDSnglLB_TransRate4, FshNDSnglLB_TransRate5
+
+{{jsonize(cells["FshNDSnglLB_TransRate1"].value)}},{{jsonize(cells["FshNDSnglLB_TransRate2"].value)}},{{jsonize(cells["FshNDSnglLB_TransRate3"].value)}},{{jsonize(cells["FshNDSnglLB_TransRate4"].value)}},{{jsonize(cells["FshNDSnglLB_TransRate5"].value)}})');
+
+<option value="Number of cycles~FshNDCycle">Number of cycles</option>
+FshNDCycle1, FshNDCycle2, FshNDCycle3, FshNDCycle4, FshNDCycle5
+
+{{jsonize(cells["FshNDCycle1"].value)}},{{jsonize(cells["FshNDCycle2"].value)}},{{jsonize(cells["FshNDCycle3"].value)}},{{jsonize(cells["FshNDCycle4"].value)}},{{jsonize(cells["FshNDCycle5"].value)}})');
+
+<option value="% of embryos transferred resulting in implantation~FshNDImplant">% of embryos transferred resulting in implantation</option>
+
+
+<option value="% of cycles resulting in pregnancies~FshNDPregRate">% of cycles resulting in pregnancies</option>
+
+<option value="% of retrievals resulting in live births~FshNDRetsRate">% of retrievals resulting in live births</option>
+
+<option value="% of transfers resulting in live births~FshNDTransRate">% of transfers resulting in live births</option>
+
+<option value="% of cancellations~FshNDCansRate">% of cancellations</option>
+
+<option value="Average number of embryos transferred~FshNDEmbryosRate">Average number of embryos transferred</option>
+
+<option value="% of Percentage of pregnancies with twins~FshNDTwinPregsRate">% of Percentage of pregnancies with twins</option>
+
+<option value="% of pregnancies with triplets or more~FshNDTripPregsRate">% of pregnancies with triplets or more</option>
+
+<option value="% of live births having multiple infants~FshNDMultInfsRate">% of live births having multiple infants</option>
