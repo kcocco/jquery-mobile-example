@@ -29,16 +29,33 @@ onDeviceReady();  // comment to run on phonegap mobile, uncoment to run on web..
 
 
 //**************
-$(window).resize(resizeAction);
-
-function resizeAction() {
+function setsize() {
 	var viewportWidth = $(window).width();
 	var viewportHeight = $(window).height();
+	$('#chart2b').width(viewportWidth-9);
+	if (viewportHeight>617) {
+		$('#chart2b').height(viewportHeight-117);
+	}
+	else {
+		$('#chart2b').height(500);
+	}
 	//alert("viewport size:"+viewportWidth+" x "+viewportHeight);
-	$('#chart2b').width(viewportWidth-8);
-	//$('#chart2b').height(viewportHeight-100);
 }
-resizeAction();
+
+function resizeAction() {
+	setsize();
+	$('#chart2b').empty();
+	setTimeout(function() {                                    
+       plot2b.replot({resetAxes:true});
+    }, 200);
+}
+
+$(window).resize(resizeAction);
+
+setsize();
+
+
+
 
 
 //***************
