@@ -28,7 +28,11 @@ document.addEventListener("deviceready", onDeviceReady, false);
 onDeviceReady();  // comment to run on phonegap mobile, uncoment to run on web... to be verified
 
 
-//**************
+
+
+
+
+//***************
 function setsize() {
 	var viewportWidth = $(window).width();
 	var viewportHeight = $(window).height();
@@ -37,6 +41,7 @@ function setsize() {
 		$('#chart2b').height(viewportHeight-117);
 	}
 	else {
+
 		$('#chart2b').height(500);
 	}
 	//alert("viewport size:"+viewportWidth+" x "+viewportHeight);
@@ -50,15 +55,6 @@ function resizeAction() {
     }, 200);
 }
 
-$(window).resize(resizeAction);
-
-setsize();
-
-
-
-
-
-//***************
 
 function onDeviceReady() {
 	try {
@@ -273,12 +269,15 @@ $('#clinic-display').live('pageshow', function() {
 
 $('#clinic-display-graph').live('pageshow', function() {
 	// $.jqplot.config.enablePlugins = true;
+	// initalize the graph size
+	setsize();
+	$('#chart2b').empty();
     plot2b = $.jqplot('chart2b', [
      		[[7,'Tubal factor'], [7,'Ovulatory dysfunction'], [15,'Diminished ovarian reserve'],[4,'Endometriosis'],[1,'Uterine factor'],[17,'Male factor'],[7,'Other factor'],[12,'Unknown'],[11,'Multi Factors:Female Only'],[18,'Multi Factors:Female & Male']],
      		[[16,'Tubal factor'], [11,'Ovulatory dysfunction'], [23,'Diminished ovarian reserve'],[4,'Endometriosis'],[0,'Uterine factor'],[12,'Male factor'],[1,'Other factor'],[9,'Unknown'],[7,'Multi Factors:Female Only'],[18,'Multi Factors:Female & Male']]
  		],{
 	     	title: {
-	     		text:'Patient Diagnosis',
+	     		text:'Patient Diagnosis %',
 	     		textAlign:'left'
 	     	},
 	        seriesDefaults: {
@@ -311,7 +310,9 @@ $('#clinic-display-graph').live('pageshow', function() {
 		        //marginBottom:
 		        //marginLeft:
 		    }
-		});   	
+		}); 
+	// Resize graph size on screen change / change rotation
+	$(window).resize(resizeAction);  	
 });
 
 
@@ -413,20 +414,24 @@ function getClinicDetail(tx) {
 	tx.executeSql(sql, [], displayClinicDetail);
 }
 
+
 //  Display Query results of filter query to compare page
 function displayClinicDetail(tx, results) {
-	jQuery("#clinicDisplayList > li").remove();
+	$('#clinicDisplayList').empty();
 	var IVFresults = results.rows.item(0);
-	$('#clinicDisplayList').append('<li><a href="" >'+
-			'<h1>' + IVFresults.CurrClinNameAll + '</h1>' +
-			'<p>' + IVFresults.ClinCityCode + ', ' +IVFresults.ClinStateCode +'<p>'+
-			'</a></li>');
-	$('#clinicDisplayList').append('<li><a href="" >'+
-			'<h1> Fresh Embryos From NonDonor Eggs - Age of Women <35</h1>' +
-			'<h1> % of cycles resulting in live births: <bold>' + IVFresults.FshNDLvBirthsRate1 + '%</bold></h1>'+
-			'</a></li>');
-	$('#clinicDisplayList').listview('refresh');
+	
+	$('#clinicDisplayList').append(
+			'<h3>' + IVFresults.CurrClinNameAll + '</h3>' +
+			'<p>' + IVFresults.ClinCityCode + ', ' +IVFresults.ClinStateCode +'</p>'
+			);
+	$('#clinicDisplayList').append(
+			'<h4> Fresh Embryos From NonDonor Eggs - Age of Women <35</h4>' +
+			'<p> % of cycles resulting in live births: <bold>' + IVFresults.FshNDLvBirthsRate1 + '%</bold></p>'
+			);
+	//$('#clinicDisplayList').listview('refresh');
 }
+
+
 
 function transaction_error(tx, error) {
     alert("Database Error: " + error);
