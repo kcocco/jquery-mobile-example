@@ -128,7 +128,7 @@ $("#State-Save").click(function () {
 	}
 	//alert(tempStates.replace(/"/g,''));
 	if (tempStateCount==0) {
-		alert('You have not selected any states');
+		//alert('You have not selected any states');
 		sessionStorage.NewFilterSQLWhere='ClinStateCode IN ()';
 		sessionStorage.NewFilterDescr2="No States selected"
 		sessionStorage.NewFilterDescr3="0 of 49 selected";
@@ -261,7 +261,9 @@ $('#search-display').live('pageshow', function() {
 
 $('#clinic-display').live('pageshow', function() {
     if(event.handled !== true) {
-	    db.transaction(getClinicDetail, transaction_error);
+	    if (sessionStorage.SelectQuery !== "") {  
+	       	db.transaction(getClinicDetail, transaction_error);
+		}	
 	    event.handled = true;
     }
     return false;
@@ -396,38 +398,52 @@ function getSearchQuery(tx) {
 
 //  Display Query results of filter query to compare page
 function displaySearchResults(tx, results) {
-	jQuery("#searchDisplayList > li").remove();
+	$('#searchDisplayList').empty();
 	var len = results.rows.length;
-	for (var i=0; i<len; i++) {
-    	var IVFresults = results.rows.item(i);
-		$('#searchDisplayList').append('<li><a href="#clinic-display" onClick="sessionStorage.rowid='+IVFresults.rowid+'">'+
-			'<h1><bold>'+(i+1)+'.</bold> ' + IVFresults.CurrClinNameAll + '</h1>' +
-			'<p>' + IVFresults.ClinCityCode + ', ' +IVFresults.ClinStateCode +'<p>'+
-			'<span class="ui-li-count">' + IVFresults.FshNDLvBirthsRate1 + '</span></a></li>');
-    	}
-	$('#searchDisplayList').listview('refresh');
+	if (len == 0){  // No results
+		$('#searchDisplayList').append('<h1> No clinics selected.  Please add <a href="#search-advanced">Search</a> filters to select clinics for comparision. </h1>');
+	}
+	else { 
+		for (var i=0; i<len; i++) {
+	    	var IVFresults = results.rows.item(i);
+			$('#searchDisplayList').append('<li><a href="#clinic-display" onClick="sessionStorage.rowid='+IVFresults.rowid+'">'+
+				'<h1><bold>'+(i+1)+'.</bold> ' + IVFresults.CurrClinNameAll + '</h1>' +
+				'<p>' + IVFresults.ClinCityCode + ', ' +IVFresults.ClinStateCode +'<p>'+
+				'<span class="ui-li-count">' + IVFresults.FshNDLvBirthsRate1 + '</span></a></li>');
+	    	}
+		$('#searchDisplayList').listview('refresh');
+	}
 }
 
 function getClinicDetail(tx) {
 	//alert("getClinics");
-	var sql = "SELECT * FROM IVF WHERE rowid="+sessionStorage.rowid;
-	tx.executeSql(sql, [], displayClinicDetail);
+	if (sessionStorage.rowid !=="") {
+		var sql = "SELECT * FROM IVF WHERE rowid="+sessionStorage.rowid;
+		tx.executeSql(sql, [], displayClinicDetail);
+	}
+	else {
+		displayClinicDetail(tx,0);	
+	}
 }
 
 //  Display Query results of filter query to compare page
 function displayClinicDetail(tx, results) {
 	$('#clinicDisplayList').empty();
 	var IVFresults = results.rows.item(0);
-	
-	$('#clinicDisplayList').append(
-			'<h3>' + IVFresults.CurrClinNameAll + '</h3>' +
-			'<p>' + IVFresults.ClinCityCode + ', ' +IVFresults.ClinStateCode +'</p>'
-			);
-	$('#clinicDisplayList').append(
-			'<h4> Fresh Embryos From NonDonor Eggs - Age of Women <35</h4>' +
-			'<p> % of cycles resulting in live births: <bold>' + IVFresults.FshNDLvBirthsRate1 + '%</bold></p>'
-			);
-	//$('#clinicDisplayList').listview('refresh');
+	if (results == 0) {
+		$('#clinicDisplayList').append('<h1> No clinics selected yet.  Please <a href="#search-advanced">Search</a> and then select a clinic to see details. </h1>');
+	}
+	else { 
+		$('#clinicDisplayList').append(
+				'<h3>' + IVFresults.CurrClinNameAll + '</h3>' +
+				'<p>' + IVFresults.ClinCityCode + ', ' +IVFresults.ClinStateCode +'</p>'
+				);
+		$('#clinicDisplayList').append(
+				'<h4> Fresh Embryos From NonDonor Eggs - Age of Women <35</h4>' +
+				'<p> % of cycles resulting in live births: <bold>' + IVFresults.FshNDLvBirthsRate1 + '%</bold></p>'
+				);
+		//$('#clinicDisplayList').listview('refresh');
+	}
 }
 
 function transaction_error(tx, error) {
