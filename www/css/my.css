@@ -1,5 +1,27 @@
 /** Custom CSS begin **/
 
+/** Custom ICONs **/
+.ui-icon-delete-red {
+  background-image: url("../images/delete_16.png");
+}
+
+.ui-icon-add-green {
+  background-image: url("../images/add_16.png");
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+ .ui-icon-delete-red {
+    background-image: url("../images/delete_32.png");
+    background-size: 18px 18px;
+  }
+  .ui-icon-add-green {
+  background-image: url("../images/add_32.png");
+  background-size: 18px 18px;
+  }
+  
+}
+
+
 /** Make Switch for sac desc sql wider **/
 .switch-orderby .ui-slider-switch { width: 50em }
 .ui-field-contain div.ui-slider-switch { width: 9em }

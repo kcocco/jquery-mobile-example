@@ -353,7 +353,7 @@ function displayFilters(tx, results) {
 	jQuery("#filterList > li").remove();
 	for (var i=0; i<len; i++) {
 	var filterResults = results.rows.item(i);
-	$('#filterList').append('<li data-icon="delete"><a href="#search-advanced" class="filterDelete" onClick="sessionStorage.filterDeleteRow='+filterResults.rowid+'" ><p><strong>'+ filterResults.Descr1 +' </strong> '+ filterResults.Descr2 +'</p><p>'+ filterResults.Descr3 +' <strong>'+unescape(filterResults.Descr4) +'</strong> '+ filterResults.Num +'</p></a></li>');
+	$('#filterList').append('<li data-icon="delete-red"><a href="#search-advanced" class="filterDelete" onClick="sessionStorage.filterDeleteRow='+filterResults.rowid+'" ><p><strong>'+ filterResults.Descr1 +' </strong> '+ filterResults.Descr2 +'</p><p>'+ filterResults.Descr3 +' <strong>'+unescape(filterResults.Descr4) +'</strong> '+ filterResults.Num +'</p></a></li>');
 	if (i==0) {
 		andVar=" WHERE "}
 	else {

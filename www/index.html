@@ -25,8 +25,8 @@
 				<a href="#search-display" data-icon="arrow-r" class="ui-btn-right" data-iconpos="right" data-theme="b">See Results</a>
             </div>
             <div data-role="content">
-				<div data-role="collapsible-set" data-inset="false">
-					<div id="state-accordionSet" data-role="collapsible" data-inset="false">	
+				<div data-role="collapsible-set" data-inset="false" >
+					<div id="state-accordionSet" data-role="collapsible" data-inset="false" >	
 					<h3>Select State(s)</h3>
 						<div  data-role="fieldcontain">
 							<div class="ui-grid-b">
@@ -37,7 +37,7 @@
 									<input type="submit" id="State-Unselect-All" value="Unselect All" data-mini="true" />
 								</div>
 								<div class="ui-block-c">
-									<input type="submit" id="State-Save" value="Save" data-mini="true" data-icon="check" data-theme="b"/>
+									<input type="submit" id="State-Save" value="Save" data-mini="true" data-icon="add-green" data-theme="b"/>
 								</div>
 							</div>
 						 	<fieldset id="state-options">
@@ -145,6 +145,9 @@
 					<div id="accordionSet" data-role="collapsible" data-inset="false">
 					<h3>Pregnancy Success Rates</h3>
 						<form id=form_pregancy_success>							
+							<div id="submitDiv" data-role="fieldcontain">  
+						  		<input type="submit" value="Save Filter" data-mini="true" data-icon="add-green" data-theme="b"/>
+						    </div>
 							<select name="select-pregnacy-success-category" id="select-pregnacy-success-category" data-mini="true">
 								<option value="Fresh-E-Nondonor">Fresh Embryos From Nondonor Eggs</option>
 								<option value="Frozen-E-Nondonor">Frozen Embryos From Nondonor Eggs</option>
@@ -217,14 +220,14 @@
 									<input type="number" name="name" id="basic" value="0" data-mini="true" />
 								</div>
 							</div><!-- /grid-a -->
-							<div id="submitDiv" data-role="fieldcontain">  
-						  		<input type="submit" value="Save Filter" data-mini="true" data-icon="check" data-theme="b"/>
-						    </div>
 						</form>	
 					</div>
 					<div data-role="collapsible" data-inset="false">	
 					<h3>ART Cycle Profile</h3>
 						<form id=form_pregancy_success>							
+							<div id="submitARTCycleProf" data-role="fieldcontain">  
+						  		<input type="submit" value="Save Filter" data-mini="true" data-icon="add-green" data-theme="b"/>
+						    </div>
 							<select name="select-pregnacy-success-category" id="select-pregnacy-success-category" data-mini="true">
 								<option value="With ICSI">Procedure - With ICSI</option>
 								<option value="Unstimulated">Procedure - Unstimulated</option>
@@ -262,16 +265,13 @@
 									<input type="number" name="name" id="basic" value="0" data-mini="true" />
 								</div>
 							</div><!-- /grid-a -->
-							<div id="submitARTCycleProf" data-role="fieldcontain">  
-						  		<input type="submit" value="Save Filter" data-mini="true" data-icon="check" data-theme="b"/>
-						    </div>
 						</form>	
 					</div>
 					<div data-role="collapsible" data-inset="false">	
 					<h3>Clinic Services and Profile</h3>	
 						<form>
 							<div id="submitClinicServiceProf" data-role="fieldcontain">  
-						  		<input type="submit" value="Save Filter(s)" data-mini="true" data-icon="check" data-theme="b"/>
+						  		<input type="submit" value="Save Filter(s)" data-mini="true" data-icon="add-green" data-theme="b"/>
 						    </div>
 							<li  class="radio list" data-role="fieldcontain">
 					   			<fieldset data-role="controlgroup" data-type="horizontal">
@@ -355,7 +355,7 @@
 					</div>
 				</div>
 			<h4>Current Search Filters:</h4>
-			<ul id="filterList" data-role="listview" data-inset="true" data-icon="delete">
+			<ul id="filterList" data-role="listview" data-inset="true">
 				<!-- main.js loads on filter add button -->
 			</ul>
 			</div>
@@ -448,9 +448,9 @@
 				</div>
 			</div><!-- /navbar -->
            	<div data-role="content">
-				<div data-role="content">
-					<ul id="clinicDisplayList" data-role="listview" data-filter="true"  data-inset="false">
-					</ul>
+				<div id="clinicDisplayList" data-role="content">
+					<!--<ul id="clinicDisplayList" data-role="listview" data-filter="true"  data-inset="false">
+					</ul> -->
 				</div>
 			</div>
 			<div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed">
