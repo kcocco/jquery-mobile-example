@@ -373,8 +373,8 @@
                             </a>
                         </li>
 						<li>
-                            <a href="#dictionary-page" data-icon="info">
-                                Dictionary
+                            <a href="#clinic-display-graph" data-icon="info">
+                                Detail
                             </a>
                         </li>
 						<li>
@@ -395,6 +395,64 @@
             </div>
            	<div data-role="content">
 				<div data-role="collapsible" data-inset="false">
+					<select name="select-pregnacy-success-category" id="select-pregnacy-success-category" data-mini="true">
+								<option value="Fresh-E-Nondonor">Fresh Embryos From Nondonor Eggs</option>
+								<option value="Frozen-E-Nondonor">Frozen Embryos From Nondonor Eggs</option>
+								<option value="Donor-Fresh-E">Donor Eggs-Fresh Embryos</option>
+								<option value="Donor-Frozen-E">Donor Eggs-Frozen Embryos</option>
+							</select>
+							<span class="span-age-of-women-select">
+								<div style="line-height:30%"><br></br></div>
+								<select name="age-of-women" id="age-of-women" data-mini="true">
+									<option value="Age of Women <35~1">Age of Women <35</option>
+									<option value="Age of Women 35-37~2">Age of Women 35-37</option>
+									<option value="Age of Women 38-40~3">Age of Women 38-40</option>
+									<option value="Age of Women 41-42~4">Age of Women 41-42</option>
+									<option value="Age of Women 43-44~5">Age of Women 43-44</option>
+								</select>
+							</span>
+							<span class="span-fresh-nondonor-select">
+								<div style="line-height:30%"><br></br></div>
+								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
+									<option value="% of cycles resulting in live births~FshNDLvBirthsRate">% of cycles resulting in live births</option>
+									<option value="% of transfers resulting in singleton live births~FshNDSnglLB_TransRate">% of transfers resulting in singleton live births</option>
+									<option value="Number of cycles~FshNDCycle">Number of cycles</option>
+									<option value="% of embryos transferred resulting in implantation~FshNDImplant">% of embryos transferred resulting in implantation</option>
+									<option value="% of cycles resulting in pregnancies~FshNDPregRate">% of cycles resulting in pregnancies</option>
+									<option value="% of retrievals resulting in live births~FshNDRetsRate">% of retrievals resulting in live births</option>
+									<option value="% of transfers resulting in live births~FshNDTransRate">% of transfers resulting in live births</option>
+									<option value="% of cancellations~FshNDCansRate">% of cancellations</option>
+									<option value="Average number of embryos transferred~FshNDEmbryosRate">Average number of embryos transferred</option>
+									<option value="% of Percentage of pregnancies with twins~FshNDTwinPregsRate">% of Percentage of pregnancies with twins</option>
+									<option value="% of pregnancies with triplets or more~FshNDTripPregsRate">% of pregnancies with triplets or more</option>
+									<option value="% of live births having multiple infants~FshNDMultInfsRate">% of live births having multiple infants</option>
+								</select>
+							</span>
+							<span class="span-frozen-nondonor-select">
+								<div style="line-height:30%"><br></br></div>
+								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
+									<option value="Number of transfers~ThwNDTransfers">Number of transfers</option>
+									<option value="% of transfers resulting in live birth(s)~ThwNDLvBirthsRate">% of transfers resulting in live birth(s)</option>
+									<option value="Average number of embryos transferred~ThwNDEmbryosRate">Average number of embryos transferred</option>
+								</select>
+							</span>
+							<span class="span-donor-fresh-select">
+								<div style="line-height:30%"><br></br></div>
+								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
+									<option value="Number of transfers~FshDnrTransfers">Number of transfers</option>
+									<option value="% of transfers resulting in live birth(s)~FshDnrLvBirthsRate">% of transfers resulting in live birth(s)</option>
+									<option value="Average number of embryos transferred~FshDnrEmbryosRate">Average number of embryos transferred</option>
+								</select>
+							</span>
+							<span class="span-donor-frozen-select">
+								<div style="line-height:30%"><br></br></div>
+								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
+									<option value="Number of transfers~ThwDnrTransfers">Number of transfers</option>
+									<option value="% of transfers resulting in live birth(s)~ThwDnrLvBirthsRate">% of transfers resulting in live birth(s)</option>
+									<option value="Average number of embryos transferred~ThwDnrEmbryosRate">Average number of embryos transferred</option>
+								</select>
+							</span>
+							
 					<h3>Sorting Options</h3>
 						<div data-role="fieldcontain">
 							<label for="order-switch">Select the sorting order:</label>
@@ -423,8 +481,8 @@
                             </a>
                         </li>
 						<li>
-                            <a href="#dictionary-page" data-icon="info">
-                                Dictionary
+                            <a href="#clinic-display-graph" data-icon="info">
+                                Detail
                             </a>
                         </li>
 						<li>
@@ -467,8 +525,8 @@
                             </a>
                         </li>
 						<li>
-                            <a href="#dictionary-page" data-icon="info">
-                                Dictionary
+                            <a href="#clinic-display-graph" data-icon="info">
+                                Detail
                             </a>
                         </li>
 						<li>
@@ -503,13 +561,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#compare-page" data-icon="grid" class="ui-btn-active ui-state-persist">
+                            <a href="#compare-page" data-icon="grid" >
                                 Compare
                             </a>
                         </li>
 						<li>
-                            <a href="#dictionary-page" data-icon="info">
-                                Dictionary
+                            <a href="#clinic-display-graph" data-icon="info" class="ui-btn-active ui-state-persist">
+                                Detail
                             </a>
                         </li>
 						<li>
@@ -530,7 +588,7 @@
 			<div data-role="content" data-theme="b">
 				<p>The IVF Success Rate App is an easy way to search and compare fertility clinics across the United States.</p>
 				<p>Advanced searching and filtering capabilities allow you to find the clinic that fit your IVF needs.  Compare clinics with state and national averages.</p>
-				<p>The data is from the Center for Disease Control and Prevention's Assisted Reproductive Technology (ART) report 2010.  The 2010 study is the latest report as of 11/1/2012 with the next annual report release expected late 2012, early 2013.'</p>
+				<p>The data is from the Center for Disease Control and Prevention's Assisted Reproductive Technology (ART) report 2010.  The 2010 study is the latest report as of 11/25/2012 with the next annual report release expected by early 2013.'</p>
 				<a href="docs-transitions.html" data-role="button" data-theme="b" data-rel="back">Return to app</a>   
 			</div>
 		</div>
