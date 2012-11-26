@@ -22,6 +22,9 @@ sessionStorage.CurrentWhereQuery="";
 sessionStorage.OrderByQuery="DESC";
 sessionStorage.SelectQuery="";
 
+//  Selected Clinic ROWID .. temp tesing
+//sessionStorage.rowid="";
+
 //var scroll = new iScroll('wrapper', { vScrollbar: false, hScrollbar:false, hScroll: false });
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -245,6 +248,7 @@ $('.filterDelete').live('click', function() {
 // Refresh search-display page
 //****FIX ME FIRES TWICE!!??? ******
 $('#search-display').live('pageshow', function() {
+	$('#searchDisplayList').empty();
     // Configure the Switch for order acs/desc
 	$('#order-switch').unbind('slidestop');
 	$('#order-switch').val(sessionStorage.OrderByQuery).slider("refresh");
@@ -261,10 +265,9 @@ $('#search-display').live('pageshow', function() {
 
 $('#clinic-display').live('pageshow', function() {
     if(event.handled !== true) {
-	    if (sessionStorage.SelectQuery !== "") {  
-	       	db.transaction(getClinicDetail, transaction_error);
-		}	
-	    event.handled = true;
+	    $('#clinicDisplayList').empty();
+	    db.transaction(getClinicDetail, transaction_error);
+		event.handled = true;
     }
     return false;
 });
@@ -398,7 +401,7 @@ function getSearchQuery(tx) {
 
 //  Display Query results of filter query to compare page
 function displaySearchResults(tx, results) {
-	$('#searchDisplayList').empty();
+	// moved to action $('#searchDisplayList').empty();
 	var len = results.rows.length;
 	if (len == 0){  // No results
 		$('#searchDisplayList').append('<h1> No clinics selected.  Please add <a href="#search-advanced">Search</a> filters to select clinics for comparision. </h1>');
@@ -428,12 +431,12 @@ function getClinicDetail(tx) {
 
 //  Display Query results of filter query to compare page
 function displayClinicDetail(tx, results) {
-	$('#clinicDisplayList').empty();
-	var IVFresults = results.rows.item(0);
+	// moved to action $('#clinicDisplayList').empty();
 	if (results == 0) {
 		$('#clinicDisplayList').append('<h1> No clinics selected yet.  Please <a href="#search-advanced">Search</a> and then select a clinic to see details. </h1>');
 	}
 	else { 
+		var IVFresults = results.rows.item(0);
 		$('#clinicDisplayList').append(
 				'<h3>' + IVFresults.CurrClinNameAll + '</h3>' +
 				'<p>' + IVFresults.ClinCityCode + ', ' +IVFresults.ClinStateCode +'</p>'
