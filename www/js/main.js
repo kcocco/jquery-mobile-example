@@ -133,8 +133,8 @@ $("#State-Save").click(function () {
 	if (tempStateCount==0) {
 		//alert('You have not selected any states');
 		sessionStorage.NewFilterSQLWhere='ClinStateCode IN ()';
-		sessionStorage.NewFilterDescr2="No States selected"
-		sessionStorage.NewFilterDescr3="0 of 49 selected";
+		sessionStorage.NewFilterDescr3="No States.  Select state above."
+		sessionStorage.NewFilterDescr2="0 of 49 selected";
 	}
 	else if	(tempStateCount==49) {  // Select all states
 		sessionStorage.NewFilterSQLWhere='1=1';
@@ -459,7 +459,7 @@ function populateDB(tx) {
 	//  Create Filter Data  ** note ROWID autoinc automaticly
 		tx.executeSql('DROP TABLE IF EXISTS FILTERS');
 		tx.executeSql('CREATE TABLE IF NOT EXISTS FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey)');
-		tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES("State(s) ","0 of 49 selected","NO States selected","","","ClinStateCode%20IN%20%28%29","ClinStateCode%20IN")');	     
+		tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES("State(s) ","0 of 49 selected","No States.  Select state above.","","","ClinStateCode%20IN%20%28%29","ClinStateCode%20IN")');	     
 	//  Load Clinic data	
 		tx.executeSql('DROP TABLE IF EXISTS IVF');
         tx.executeSql('CREATE TABLE IF NOT EXISTS IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll,FshNDLvBirthsRate1, FshNDLvBirthsRate2, FshNDLvBirthsRate3, FshNDLvBirthsRate4, FshNDLvBirthsRate5,FshNDSnglLB_TransRate1, FshNDSnglLB_TransRate2, FshNDSnglLB_TransRate3, FshNDSnglLB_TransRate4, FshNDSnglLB_TransRate5,FshNDCycle1, FshNDCycle2, FshNDCycle3, FshNDCycle4, FshNDCycle5,FshNDImplant1, FshNDImplant2, FshNDImplant3, FshNDImplant4, FshNDImplant5,FshNDPregRate1, FshNDPregRate2, FshNDPregRate3, FshNDPregRate4, FshNDPregRate5)');
