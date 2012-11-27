@@ -1,0 +1,97 @@
+[
+  {
+    "op": "core/column-rename",
+    "description": "Rename column FshNDRetsRate1 to org-FshNDRetsRate1",
+    "oldColumnName": "FshNDRetsRate1",
+    "newColumnName": "org-FshNDRetsRate1"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column FshNDRetsRate1 at index 41 based on column org-FshNDRetsRate1 using expression jython:if value.count('/'):\n    return round(float(value.split(\"/\")[0])/float(value.split(\"/\")[1])*100,1)\nelse: \n    return float(value)",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "newColumnName": "FshNDRetsRate1",
+    "columnInsertIndex": 41,
+    "baseColumnName": "org-FshNDRetsRate1",
+    "expression": "jython:if value.count('/'):\n    return round(float(value.split(\"/\")[0])/float(value.split(\"/\")[1])*100,1)\nelse: \n    return float(value)",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column FshNDRetsRate2 to org-FshNDRetsRate2",
+    "oldColumnName": "FshNDRetsRate2",
+    "newColumnName": "org-FshNDRetsRate2"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column FshNDRetsRate2 at index 43 based on column org-FshNDRetsRate2 using expression jython:if value.count('/'):\n    return round(float(value.split(\"/\")[0])/float(value.split(\"/\")[1])*100,1)\nelse: \n    return float(value)",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "newColumnName": "FshNDRetsRate2",
+    "columnInsertIndex": 43,
+    "baseColumnName": "org-FshNDRetsRate2",
+    "expression": "jython:if value.count('/'):\n    return round(float(value.split(\"/\")[0])/float(value.split(\"/\")[1])*100,1)\nelse: \n    return float(value)",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column FshNDRetsRate3 to org-FshNDRetsRate3",
+    "oldColumnName": "FshNDRetsRate3",
+    "newColumnName": "org-FshNDRetsRate3"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column FshNDRetsRate3 at index 45 based on column org-FshNDRetsRate3 using expression jython:if value.count('/'):\n    return round(float(value.split(\"/\")[0])/float(value.split(\"/\")[1])*100,1)\nelse: \n    return float(value)",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "newColumnName": "FshNDRetsRate3",
+    "columnInsertIndex": 45,
+    "baseColumnName": "org-FshNDRetsRate3",
+    "expression": "jython:if value.count('/'):\n    return round(float(value.split(\"/\")[0])/float(value.split(\"/\")[1])*100,1)\nelse: \n    return float(value)",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column FshNDRetsRate4 to org-FshNDRetsRate4",
+    "oldColumnName": "FshNDRetsRate4",
+    "newColumnName": "org-FshNDRetsRate4"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column FshNDRetsRate4 at index 47 based on column org-FshNDRetsRate4 using expression jython:if value.count('/'):\n    return round(float(value.split(\"/\")[0])/float(value.split(\"/\")[1])*100,1)\nelse: \n    return float(value)",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "newColumnName": "FshNDRetsRate4",
+    "columnInsertIndex": 47,
+    "baseColumnName": "org-FshNDRetsRate4",
+    "expression": "jython:if value.count('/'):\n    return round(float(value.split(\"/\")[0])/float(value.split(\"/\")[1])*100,1)\nelse: \n    return float(value)",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/column-rename",
+    "description": "Rename column FshNDRetsRate5 to org-FshNDRetsRate5",
+    "oldColumnName": "FshNDRetsRate5",
+    "newColumnName": "org-FshNDRetsRate5"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column FshNDRetsRate5 at index 49 based on column org-FshNDRetsRate5 using expression jython:if value.count('/'):\n    return round(float(value.split(\"/\")[0])/float(value.split(\"/\")[1])*100,1)\nelse: \n    return float(value)",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "newColumnName": "FshNDRetsRate5",
+    "columnInsertIndex": 49,
+    "baseColumnName": "org-FshNDRetsRate5",
+    "expression": "jython:if value.count('/'):\n    return round(float(value.split(\"/\")[0])/float(value.split(\"/\")[1])*100,1)\nelse: \n    return float(value)",
+    "onError": "set-to-blank"
+  }
+]

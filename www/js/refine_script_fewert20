@@ -1,0 +1,67 @@
+[
+  {
+    "op": "core/column-addition",
+    "description": "Create column fewFshNDLvBirthsRate1 at index 57 based on column org-FshNDLvBirthsRate1 using expression jython:if value is None: return 'none'\nif value.count('/'): return value \nelse: return 'fewert20'",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "newColumnName": "fewFshNDLvBirthsRate1",
+    "columnInsertIndex": 57,
+    "baseColumnName": "org-FshNDLvBirthsRate1",
+    "expression": "jython:if value is None: return 'none'\nif value.count('/'): return value \nelse: return 'fewert20'",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column fewFshNDLvBirthsRate2 at index 57 based on column org-FshNDLvBirthsRate2 using expression jython:if value is None: return 'none'\nif value.count('/'): return value \nelse: return 'fewert20'",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "newColumnName": "fewFshNDLvBirthsRate2",
+    "columnInsertIndex": 57,
+    "baseColumnName": "org-FshNDLvBirthsRate2",
+    "expression": "jython:if value is None: return 'none'\nif value.count('/'): return value \nelse: return 'fewert20'",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column fewFshNDLvBirthsRate3 at index 57 based on column org-FshNDLvBirthsRate3 using expression jython:if value is None: return 'none'\nif value.count('/'): return value \nelse: return 'fewert20'",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "newColumnName": "fewFshNDLvBirthsRate3",
+    "columnInsertIndex": 57,
+    "baseColumnName": "org-FshNDLvBirthsRate3",
+    "expression": "jython:if value is None: return 'none'\nif value.count('/'): return value \nelse: return 'fewert20'",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column fewFshNDLvBirthsRate4 at index 57 based on column org-FshNDLvBirthsRate4 using expression jython:if value is None: return 'none'\nif value.count('/'): return value \nelse: return 'fewert20'",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "newColumnName": "fewFshNDLvBirthsRate4",
+    "columnInsertIndex": 57,
+    "baseColumnName": "org-FshNDLvBirthsRate4",
+    "expression": "jython:if value is None: return 'none'\nif value.count('/'): return value \nelse: return 'fewert20'",
+    "onError": "set-to-blank"
+  },
+  {
+    "op": "core/column-addition",
+    "description": "Create column fewFshNDLvBirthsRate5 at index 57 based on column org-FshNDLvBirthsRate5 using expression jython:if value is None: return 'none'\nif value.count('/'): return value \nelse: return 'fewert20'",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "newColumnName": "fewFshNDLvBirthsRate5",
+    "columnInsertIndex": 57,
+    "baseColumnName": "org-FshNDLvBirthsRate5",
+    "expression": "jython:if value is None: return 'none'\nif value.count('/'): return value \nelse: return 'fewert20'",
+    "onError": "set-to-blank"
+  }
+]
