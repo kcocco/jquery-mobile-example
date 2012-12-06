@@ -25,6 +25,11 @@ sessionStorage.SelectQuery="";
 //  Selected Clinic ROWID .. temp tesing
 //sessionStorage.rowid="";
 
+// holder for plotting data global temp
+var GraphDataNational=[];
+var GraphDataSubset=[];
+var GraphDataSelected=[];
+
 //var scroll = new iScroll('wrapper', { vScrollbar: false, hScrollbar:false, hScroll: false });
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -267,6 +272,9 @@ $('#clinic-display').live('pageshow', function() {
     if(event.handled !== true) {
 	    $('#clinicDisplayList').empty();
 	    db.transaction(getClinicDetail, transaction_error);
+	    $('#ChartLiveBirth').empty();
+	    db.transaction(getClinicGraph, transaction_error,displayClinicGraph);
+	    
 		event.handled = true;
     }
     return false;
@@ -300,7 +308,9 @@ $('#clinic-display-graph').live('pageshow', function() {
 	        	xaxis: {
 	        		pad:1.18,
 	        		min:0,
-	        		label:'percentage %'
+	        		tickOptions:{
+	        			formatString:'%s%%'
+	        		}
 	        	},
 	            yaxis: {
 	                renderer: $.jqplot.CategoryAxisRenderer
@@ -451,16 +461,124 @@ function displayClinicDetail(tx, results) {
 	else { 
 		var IVFresults = results.rows.item(0);
 		$('#clinicDisplayList').append(
-				'<h3>' + IVFresults.CurrClinNameAll + '</h3>' +
-				'<p>' + IVFresults.ClinCityCode + ', ' +IVFresults.ClinStateCode +'</p>'
+				'<p><b>' + IVFresults.CurrClinNameAll + '</b><br>' +
+				IVFresults.ClinCityCode + ', ' +IVFresults.ClinStateCode +'</p>'
 				);
 		$('#clinicDisplayList').append(
-				'<h4> Fresh Embryos From NonDonor Eggs - Age of Women <35</h4>' +
-				'<p> % of cycles resulting in live births: <bold>' + IVFresults.FshNDLvBirthsRate1 + '%</bold></p>'
+				'<p><b> Fresh Embryos From NonDonor Eggs - Age of Women <35</b><br>' +
+				'% of cycles resulting in live births: <bold>' + IVFresults.FshNDLvBirthsRate1 + '%</bold></p>'
 				);
 		//$('#clinicDisplayList').listview('refresh');
 	}
 }
+
+function getClinicGraph(tx) {
+	//alert("getClinics");
+	GraphDataNational=[];
+	GraphDataSubset=[];
+	GraphDataSelected=[];
+
+	if (sessionStorage.rowid !=="") {
+		var sql = "SELECT FshNDLvBirthsRate1 FROM IVF WHERE rowid="+sessionStorage.rowid;
+		tx.executeSql(sql,[], 
+			function(tx,rs) {
+	            var ctn = rs.rows.length;
+	            for (var i=0; i < ctn; i++) {
+	                var row = rs.rows.item(i);
+	                GraphDataSelected.push([row.FshNDLvBirthsRate1 , 0]);
+	            }
+	        }
+	    );
+	    var sql = "SELECT FshNDLvBirthsRate1 FROM IVF ";
+		tx.executeSql(sql,[], 
+			function(tx,rs) {
+	            var ctn = rs.rows.length;
+	            for (var i=0; i < ctn; i++) {
+	                var row = rs.rows.item(i);
+	                GraphDataNational.push([row.FshNDLvBirthsRate1 , Math.random()]);
+	                //alert(GraphData);
+	            }
+	        }
+	    );
+	    var sql = "SELECT FshNDLvBirthsRate1 FROM IVF "+ unescape(sessionStorage.CurrentWhereQuery);
+		tx.executeSql(sql,[], 
+			function(tx,rs) {
+	            var ctn = rs.rows.length;
+	            for (var i=0; i < ctn; i++) {
+	                var row = rs.rows.item(i);
+	                GraphDataSubset.push([row.FshNDLvBirthsRate1 , -Math.random()]);
+	                //alert(GraphData);
+	            }
+	        }
+	    );
+	}
+	else {
+		displayClinicGraph(tx,0);	
+	}
+}
+
+//  Display Query results of filter query to compare page
+function displayClinicGraph(tx, results) {
+	//alert(GraphData);
+	$('#ChartLiveBirth').empty();
+	    ChartLiveBirth = $.jqplot('ChartLiveBirth', [GraphDataNational,GraphDataSubset,GraphDataSelected],
+    	{
+	     	title: {
+	     		//text:'Patient Diagnosis %',
+	     		textAlign:'left'
+	     	},
+	        seriesDefaults: {
+	            
+	        },
+	        series:[
+	        	{label:'National Clinics',showLine:false,markerOptions:{size:3,style:"filledCircle"},color: '#5668e2'},
+	        	{label:'Subset Selected Clinics',showLine:false,markerOptions:{size:3,style:"filledSquare"},color: '#E25668'}
+	        	,{label:'Selected Clinic',showLine:false,markerOptions:{size:17,style:"filledDiamond"},color: '#69e256'}
+	        ],
+
+
+        	canvasOverlay: {
+	            show: false,
+	            objects: [
+	                {verticalLine: {
+	                    name: 'Selected Clinic',
+	                    x: 22,
+	                    lineWidth: 6,
+	                    color: '#69e256',
+	                    shadow: false
+	                }}
+	            ]
+	        },
+	        axes: {
+	        	xaxis: {
+	        		pad:1.18,
+	        		min:0,
+	        		tickOptions:{
+	        			formatString:'%s%%'
+	        		}
+	        	},
+	            yaxis: {
+	            	min:-1.2,
+	            	max:1.2,
+	                showTicks:false,
+	                showTickMarks:false
+	            }
+	        },
+	        legend: {
+	        	renderer: $.jqplot.EnhancedLegendRenderer,
+	        	marginTop: '24px',
+		        show: true,
+		        location: 's',     // compass direction, nw, n, ne, e, se, s, sw, w.
+		        placement: 'outside'
+		        
+		        //marginRight:
+		        //marginBottom:
+		        //marginLeft:
+		        
+		    }
+		}); 
+}
+
 
 function transaction_error(tx, error) {
     alert("Database Error: " + error);

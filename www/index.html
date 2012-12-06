@@ -12,7 +12,8 @@
 		<script type="text/javascript" src="./lib/jqplot/jquery.jqplot.min.js"></script>
 		<script type="text/javascript" src="./lib/jqplot/jqplot.barRenderer.min.js"></script>
 		<script type="text/javascript" src="./lib/jqplot/jqplot.categoryAxisRenderer.min.js"></script>
-		<script type="text/javascript" src="./lib/jqplot/jqplot.pointLabels.min.js"></script>	 
+		<script type="text/javascript" src="./lib/jqplot/jqplot.pointLabels.min.js"></script>
+		<script type="text/javascript" src="./lib/jqplot/jqplot.canvasOverlay.min.js"></script>	 
 		
 		<!-- main.js in body below ... save filter will not work without?-->
 		<script type="text/javascript" src="./js/my.js"></script>
@@ -505,10 +506,9 @@
 					</ul>
 				</div>
 			</div><!-- /navbar -->
-           	<div data-role="content">
-				<div id="clinicDisplayList" data-role="content">
-				</div>
-			</div>
+           		<div id="clinicDisplayList" style="margin-left:5px; margin-top:0px";></div>
+           		<div id="ChartLiveBirth" style="margin-left:5px; margin-right:0px; width:350px; height:90px;"></div>
+			
 			<div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed">
             	<div data-role="navbar">
 					<ul>
