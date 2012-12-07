@@ -33,6 +33,7 @@ sessionStorage.filterDeleteRow="";
 var GraphDataNational=[];
 var GraphDataSubset=[];
 var GraphDataSelected=[];
+var GraphMeta=[];
 
 //var scroll = new iScroll('wrapper', { vScrollbar: false, hScrollbar:false, hScroll: false });
 
@@ -487,59 +488,91 @@ function displayClinicDetail(tx, results) {
 
 function getClinicGraph(tx) {
 	//alert("getClinics");
+
+	//<div id="graphFshNDLvBirths" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
+    //<div id="graphfewFshNDLvBirths" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
+    //<div id="graphFshNDSnglLB_Trans" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
+
 	GraphDataNational=[];
 	GraphDataSubset=[];
 	GraphDataSelected=[];
+	GraphMeta=[];
+	// meta = DB Name, html Div, description, yespercent or nopercent
+	GraphMeta.push(['FshNDLvBirthsRate','graphFshNDLvBirthsRate','% of cycles resulting in live births:','yespercent']);
+	GraphMeta.push(['FshNDSnglLB_TransRate','graphFshNDSnglLB_TransRate','% of transfers resulting in singleton live births:','yespercent']);
+	GraphMeta.push(['FshNDCycle','graphFshNDCycle','Number of cycles','nopercent']);
+	GraphMeta.push(['FshNDImplant','graphFshNDImplant','% of embryos transferred resulting in implantation','yespercent']);
 
-	if (sessionStorage.rowid !=="") { 
-		var sql = "SELECT FshNDLvBirthsRate1 FROM IVF WHERE rowid="+sessionStorage.rowid;
-		tx.executeSql(sql,[], 
-			function(tx,rs) {
-	            var ctn = rs.rows.length;
-	            for (var i=0; i < ctn; i++) {
-	                var row = rs.rows.item(i);
-	                GraphDataSelected.push([row.FshNDLvBirthsRate1 , 0]);
-	            }
-	        }
-	    );
-	    var sql = "SELECT FshNDLvBirthsRate1 FROM IVF ";
-		tx.executeSql(sql,[], 
-			function(tx,rs) {
-	            var ctn = rs.rows.length;
-	            for (var i=0; i < ctn; i++) {
-	                var row = rs.rows.item(i);
-	                GraphDataNational.push([row.FshNDLvBirthsRate1 , Math.random()]);
-	                //alert(GraphData);
-	            }
-	        }
-	    );
-	    var sql = "SELECT FshNDLvBirthsRate1 FROM IVF "+ unescape(sessionStorage.CurrentWhereQuery);
-		tx.executeSql(sql,[], 
-			function(tx,rs) {
-	            var ctn = rs.rows.length;
-	            for (var i=0; i < ctn; i++) {
-	                var row = rs.rows.item(i);
-	                GraphDataSubset.push([row.FshNDLvBirthsRate1 , -Math.random()]);
-	                //alert(GraphData);
-	            }
-	        }
-	    );
+	var selectString='';
+	var selectedAge='1';
+	var tempDBname='';
+	for (var i=0; i < GraphMeta.length; i++) {
+		selectString=selectString+GraphMeta[i][0]+selectedAge+',';
 	}
-	else {
-		displayClinicGraph(tx,0);	
+	selectString=selectString.replace(/,+$/, '');
+	//alert('selectString:'+selectString);
+
+	for (var i=0; i < GraphMeta.length; i++) {
+		GraphDataNational[i]=[];
+		GraphDataSubset[i]=[];
+		GraphDataSelected[i]=[];
 	}
+	
+	var sql = "SELECT "+selectString+" FROM IVF WHERE rowid="+sessionStorage.rowid;
+	tx.executeSql(sql,[], 
+		function(tx,rs) {
+            var ctn = rs.rows.length;
+            for (var i=0; i < ctn; i++) {
+                var row = rs.rows.item(i);
+                for (var j=0; j < GraphMeta.length; j++) {
+                	//alert('GraphMeta[j][0]:'+GraphMeta[j][0]);
+                	GraphDataSelected[j].push([row[GraphMeta[j][0]+selectedAge], 0]);
+                }
+            }
+        }
+    );
+    var sql = "SELECT "+selectString+" FROM IVF ";
+	tx.executeSql(sql,[], 
+		function(tx,rs) {
+            var ctn = rs.rows.length;
+            for (var i=0; i < ctn; i++) {
+                var row = rs.rows.item(i);
+                for (var j=0; j < GraphMeta.length; j++) {
+                	GraphDataNational[j].push([row[GraphMeta[j][0]+selectedAge], Math.random()]);
+                }
+            }
+        }
+    );
+    var sql = "SELECT "+selectString+" FROM IVF "+ unescape(sessionStorage.CurrentWhereQuery);
+	tx.executeSql(sql,[], 
+		function(tx,rs) {
+            var ctn = rs.rows.length;
+            for (var i=0; i < ctn; i++) {
+                var row = rs.rows.item(i);
+                for (var j=0; j < GraphMeta.length; j++) {
+                	GraphDataSubset[j].push([row[GraphMeta[j][0]+selectedAge], -Math.random()]);
+                }
+            }
+        }
+    );
+
 }
 
 //  Display Query results of filter query to compare page
 function displayClinicGraph(tx, results) {
-	//alert(GraphData);
-	$('#ChartLiveBirth').empty();
-	    ChartLiveBirth = $.jqplot('ChartLiveBirth', [GraphDataNational,GraphDataSubset,GraphDataSelected],
+	for (var i=0; i < GraphMeta.length; i++) {
+		//$('#'+GraphMeta[i][1]).empty();
+	    ChartLiveBirth = $.jqplot(GraphMeta[i][1], [GraphDataNational[i],GraphDataSubset[i],GraphDataSelected[i]],
     	{
 	     	title: {
-	     		text:'% of cycles resulting in live births: '+GraphDataSelected[0][0]+'%',
+	     		//if (GraphMeta[i][3]=="yespercent") {
+	     			text: GraphMeta[i][2]+GraphDataSelected[i][0][0]+'%',
+	     		//}
+	     		//else {
+	     		//	text: GraphMeta[i][2]+GraphDataSelected[i][0][0],
+	     		//}
 	     		textAlign:'left',
-	     		fontSize: 16
+	     		fontSize: 12
 	     	},
 	        seriesDefaults: {
 	            
@@ -591,6 +624,7 @@ function displayClinicGraph(tx, results) {
 		        
 		    }
 		}); 
+	}
 }
 
 
