@@ -1,5 +1,10 @@
 /** Custom CSS begin **/
 
+/** Change legend padding will now work with marginTop: xx..? 
+table.jqplot-table-legend {
+    margin-top: 24px;
+}​
+**/
 
 /** Custom ICONs **/
 .ui-icon-delete-red {

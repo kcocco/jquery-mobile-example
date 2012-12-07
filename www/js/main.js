@@ -22,6 +22,10 @@ sessionStorage.CurrentWhereQuery="";
 sessionStorage.OrderByQuery="DESC";
 sessionStorage.SelectQuery="";
 
+sessionStorage.filterDeleteRow="";
+
+
+
 //  Selected Clinic ROWID .. temp tesing
 //sessionStorage.rowid="";
 
@@ -131,7 +135,7 @@ $("#State-Save").click(function () {
 	for (var i=0; i < options.length; i++){
 		if (options[i].checked) {
 			tempStateCount++;
-			tempStates=tempStates+'"'+options[i].name.split("-")[1]+'",';
+			tempStates=tempStates+'"'+options[i].name.split("-")[1]+'", ';
 			}
 	}
 	//alert(tempStates.replace(/"/g,''));
@@ -146,7 +150,7 @@ $("#State-Save").click(function () {
 		sessionStorage.NewFilterDescr3="All States";
 	}
 	else {
-		tempStates=tempStates.replace(/,+$/, '');
+		tempStates=tempStates.replace(/, +$/, '');
 		sessionStorage.NewFilterSQLWhere='ClinStateCode IN ('+tempStates+')';
 		sessionStorage.NewFilterDescr3=tempStates.replace(/"/g,'');
 	}
@@ -356,6 +360,15 @@ function queryFilters(tx) {
 
 function deleteFilter(tx) {
 	//alert('firing deletefilters');
+	// Check to see if deleting states filter flag is 1000+ .. if so add filter none aka 0 of 48
+	
+	//alert(sessionStorage.filterDeleteRow);
+	//setTimeout(function(){alert(sessionStorage.filterDeleteRow)},3000);
+
+	if (sessionStorage.filterDeleteRow > 1000) {
+		sessionStorage.filterDeleteRow=sessionStorage.filterDeleteRow -1000;
+		tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES("State(s) ","0 of 49 selected","No States.  Select state above.","","","ClinStateCode%20IN%20%28%29","ClinStateCode%20IN")');
+	}
 	tx.executeSql('DELETE FROM FILTERS WHERE rowid="'+sessionStorage.filterDeleteRow+'"');
 }
 
@@ -368,7 +381,12 @@ function displayFilters(tx, results) {
 	jQuery("#filterList > li").remove();
 	for (var i=0; i<len; i++) {
 	var filterResults = results.rows.item(i);
-	$('#filterList').append('<li data-icon="delete-red"><a href="#search-advanced" class="filterDelete" onClick="sessionStorage.filterDeleteRow='+filterResults.rowid+'" ><p><strong>'+ filterResults.Descr1 +' </strong> '+ filterResults.Descr2 +'</p><p>'+ filterResults.Descr3 +' <strong>'+unescape(filterResults.Descr4) +'</strong> '+ filterResults.Num +'</p></a></li>');
+	if (filterResults.Descr1.indexOf("State")!== -1) { // sets: sessionStorage.filterDeleteRow='+filterResults.rowid+1000 
+		$('#filterList').append('<li data-icon="delete-red"><a href="#search-advanced" class="filterDelete" onClick="sessionStorage.filterDeleteRow='+(filterResults.rowid+1000)+'"><p><strong>'+ filterResults.Descr1 +' </strong> '+ filterResults.Descr2 +'</p><p>'+ filterResults.Descr3 +' <strong>'+unescape(filterResults.Descr4) +'</strong> '+ filterResults.Num +'</p></a></li>');
+	}
+	else {
+		$('#filterList').append('<li data-icon="delete-red"><a href="#search-advanced" class="filterDelete" onClick="sessionStorage.filterDeleteRow='+filterResults.rowid+'" ><p><strong>'+ filterResults.Descr1 +' </strong> '+ filterResults.Descr2 +'</p><p>'+ filterResults.Descr3 +' <strong>'+unescape(filterResults.Descr4) +'</strong> '+ filterResults.Num +'</p></a></li>');		
+	}
 	if (i==0) {
 		andVar=" WHERE "}
 	else {
@@ -566,7 +584,7 @@ function displayClinicGraph(tx, results) {
 	        },
 	        legend: {
 	        	renderer: $.jqplot.EnhancedLegendRenderer,
-	        	marginTop: '24px',
+	        	marginTop: 24,
 		        show: true,
 		        location: 's',     // compass direction, nw, n, ne, e, se, s, sw, w.
 		        placement: 'outside'
