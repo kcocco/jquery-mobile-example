@@ -482,11 +482,6 @@ function displayClinicDetail(tx, results) {
 				'<p><b>' + IVFresults.CurrClinNameAll + '</b><br>' +
 				IVFresults.ClinCityCode + ', ' +IVFresults.ClinStateCode +'</p>'
 				);
-		$('#clinicDisplayList').append(
-				'<p><b> Fresh Embryos From NonDonor Eggs - Age of Women <35</b><br>' +
-				'% of cycles resulting in live births: <bold>' + IVFresults.FshNDLvBirthsRate1 + '%</bold></p>'
-				);
-		//$('#clinicDisplayList').listview('refresh');
 	}
 }
 
@@ -496,7 +491,7 @@ function getClinicGraph(tx) {
 	GraphDataSubset=[];
 	GraphDataSelected=[];
 
-	if (sessionStorage.rowid !=="") {
+	if (sessionStorage.rowid !=="") { 
 		var sql = "SELECT FshNDLvBirthsRate1 FROM IVF WHERE rowid="+sessionStorage.rowid;
 		tx.executeSql(sql,[], 
 			function(tx,rs) {
@@ -542,15 +537,16 @@ function displayClinicGraph(tx, results) {
 	    ChartLiveBirth = $.jqplot('ChartLiveBirth', [GraphDataNational,GraphDataSubset,GraphDataSelected],
     	{
 	     	title: {
-	     		//text:'Patient Diagnosis %',
-	     		textAlign:'left'
+	     		text:'% of cycles resulting in live births: '+GraphDataSelected[0][0]+'%',
+	     		textAlign:'left',
+	     		fontSize: 16
 	     	},
 	        seriesDefaults: {
 	            
 	        },
 	        series:[
 	        	{label:'National Clinics',showLine:false,markerOptions:{size:3,style:"filledCircle"},color: '#5668e2'},
-	        	{label:'Subset Selected Clinics',showLine:false,markerOptions:{size:3,style:"filledSquare"},color: '#E25668'}
+	        	{label:'Comparison Clinics',showLine:false,markerOptions:{size:3,style:"filledSquare"},color: '#E25668'}
 	        	,{label:'Selected Clinic',showLine:false,markerOptions:{size:17,style:"filledDiamond"},color: '#69e256'}
 	        ],
 
@@ -585,7 +581,7 @@ function displayClinicGraph(tx, results) {
 	        legend: {
 	        	renderer: $.jqplot.EnhancedLegendRenderer,
 	        	marginTop: 24,
-		        show: true,
+		        show: false,
 		        location: 's',     // compass direction, nw, n, ne, e, se, s, sw, w.
 		        placement: 'outside'
 		        
