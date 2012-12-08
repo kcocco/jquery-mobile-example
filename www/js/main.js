@@ -498,8 +498,8 @@ function getClinicGraph(tx) {
 	GraphDataSelected=[];
 	GraphMeta=[];
 	// meta = DB Name, html Div, description, yespercent or nopercent
-	GraphMeta.push(['FshNDLvBirthsRate','graphFshNDLvBirthsRate','% of cycles resulting in live births:','yespercent']);
-	GraphMeta.push(['FshNDSnglLB_TransRate','graphFshNDSnglLB_TransRate','% of transfers resulting in singleton live births:','yespercent']);
+	GraphMeta.push(['FshNDLvBirthsRate','graphFshNDLvBirthsRate','% of cycles resulting in live births','yespercent']);
+	GraphMeta.push(['FshNDSnglLB_TransRate','graphFshNDSnglLB_TransRate','% of transfers resulting in singleton live births','yespercent']);
 	GraphMeta.push(['FshNDCycle','graphFshNDCycle','Number of cycles','nopercent']);
 	GraphMeta.push(['FshNDImplant','graphFshNDImplant','% of embryos transferred resulting in implantation','yespercent']);
 
@@ -561,25 +561,28 @@ function getClinicGraph(tx) {
 //  Display Query results of filter query to compare page
 function displayClinicGraph(tx, results) {
 	for (var i=0; i < GraphMeta.length; i++) {
-		//$('#'+GraphMeta[i][1]).empty();
+		$('#'+GraphMeta[i][1]).empty();
+		if (GraphMeta[i][3]=="yespercent") {
+			drawpercent='%';
+			tickformatstring='%s%%';
+		}
+		else {
+			drawpercent='';
+			tickformatstring='';
+		}
 	    ChartLiveBirth = $.jqplot(GraphMeta[i][1], [GraphDataNational[i],GraphDataSubset[i],GraphDataSelected[i]],
     	{
 	     	title: {
-	     		//if (GraphMeta[i][3]=="yespercent") {
-	     			text: GraphMeta[i][2]+GraphDataSelected[i][0][0]+'%',
-	     		//}
-	     		//else {
-	     		//	text: GraphMeta[i][2]+GraphDataSelected[i][0][0],
-	     		//}
+	     		text: GraphMeta[i][2]+': '+GraphDataSelected[i][0][0]+drawpercent,
 	     		textAlign:'left',
-	     		fontSize: 12
+	     		fontSize: 11
 	     	},
 	        seriesDefaults: {
 	            
 	        },
 	        series:[
-	        	{label:'National Clinics',showLine:false,markerOptions:{size:3,style:"filledCircle"},color: '#5668e2'},
-	        	{label:'Comparison Clinics',showLine:false,markerOptions:{size:3,style:"filledSquare"},color: '#E25668'}
+	        	{label:'National Clinics',showLine:false,markerOptions:{size:2,style:"filledCircle"},color: '#5668e2'},
+	        	{label:'Comparison Clinics',showLine:false,markerOptions:{size:2,style:"filledSquare"},color: '#E25668'}
 	        	,{label:'Selected Clinic',showLine:false,markerOptions:{size:17,style:"filledDiamond"},color: '#69e256'}
 	        ],
 
@@ -601,7 +604,7 @@ function displayClinicGraph(tx, results) {
 	        		pad:1.18,
 	        		min:0,
 	        		tickOptions:{
-	        			formatString:'%s%%'
+	        			formatString: tickformatstring
 	        		}
 	        	},
 	            yaxis: {
