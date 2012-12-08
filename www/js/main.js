@@ -504,12 +504,16 @@ function getClinicGraph(tx) {
 	GraphMeta.push(['FshNDImplant','graphFshNDImplant','% of embryos transferred resulting in implantation','yespercent']);
 
 	var selectString='';
+	var selectAvgString='';
 	var selectedAge='1';
 	var tempDBname='';
 	for (var i=0; i < GraphMeta.length; i++) {
-		selectString=selectString+GraphMeta[i][0]+selectedAge+',';
+		tempName=GraphMeta[i][0]+selectedAge;
+		selectString=selectString+tempName+',';
+		selectAvgString=selectAvgString+'AVG('+tempName+') as avg'+tempName+',';
 	}
 	selectString=selectString.replace(/,+$/, '');
+	selectAvgString=selectAvgString.replace(/,+$/, '');
 	//alert('selectString:'+selectString);
 
 	for (var i=0; i < GraphMeta.length; i++) {
@@ -537,21 +541,45 @@ function getClinicGraph(tx) {
             var ctn = rs.rows.length;
             for (var i=0; i < ctn; i++) {
                 var row = rs.rows.item(i);
+                tempRand= Math.random();
                 for (var j=0; j < GraphMeta.length; j++) {
-                	GraphDataNational[j].push([row[GraphMeta[j][0]+selectedAge], Math.random()]);
+                	GraphDataNational[j].push([row[GraphMeta[j][0]+selectedAge], tempRand]);
                 }
             }
         }
     );
+    // Push last row is average to be Poped in graph
+    var sql = "SELECT "+selectAvgString+" FROM IVF ";
+	tx.executeSql(sql,[], 
+		function(tx,rs) {
+			var row = rs.rows.item(0);
+            for (var j=0; j < GraphMeta.length; j++) {
+           	GraphDataNational[j].push([row['avg'+GraphMeta[j][0]+selectedAge], 1.05]);
+            }
+        }
+    );
+
     var sql = "SELECT "+selectString+" FROM IVF "+ unescape(sessionStorage.CurrentWhereQuery);
 	tx.executeSql(sql,[], 
 		function(tx,rs) {
             var ctn = rs.rows.length;
             for (var i=0; i < ctn; i++) {
                 var row = rs.rows.item(i);
+                tempRand= -Math.random();
                 for (var j=0; j < GraphMeta.length; j++) {
-                	GraphDataSubset[j].push([row[GraphMeta[j][0]+selectedAge], -Math.random()]);
+                	GraphDataSubset[j].push([row[GraphMeta[j][0]+selectedAge], tempRand]);
                 }
+            }
+        }
+    );
+
+    // Push last row is average to be Poped in graph
+    var sql = "SELECT "+selectAvgString+" FROM IVF "+ unescape(sessionStorage.CurrentWhereQuery);
+	tx.executeSql(sql,[], 
+		function(tx,rs) {
+			var row = rs.rows.item(0);
+            for (var j=0; j < GraphMeta.length; j++) {
+           	GraphDataSubset[j].push([row['avg'+GraphMeta[j][0]+selectedAge], 1.05]);
             }
         }
     );
@@ -570,6 +598,14 @@ function displayClinicGraph(tx, results) {
 			drawpercent='';
 			tickformatstring='';
 		}
+		var tempPop=GraphDataNational[i].pop();
+		NationalAverage=Math.round(tempPop[0]);
+
+		var tempPop=GraphDataSubset[i].pop();
+		SubsetAverage=Math.round(tempPop[0]);
+
+		//alert(NationalAverage);
+	    
 	    ChartLiveBirth = $.jqplot(GraphMeta[i][1], [GraphDataNational[i],GraphDataSubset[i],GraphDataSelected[i]],
     	{
 	     	title: {
@@ -588,13 +624,24 @@ function displayClinicGraph(tx, results) {
 
 
         	canvasOverlay: {
-	            show: false,
+	            show: true,
 	            objects: [
 	                {verticalLine: {
-	                    name: 'Selected Clinic',
-	                    x: 22,
-	                    lineWidth: 6,
-	                    color: '#69e256',
+	                    name: 'national average',
+	                    x: NationalAverage,
+	                    lineWidth: 4,
+	                    yminOffset: '25px',
+                    	ymaxOffset: '0px',
+	                    color: '#5668e2',
+	                    shadow: false
+	                }},
+	                {verticalLine: {
+	                    name: 'comparison average',
+	                    x: SubsetAverage,
+	                    lineWidth: 4,
+	                    yminOffset: '0px',
+                    	ymaxOffset: '25px',
+	                    color: '#E25668',
 	                    shadow: false
 	                }}
 	            ]
