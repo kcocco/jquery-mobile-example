@@ -24,6 +24,8 @@ sessionStorage.SelectQuery="";
 
 sessionStorage.filterDeleteRow="";
 
+sessionStorage.ageSelectGraph="1";
+
 
 
 //  Selected Clinic ROWID .. temp tesing
@@ -277,8 +279,15 @@ $('#clinic-display').live('pageshow', function() {
     if(event.handled !== true) {
 	    $('#clinicDisplayList').empty();
 	    db.transaction(getClinicDetail, transaction_error);
-	    $('#ChartLiveBirth').empty();
-	    db.transaction(getClinicGraph, transaction_error,displayClinicGraph);
+	    
+	    // Following moved to Accordion action
+	    // $('#ChartLiveBirth').empty();
+	    //db.transaction(getClinicGraph, transaction_error,displayClinicGraph);
+	    
+	    // Set current select age in drop down
+	    //var myselect = $("#age-of-women-graph");
+		//myselect[0].selectedIndex = sessionStorage.ageSelectGraph -1;
+		//myselect.selectmenu("refresh");
 	    
 		event.handled = true;
     }
@@ -335,6 +344,39 @@ $('#clinic-display-graph').live('pageshow', function() {
 	$(window).resize(resizeAction);  	
 });
 
+
+// Graph According Actions: docs: http://the-jquerymobile-tutorial.org/jquery-mobile-tutorial-CH20.php
+$("#graph-accordionSet, #graph-fresh-embryos-nondonor-accordionSet, #graph-patient-diagnosis-accordionSet").bind ("collapsiblecreate", function (event)
+{
+  $(this).bind ("collapse", function (event)
+  {
+    //alert ("Menu: closed");
+  });
+  $(this).bind ("expand", function (event)
+  {
+    //alert ("Menu: open");
+    $('#ChartLiveBirth').empty();
+	db.transaction(getClinicGraph, transaction_error,displayClinicGraph);
+	  
+	// Set current select age in drop down
+	var myselect = $("#age-of-women-graph");
+	myselect[0].selectedIndex = sessionStorage.ageSelectGraph -1;
+	myselect.selectmenu("refresh");
+
+	displayClinicGraphTEMPprofile();
+
+
+  });
+});
+
+// Change Age drop down Graph Fresh Embryos From NonDonar Eggs
+$("#age-of-women-graph").change(function() {
+	var myselect = $("#age-of-women-graph");
+	var tempSplit=myselect.val().split("~");
+	sessionStorage.ageSelectGraph=tempSplit[1];
+	//alert('sessionStorage.ageSelectGraph: '+sessionStorage.ageSelectGraph);
+	db.transaction(getClinicGraph, transaction_error,displayClinicGraph);
+});
 
 
 
@@ -505,16 +547,19 @@ function getClinicGraph(tx) {
 
 	var selectString='';
 	var selectAvgString='';
-	var selectedAge='1';
+	// var selectedAge='4';
+	selectedAge=sessionStorage.ageSelectGraph;
+	var cycleCount='FshNDCycle'+selectedAge;
 	var tempDBname='';
 	for (var i=0; i < GraphMeta.length; i++) {
 		tempName=GraphMeta[i][0]+selectedAge;
 		selectString=selectString+tempName+',';
-		selectAvgString=selectAvgString+'AVG('+tempName+') as avg'+tempName+',';
+		// weighted averages
+		selectAvgString=selectAvgString+'(sum('+tempName+' * '+cycleCount+') / sum('+cycleCount+')) as avg'+tempName+',';
 	}
 	selectString=selectString.replace(/,+$/, '');
 	selectAvgString=selectAvgString.replace(/,+$/, '');
-	//alert('selectString:'+selectString);
+	//alert('selectAvgString:'+selectAvgString);
 
 	for (var i=0; i < GraphMeta.length; i++) {
 		GraphDataNational[i]=[];
@@ -599,10 +644,10 @@ function displayClinicGraph(tx, results) {
 			tickformatstring='';
 		}
 		var tempPop=GraphDataNational[i].pop();
-		NationalAverage=Math.round(tempPop[0]);
+		NationalAverage=Math.round(tempPop[0]*10)/10;
 
 		var tempPop=GraphDataSubset[i].pop();
-		SubsetAverage=Math.round(tempPop[0]);
+		SubsetAverage=Math.round(tempPop[0]*10)/10;
 
 		//alert(NationalAverage);
 	    
@@ -610,6 +655,7 @@ function displayClinicGraph(tx, results) {
     	{
 	     	title: {
 	     		text: GraphMeta[i][2]+': '+GraphDataSelected[i][0][0]+drawpercent,
+	     		//text: GraphMeta[i][2]+': '+GraphDataSelected[i][0][0]+drawpercent+'nat'+NationalAverage+' comp'+SubsetAverage,
 	     		textAlign:'left',
 	     		fontSize: 11
 	     	},
@@ -677,6 +723,53 @@ function displayClinicGraph(tx, results) {
 	}
 }
 
+function displayClinicGraphTEMPprofile() {
+  	setsize();
+	$('#chart2b').empty();
+    plot2b = $.jqplot('chart2b', [
+     		[[7,'Tubal factor'], [7,'Ovulatory dysfunction'], [15,'Diminished ovarian reserve'],[4,'Endometriosis'],[1,'Uterine factor'],[17,'Male factor'],[7,'Other factor'],[12,'Unknown'],[11,'Multi Factors:Female Only'],[18,'Multi Factors:Female & Male']],
+     		[[16,'Tubal factor'], [11,'Ovulatory dysfunction'], [23,'Diminished ovarian reserve'],[4,'Endometriosis'],[0,'Uterine factor'],[12,'Male factor'],[1,'Other factor'],[9,'Unknown'],[7,'Multi Factors:Female Only'],[18,'Multi Factors:Female & Male']]
+ 		],{
+	     	title: {
+	     		text:'Patient Diagnosis %',
+	     		textAlign:'left'
+	     	},
+	        seriesDefaults: {
+	            renderer:$.jqplot.BarRenderer,
+	            pointLabels: { show: true, location: 'e', edgeTolerance: -15 },
+	            shadow: false,
+	            shadowAngle: 135,
+	            rendererOptions: {barDirection: 'horizontal'}
+	        },
+	        series:[
+	        	{label:'National Avg.',lineWidth:20},
+	        	{label:'Selected Clinic',lineWidth:5}
+	        ],
+	        axes: {
+	        	xaxis: {
+	        		pad:1.18,
+	        		min:0,
+	        		tickOptions:{
+	        			formatString:'%s%%'
+	        		}
+	        	},
+	            yaxis: {
+	                renderer: $.jqplot.CategoryAxisRenderer
+	            }
+	        },
+	        legend: {
+		        show: true,
+		        location: 'n',     // compass direction, nw, n, ne, e, se, s, sw, w.
+		        placement: 'outside',
+		        //marginTop:
+		        //marginRight:
+		        //marginBottom:
+		        //marginLeft:
+		    }
+		}); 
+	// Resize graph size on screen change / change rotation
+	$(window).resize(resizeAction);
+}
 
 function transaction_error(tx, error) {
     alert("Database Error: " + error);
@@ -686,9 +779,9 @@ function populateDB(tx) {
 	//alert("populateDB called");
 		sessionStorage.dbCreated = true;
 	//  Create Filter Data  ** note ROWID autoinc automaticly
-		tx.executeSql('DROP TABLE IF EXISTS FILTERS');
+	//	tx.executeSql('DROP TABLE IF EXISTS FILTERS');
 		tx.executeSql('CREATE TABLE IF NOT EXISTS FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey)');
-		tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES("State(s) ","0 of 49 selected","No States.  Select state above.","","","ClinStateCode%20IN%20%28%29","ClinStateCode%20IN")');	     
+	//	tx.executeSql('INSERT INTO FILTERS (Descr1, Descr2, Descr3, Descr4, Num, SQLWhere, SQLKey) VALUES("State(s) ","0 of 49 selected","No States.  Select state above.","","","ClinStateCode%20IN%20%28%29","ClinStateCode%20IN")');	     
 	//  Load Clinic data	
 		tx.executeSql('DROP TABLE IF EXISTS IVF');
         tx.executeSql('CREATE TABLE IF NOT EXISTS IVF (OrderID, ClinStateCode, ClinCityCode, CurrClinNameAll,FshNDLvBirthsRate1, FshNDLvBirthsRate2, FshNDLvBirthsRate3, FshNDLvBirthsRate4, FshNDLvBirthsRate5, fewFshNDLvBirthsRate1, fewFshNDLvBirthsRate2, fewFshNDLvBirthsRate3, fewFshNDLvBirthsRate4, fewFshNDLvBirthsRate5, FshNDSnglLB_TransRate1, FshNDSnglLB_TransRate2, FshNDSnglLB_TransRate3, FshNDSnglLB_TransRate4, FshNDSnglLB_TransRate5,FshNDCycle1, FshNDCycle2, FshNDCycle3, FshNDCycle4, FshNDCycle5,FshNDImplant1, FshNDImplant2, FshNDImplant3, FshNDImplant4, FshNDImplant5, FshNDPregRate1, FshNDPregRate2, FshNDPregRate3, FshNDPregRate4, FshNDPregRate5)');

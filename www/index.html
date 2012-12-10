@@ -186,6 +186,7 @@
 							</span>
 							<span class="span-frozen-nondonor-select">
 								<div style="line-height:30%"><br></br></div>
+								<p style="color: #cc6699"> Not built yet...coming soon </p>
 								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
 									<option value="Number of transfers~ThwNDTransfers">Number of transfers</option>
 									<option value="% of transfers resulting in live birth(s)~ThwNDLvBirthsRate">% of transfers resulting in live birth(s)</option>
@@ -194,6 +195,7 @@
 							</span>
 							<span class="span-donor-fresh-select">
 								<div style="line-height:30%"><br></br></div>
+								<p style="color: #cc6699"> Not built yet...coming soon </p>
 								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
 									<option value="Number of transfers~FshDnrTransfers">Number of transfers</option>
 									<option value="% of transfers resulting in live birth(s)~FshDnrLvBirthsRate">% of transfers resulting in live birth(s)</option>
@@ -202,6 +204,7 @@
 							</span>
 							<span class="span-donor-frozen-select">
 								<div style="line-height:30%"><br></br></div>
+								<p style="color: #cc6699"> Not built yet...coming soon </p>
 								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
 									<option value="Number of transfers~ThwDnrTransfers">Number of transfers</option>
 									<option value="% of transfers resulting in live birth(s)~ThwDnrLvBirthsRate">% of transfers resulting in live birth(s)</option>
@@ -227,6 +230,7 @@
 					</div>
 					<div data-role="collapsible" data-inset="false">	
 					<h3>ART Cycle Profile</h3>
+						<p style="color: #cc6699"> Not built yet...coming soon </p>
 						<form id=form_pregancy_success>							
 							<div id="submitARTCycleProf" data-role="fieldcontain">  
 						  		<input type="submit" value="Save Filter" data-mini="true" data-icon="add-green" data-theme="b"/>
@@ -271,7 +275,8 @@
 						</form>	
 					</div>
 					<div data-role="collapsible" data-inset="false">	
-					<h3>Clinic Services and Profile</h3>	
+					<h3>Clinic Services and Profile</h3>
+						<p style="color: #cc6699"> Not built yet...coming soon </p>	
 						<form>
 							<div id="submitClinicServiceProf" data-role="fieldcontain">  
 						  		<input type="submit" value="Save Filter(s)" data-mini="true" data-icon="add-green" data-theme="b"/>
@@ -398,6 +403,8 @@
             </div>
            	<div data-role="content">
 				<div data-role="collapsible" data-inset="false">
+					<h3>Sorting Options</h3>
+					<p style="color: #cc6699"> * Mockup only sort not working yet </p>
 					<select name="select-pregnacy-success-category" id="select-pregnacy-success-category" data-mini="true">
 								<option value="Fresh-E-Nondonor">Fresh Embryos From Nondonor Eggs</option>
 								<option value="Frozen-E-Nondonor">Frozen Embryos From Nondonor Eggs</option>
@@ -456,7 +463,6 @@
 								</select>
 							</span>
 							
-					<h3>Sorting Options</h3>
 						<div data-role="fieldcontain">
 							<label for="order-switch">Select the sorting order:</label>
 							<select name="order-switch" id="order-switch" data-role="slider" data-mini="true">
@@ -500,33 +506,53 @@
 
 		<!-- Clinic-Display-->
       	<div data-role="page" id="clinic-display">
-     		<div data-role="header" id="AppHeader" data-theme="a" data-role="header" data-position="fixed">
-				<div data-role="navbar">
-					<ul>
-						<li><a href="#clinic-display" class="ui-btn-active ui-state-persist">Table</a></li>
-						<li><a href="#clinic-display-graph">Graph</a></li>
-					</ul>
+     		<div id="AppHeader" data-theme="a" data-role="header">
+				<h1 style="text-align:center; margin-right:3px;">Clinic Detail</h1>
+				<a href="#search-display" data-icon="arrow-l" class="ui-btn-left" data-iconpos="left" data-theme="b">Back to Comparison</a>
+            </div>
+           	<div id="clinicDisplayList" style="margin-left:5px; margin-top:0px";></div>
+           	<div data-role="collapsible-set" data-inset="yes" >
+				<div id="graph-clinic-detail-accordionSet" data-role="collapsible" data-inset="false" >	
+	           		<p style="color: #cc6699"> Not built yet...coming soon </p>
+					<p> Mock up .. live data coming soon </p>
+					<h3> 1234 StreetName St </h3>
+					<h3> City State, ZIP</h3>
+					<h3> Phone - email@email.com </h3>
+					<h3> WebSite link </h3>
 				</div>
-			</div><!-- /navbar -->
-           		<div id="clinicDisplayList" style="margin-left:5px; margin-top:0px";></div>
-           		<p><b> Fresh Embryos From NonDonor Eggs</b><br>
-				<span class="span-age-of-women-select-graph">
-					<select name="age-of-women" id="age-of-women" data-mini="true">
+				<div id="graph-fresh-embryos-nondonor-accordionSet" data-role="collapsible" data-inset="false" >	
+	           		<h1>Fresh Embryos From NonDonor Eggs</h1>
+					<select name="age-of-women-graph" id="age-of-women-graph" data-mini="true">
 						<option value="Age of Women <35~1">Age of Women <35</option>
 						<option value="Age of Women 35-37~2">Age of Women 35-37</option>
 						<option value="Age of Women 38-40~3">Age of Women 38-40</option>
 						<option value="Age of Women 41-42~4">Age of Women 41-42</option>
 						<option value="Age of Women 43-44~5">Age of Women 43-44</option>
 					</select>
-				</span>
-				<img src="./images/graphLegend.png" alt="Graph Legend">
-           		<div id="graphFshNDLvBirthsRate" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
-           		<div style="line-height:30%"><br></br></div>
-           		<div id="graphFshNDSnglLB_TransRate" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
-           		<div style="line-height:30%"><br></br></div>
-           		<div id="graphFshNDCycle" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
-           		<div style="line-height:30%"><br></br></div>
-           		<div id="graphFshNDImplant" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
+					<img src="./images/graphLegend.png" alt="Graph Legend">
+	           		<div id="graphFshNDLvBirthsRate" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
+	           		<div style="line-height:30%"><br></br></div>
+	           		<div id="graphFshNDSnglLB_TransRate" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
+	           		<div style="line-height:30%"><br></br></div>
+	           		<div id="graphFshNDCycle" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
+	           		<div style="line-height:30%"><br></br></div>
+	           		<div id="graphFshNDImplant" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
+				</div>
+				<div id="graph-patient-diagnosis-accordionSet" data-role="collapsible" data-inset="false" >	
+	           		<h1>Patient Diagnosis</h1>
+	           		<p style="color: #cc6699"> Mockup only live data coming soon </p>
+					<div id="chart2b" style="margin-top:6px; margin-left:-5px; margin-right:0px; width:315px; height:500px;"></div>
+				</div>
+				<div id="graph-clinic-detail-accordionSet" data-role="collapsible" data-inset="false" >	
+	           		<h1>Services and Profile</h1>
+					<p style="color: #cc6699"> Not built yet...coming soon </p>
+				</div>
+				<div id="graph-clinic-detail-accordionSet" data-role="collapsible" data-inset="false" >	
+	           		<h1>Procedural Factors & Type of ART</h1>
+					<p style="color: #cc6699"> Not built yet...coming soon </p>
+				</div>
+			</div>
+
 			
 			<div id="footer-navi" data-id="myfooter" data-role="footer" data-position="fixed">
             	<div data-role="navbar">
