@@ -346,7 +346,7 @@ $('#clinic-display-graph').live('pageshow', function() {
 
 
 // Graph According Actions: docs: http://the-jquerymobile-tutorial.org/jquery-mobile-tutorial-CH20.php
-$("#graph-accordionSet, #graph-fresh-embryos-nondonor-accordionSet, #graph-patient-diagnosis-accordionSet").bind ("collapsiblecreate", function (event)
+$("#graph-accordionSet, #graph-fresh-embryos-nondonor-accordionSet, #graph-patient-diagnosis-accordionSet, #graph-nondonor-accordionSet").bind ("collapsiblecreate", function (event)
 {
   $(this).bind ("collapse", function (event)
   {
