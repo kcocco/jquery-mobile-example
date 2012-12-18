@@ -26,16 +26,25 @@ sessionStorage.filterDeleteRow="";
 
 sessionStorage.ageSelectGraph="1";
 
-
-
-//  Selected Clinic ROWID .. temp tesing
-//sessionStorage.rowid="";
-
 // holder for plotting data global temp
 var GraphDataNational=[];
 var GraphDataSubset=[];
 var GraphDataSelected=[];
 var GraphMeta=[];
+
+// Holds jqplot graph objects
+var grapharray=[];
+
+// GraphMeta = 0-DB Name, 1-html graph Div, 2-description, 3-yespercent or nopercent, 4-collapsiable div ID, 5-maxRange
+GraphMeta.push(['FshNDLvBirthsRate','graphFshNDLvBirthsRate','% of cycles resulting in live births','yespercent','graph-nondonor-accordionSet','100']);
+GraphMeta.push(['FshNDSnglLB_TransRate','graphFshNDSnglLB_TransRate','% of transfers resulting in singleton live births','yespercent','graph-nondonor-accordionSet','100']);
+GraphMeta.push(['FshNDCycle','graphFshNDCycle','Number of cycles','nopercent','graph-nondonor-accordionSet','1500']);
+GraphMeta.push(['FshNDImplant','graphFshNDImplant','% of embryos transferred resulting in implantation','yespercent','graph-nondonor-accordionSet','100']);
+GraphMeta.push(['FshNDImplant','graphFshNDImplant','% of embryos transferred resulting in implantation','yespercent','graph-nondonor-accordionSet','100']);
+GraphMeta.push(['FshNDPregRate','graphFshNDPregRate','% of cycles resulting in pregnancies','yespercent','graph-nondonor-accordionSet','100']);
+
+//  Selected Clinic ROWID .. temp tesing
+//sessionStorage.rowid="";
 
 //var scroll = new iScroll('wrapper', { vScrollbar: false, hScrollbar:false, hScroll: false });
 
@@ -51,6 +60,11 @@ onDeviceReady();  // comment to run on phonegap mobile, uncoment to run on web..
 function setsize() {
 	var viewportWidth = $(window).width();
 	var viewportHeight = $(window).height();
+	// set HTML div = GraphMeta[x][1]
+	for (var i=0; i < GraphMeta.length; i++) {
+		$('#'+GraphMeta[i][1]).width(viewportWidth-9);
+	}
+
 	$('#chart2b').width(viewportWidth-9);
 	if (viewportHeight>617) {
 		$('#chart2b').height(viewportHeight-117);
@@ -63,9 +77,17 @@ function setsize() {
 
 function resizeAction() {
 	setsize();
+	for (var i=0; i < GraphMeta.length; i++) {
+		$('#'+GraphMeta[i][1]).empty();
+	}
+
 	$('#chart2b').empty();
 	setTimeout(function() {                                    
        plot2b.replot({resetAxes:true});
+       for (var i=0; i < GraphMeta.length; i++) {
+       		// reset axes false prevents Max from being recalced
+		  	grapharray[i].replot({resetAxes:false});
+		}
     }, 200);
 }
 
@@ -355,7 +377,7 @@ $("#graph-nondonor-accordionSet").bind ("collapsiblecreate", function (event)
   });
   $(this).bind ("expand", function (event)
   {
-    alert ("Menu: open");
+    //alert ("Menu: open");
     $('#ChartLiveBirth').empty();
 	db.transaction(getClinicGraph, transaction_error,displayClinicGraph);
 	  
@@ -536,20 +558,13 @@ function displayClinicDetail(tx, results) {
 function getClinicGraph(tx) {
 	//alert("getClinics");
 
-	//<div id="graphFshNDLvBirths" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
-    //<div id="graphfewFshNDLvBirths" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
-    //<div id="graphFshNDSnglLB_Trans" style="margin-left:2px; margin-right:0px; width:314px; height:90px;"></div>
-
 	GraphDataNational=[];
 	GraphDataSubset=[];
 	GraphDataSelected=[];
-	GraphMeta=[];
-	// meta = DB Name, html Div, description, yespercent or nopercent
-	GraphMeta.push(['FshNDLvBirthsRate','graphFshNDLvBirthsRate','% of cycles resulting in live births','yespercent']);
-	GraphMeta.push(['FshNDSnglLB_TransRate','graphFshNDSnglLB_TransRate','% of transfers resulting in singleton live births','yespercent']);
-	GraphMeta.push(['FshNDCycle','graphFshNDCycle','Number of cycles','nopercent']);
-	GraphMeta.push(['FshNDImplant','graphFshNDImplant','% of embryos transferred resulting in implantation','yespercent']);
-
+	
+	// GraphMeta Loaded at top
+	// GraphMeta = DB Name, html graph Div, description, yespercent or nopercent, collapsiable div ID,
+	
 	var selectString='';
 	var selectAvgString='';
 	// var selectedAge='4';
@@ -642,11 +657,11 @@ function displayClinicGraph(tx, results) {
 		$('#'+GraphMeta[i][1]).empty();
 		if (GraphMeta[i][3]=="yespercent") {
 			drawpercent='%';
-			tickformatstring='%s%%';
+			tickformatstring='%.0f% ';
 		}
 		else {
 			drawpercent='';
-			tickformatstring='';
+			tickformatstring='%.0f';
 		}
 		var tempPop=GraphDataNational[i].pop();
 		NationalAverage=Math.round(tempPop[0]*10)/10;
@@ -655,8 +670,8 @@ function displayClinicGraph(tx, results) {
 		SubsetAverage=Math.round(tempPop[0]*10)/10;
 
 		//alert(NationalAverage);
-	    
-	    ChartLiveBirth = $.jqplot(GraphMeta[i][1], [GraphDataNational[i],GraphDataSubset[i],GraphDataSelected[i]],
+	    // grapharray holds graph objects defined at top
+	    grapharray[i] = $.jqplot(GraphMeta[i][1], [GraphDataNational[i],GraphDataSubset[i],GraphDataSelected[i]],
     	{
 	     	title: {
 	     		text: GraphMeta[i][2]+': '+GraphDataSelected[i][0][0]+drawpercent,
@@ -701,6 +716,7 @@ function displayClinicGraph(tx, results) {
 	        	xaxis: {
 	        		pad:1.18,
 	        		min:0,
+	        		max: GraphMeta[i][5],
 	        		tickOptions:{
 	        			formatString: tickformatstring
 	        		}
