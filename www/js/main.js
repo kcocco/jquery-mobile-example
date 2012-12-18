@@ -523,7 +523,7 @@ function displaySearchResults(tx, results) {
 		   	}
 		}
 		if (templesst20found=='yes') {
-			$('#searchDisplayList').append('<br><p style="white-space:normal"><bold> *</bold> When fewer than 20 cycles are reported in a age category, rates are also shown as a fraction. The percentages calculated from these fractions may be misleading.</p>'); 
+			$('#searchDisplayList').append('<br><p style="white-space:normal"><bold> *</bold> When fewer than 20 cycles are reported in a age category, rates are also shown as a fraction. The percentages calculated from these fractions may be misleading.  5/10 would be 5 out of 10 or 50%</p>'); 
 		}
 		$('#searchDisplayList').listview('refresh');
 	}
