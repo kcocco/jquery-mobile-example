@@ -350,11 +350,11 @@ $("#graph-accordionSet, #graph-fresh-embryos-nondonor-accordionSet, #graph-patie
 {
   $(this).bind ("collapse", function (event)
   {
-    //alert ("Menu: closed");
+    alert ("Menu: closed");
   });
   $(this).bind ("expand", function (event)
   {
-    //alert ("Menu: open");
+    alert ("Menu: open");
     $('#ChartLiveBirth').empty();
 	db.transaction(getClinicGraph, transaction_error,displayClinicGraph);
 	  
