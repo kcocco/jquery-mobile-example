@@ -351,20 +351,16 @@ $("#graph-nondonor-accordionSet").bind ("collapsiblecreate", function (event)
   //alert(created collapsible);
   $(this).bind ("collapse", function (event)
   {
-    alert ("Menu: closed");
+    //alert ("Menu: closed");
   });
   $(this).bind ("expand", function (event)
   {
     alert ("Menu: open");
-<<<<<<< HEAD
     $('#ChartLiveBirth').empty();
 	db.transaction(getClinicGraph, transaction_error,displayClinicGraph);
 	  
 	// Set current select age in drop down
-=======
-    
-    // Set current select age in drop down
->>>>>>> parent of 37a7051... Revert "Broken accordion action?"
+
 	var myselect = $("#age-of-women-graph");
 	myselect[0].selectedIndex = sessionStorage.ageSelectGraph -1;
 	myselect.selectmenu("refresh");
