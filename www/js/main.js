@@ -35,13 +35,12 @@ var GraphMeta=[];
 // Holds jqplot graph objects
 var grapharray=[];
 
-// GraphMeta = 0-DB Name, 1-html graph Div, 2-description, 3-yespercent or nopercent, 4-collapsiable div ID, 5-maxRange
-GraphMeta.push(['FshNDLvBirthsRate','graphFshNDLvBirthsRate','% of cycles resulting in live births','yespercent','graph-nondonor-accordionSet','100']);
-GraphMeta.push(['FshNDSnglLB_TransRate','graphFshNDSnglLB_TransRate','% of transfers resulting in singleton live births','yespercent','graph-nondonor-accordionSet','100']);
-GraphMeta.push(['FshNDCycle','graphFshNDCycle','Number of cycles','nopercent','graph-nondonor-accordionSet','1500']);
-GraphMeta.push(['FshNDImplant','graphFshNDImplant','% of embryos transferred resulting in implantation','yespercent','graph-nondonor-accordionSet','100']);
-GraphMeta.push(['FshNDImplant','graphFshNDImplant','% of embryos transferred resulting in implantation','yespercent','graph-nondonor-accordionSet','100']);
-GraphMeta.push(['FshNDPregRate','graphFshNDPregRate','% of cycles resulting in pregnancies','yespercent','graph-nondonor-accordionSet','100']);
+// GraphMeta = 0-DB Name, 1-html graph Div, 2-description, 3-yespercent or nopercent, 4-collapsiable div ID, 5-maxRange, 6-natavg age1, 7-natavg age2,8-natavg age3,9-natavg age4,10-natavg age5,11-Display SubSet avg 0=no 1=yes
+GraphMeta.push(['FshNDLvBirthsRate','graphFshNDLvBirthsRate','% of cycles resulting in live births','yespercent','graph-nondonor-accordionSet','100','41.5','31.9', '22.1', '12.4', '5','1']);
+GraphMeta.push(['FshNDSnglLB_TransRate','graphFshNDSnglLB_TransRate','% of transfers resulting in singleton live births','yespercent','graph-nondonor-accordionSet','100','31.4','27.3','21.5','13.7','6.6','1']);
+GraphMeta.push(['FshNDCycle','graphFshNDCycle','Number of cycles','nopercent','graph-nondonor-accordionSet','1500','94.2','48.2','49.1','22.9','10.2','1']);
+GraphMeta.push(['FshNDImplant','graphFshNDImplant','% of embryos transferred resulting in implantation','yespercent','graph-nondonor-accordionSet','100','36.5','26.9','17.7','9.6','4.2','0']);
+GraphMeta.push(['FshNDPregRate','graphFshNDPregRate','% of cycles resulting in pregnancies','yespercent','graph-nondonor-accordionSet','100','47.6','38.8','29.9','19.9','10.6','1']);
 
 //  Selected Clinic ROWID .. temp tesing
 //sessionStorage.rowid="";
@@ -379,7 +378,7 @@ $("#graph-nondonor-accordionSet").bind ("collapsiblecreate", function (event)
   {
     //alert ("Menu: open");
     $('#ChartLiveBirth').empty();
-	db.transaction(getClinicGraph, transaction_error,displayClinicGraph);
+	//db.transaction(getClinicGraph, transaction_error,displayClinicGraph);
 	  
 	// Set current select age in drop down
 
@@ -567,8 +566,8 @@ function getClinicGraph(tx) {
 	
 	var selectString='';
 	var selectAvgString='';
-	// var selectedAge='4';
 	selectedAge=sessionStorage.ageSelectGraph;
+	// Number of cycles .. N
 	var cycleCount='FshNDCycle'+selectedAge;
 	var tempDBname='';
 	for (var i=0; i < GraphMeta.length; i++) {
@@ -614,15 +613,15 @@ function getClinicGraph(tx) {
         }
     );
     // Push last row is average to be Poped in graph
-    var sql = "SELECT "+selectAvgString+" FROM IVF ";
-	tx.executeSql(sql,[], 
-		function(tx,rs) {
-			var row = rs.rows.item(0);
-            for (var j=0; j < GraphMeta.length; j++) {
-           	GraphDataNational[j].push([row['avg'+GraphMeta[j][0]+selectedAge], 1.05]);
-            }
-        }
-    );
+    //var sql = "SELECT "+selectAvgString+" FROM IVF ";
+	//tx.executeSql(sql,[], 
+	//	function(tx,rs) {
+	//		var row = rs.rows.item(0);
+    //        for (var j=0; j < GraphMeta.length; j++) {
+    //       	GraphDataNational[j].push([row['avg'+GraphMeta[j][0]+selectedAge], 1.05]);
+    //        }
+    //    }
+    //);
 
     var sql = "SELECT "+selectString+" FROM IVF "+ unescape(sessionStorage.CurrentWhereQuery);
 	tx.executeSql(sql,[], 
@@ -639,16 +638,22 @@ function getClinicGraph(tx) {
     );
 
     // Push last row is average to be Poped in graph
+    // Some datapoints can not calc. proper avg. so do not display.  Configured in GraphMeta
+
     var sql = "SELECT "+selectAvgString+" FROM IVF "+ unescape(sessionStorage.CurrentWhereQuery);
 	tx.executeSql(sql,[], 
 		function(tx,rs) {
 			var row = rs.rows.item(0);
             for (var j=0; j < GraphMeta.length; j++) {
-           	GraphDataSubset[j].push([row['avg'+GraphMeta[j][0]+selectedAge], 1.05]);
+            	if (GraphMeta[j][11]!=0) {
+           			GraphDataSubset[j].push([row['avg'+GraphMeta[j][0]+selectedAge], 1.05]);
+           		}
+           		else {
+					GraphDataSubset[j].push([-1, 1.05]);
+				}
             }
         }
     );
-
 }
 
 //  Display Query results of filter query to compare page
@@ -663,11 +668,23 @@ function displayClinicGraph(tx, results) {
 			drawpercent='';
 			tickformatstring='%.0f';
 		}
-		var tempPop=GraphDataNational[i].pop();
-		NationalAverage=Math.round(tempPop[0]*10)/10;
 
+		//var tempPop=GraphDataNational[i].pop();
+		//NationalAverage=Math.round(tempPop[0]*10)/10;
+		
+		// Get National Averages from hardcoded GraphMeta array
+		var tempNatAvgAgeIndex = parseFloat(sessionStorage.ageSelectGraph) + 5;
+		NationalAverage=GraphMeta[i][tempNatAvgAgeIndex];
+
+		// Some datapoints can not calc. proper avg. so do not display.  Configured in GraphMeta
 		var tempPop=GraphDataSubset[i].pop();
-		SubsetAverage=Math.round(tempPop[0]*10)/10;
+		if (tempPop!=-1) {
+			SubsetAverage=Math.round(tempPop[0]*10)/10;
+		}
+		else {
+			SubsetAverage=-1;
+		}
+		
 
 		//alert(NationalAverage);
 	    // grapharray holds graph objects defined at top
