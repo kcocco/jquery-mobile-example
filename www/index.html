@@ -154,7 +154,7 @@
 								<input type="checkbox" name="checkbox-WISCONSIN" id="checkbox-WISCONSIN" class="custom" data-mini="true" />
 								    <label for="checkbox-WISCONSIN">WISCONSIN (8 Clinics)</label>
 					    	</fieldset>
-					    	
+					    	<input type="submit" id="State-Save2" value="Save" data-mini="true" data-icon="add-green" data-theme="b"/>
 					    </div>
 					</div>
 					<div id="accordionSet" data-role="collapsible" data-inset="false">
@@ -416,7 +416,7 @@
            	<div data-role="content">
 				<div data-role="collapsible" data-inset="false">
 					<h3>Sorting Options</h3>
-					<p style="color: #cc6699"> * Mockup only sort not working yet </p>
+					<p style="color: #cc6699"> * Mockup only sort select not live yet </p>
 					<select name="select-pregnacy-success-category" id="select-pregnacy-success-category" data-mini="true">
 								<option value="Fresh-E-Nondonor">Fresh Embryos From Nondonor Eggs</option>
 								<option value="Frozen-E-Nondonor">Frozen Embryos From Nondonor Eggs</option>
@@ -450,31 +450,7 @@
 									<option value="% of live births having multiple infants~FshNDMultInfsRate">% of live births having multiple infants</option>
 								</select>
 							</span>
-							<span class="span-frozen-nondonor-select">
-								<div style="line-height:30%"><br></br></div>
-								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
-									<option value="Number of transfers~ThwNDTransfers">Number of transfers</option>
-									<option value="% of transfers resulting in live birth(s)~ThwNDLvBirthsRate">% of transfers resulting in live birth(s)</option>
-									<option value="Average number of embryos transferred~ThwNDEmbryosRate">Average number of embryos transferred</option>
-								</select>
-							</span>
-							<span class="span-donor-fresh-select">
-								<div style="line-height:30%"><br></br></div>
-								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
-									<option value="Number of transfers~FshDnrTransfers">Number of transfers</option>
-									<option value="% of transfers resulting in live birth(s)~FshDnrLvBirthsRate">% of transfers resulting in live birth(s)</option>
-									<option value="Average number of embryos transferred~FshDnrEmbryosRate">Average number of embryos transferred</option>
-								</select>
-							</span>
-							<span class="span-donor-frozen-select">
-								<div style="line-height:30%"><br></br></div>
-								<select name="select-pregnacy-success-metric" id="select-pregnacy-success-metric" data-mini="true">
-									<option value="Number of transfers~ThwDnrTransfers">Number of transfers</option>
-									<option value="% of transfers resulting in live birth(s)~ThwDnrLvBirthsRate">% of transfers resulting in live birth(s)</option>
-									<option value="Average number of embryos transferred~ThwDnrEmbryosRate">Average number of embryos transferred</option>
-								</select>
-							</span>
-							
+												
 						<div data-role="fieldcontain">
 							<label for="order-switch">Select the sorting order:</label>
 							<select name="order-switch" id="order-switch" data-role="slider" data-mini="true">
@@ -484,6 +460,18 @@
 						</div>
 				</div>
 			</div>
+			<p>
+				<font color="#609ECC"><strong>Sorted by</strong></font>:
+				<font size="-1"> 
+					Donor Eggs-Frozen Embryos 
+					<font color="#609ECC"><strong>|</strong></font> 
+					Age <35 
+					<font color="#609ECC"><strong>|</strong></font> 
+					% of cycles resulting in live births 
+					<font color="#609ECC"><strong>|</strong></font> 
+					Descending 
+				</font>
+			</p>
 			<div data-role="content">
 				<ul id="searchDisplayList" data-role="listview" data-filter="false" data-inset="false">
 				</ul>
@@ -565,6 +553,10 @@
 	           		<p style="color: #cc6699"> Mockup only live data coming soon </p>
 					<div id="chart2b" style="margin-top:6px; margin-left:-5px; margin-right:0px; width:315px; height:500px;"></div>
 				</div>
+				<div id="graph-procedural-accordionSet" data-role="collapsible" data-inset="false" >	
+	           		<h1>Procedural Factors & Type of ART</h1>
+					<p style="color: #cc6699"> Not built yet...coming soon </p>
+				</div>
 				<div id="graph-services-profile-accordionSet" data-role="collapsible" data-inset="false" >	
 	           		<h1>Services and Profile</h1>
 					<p style="color: #cc6699"> Mockup only...live data coming soon </p>
@@ -608,10 +600,6 @@
 								<font color="#69E256" size="+2"><</font>NO<font color="#69E256" size="+2">></font> Lab Accreditation (<font color="#5668E2">93%</font> / <font color="#E25668">98%</font>)
 							</strong> </h3>
 						</li><li>
-				</div>
-				<div id="graph-procedural-accordionSet" data-role="collapsible" data-inset="false" >	
-	           		<h1>Procedural Factors & Type of ART</h1>
-					<p style="color: #cc6699"> Not built yet...coming soon </p>
 				</div>
 			</div>
 

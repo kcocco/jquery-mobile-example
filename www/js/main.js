@@ -148,7 +148,7 @@ $( '#search-advanced' ).live( 'pagecreate',function(event){
 });
 
 // Save State Check Box Select
-$("#State-Save").click(function () {
+$("#State-Save, #State-Save2").click(function () {
 	$('#state-accordionSet').trigger('collapse');
 	options = $("#state-options input:checkbox");
 	//alert(options[0].name+':'+options[0].checked);
@@ -377,7 +377,8 @@ $("#graph-nondonor-accordionSet").bind ("collapsiblecreate", function (event)
   $(this).bind ("expand", function (event)
   {
     //alert ("Menu: open");
-    $('#ChartLiveBirth').empty();
+    //$('#ChartLiveBirth').empty();
+	// Update fired when age selector changed
 	//db.transaction(getClinicGraph, transaction_error,displayClinicGraph);
 	  
 	// Set current select age in drop down
